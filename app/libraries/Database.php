@@ -76,6 +76,7 @@ class Database{
 
 
     Classes Details ----------------------------------------------------------------
+    **ghourab
     |---------------|   
     |               |   -----------------------CLASS ATTRIBUTES--------------------                       
     |               |   1. First Name - Last Name           2. Email Address
@@ -84,7 +85,7 @@ class Database{
     |               |   -----------------------CLASS METHODS-----------------------
     |---------------|   1. Getters & Setters                2. User checking Database
                         
-
+**Hady
     |----------------|   -----------------------CLASS Attributes--------------------
     |                |   1. extends user data*               2. Home Address
     |                |   3. cart object                      4. Orders objects
@@ -103,7 +104,7 @@ class Database{
     |    Manager    |
     |---------------|
 
-
+**YAsser
     |---------------|   ---------------------CLASS ATTRIBUTES-----------------
     |               |   1. Product Name                     2. Product Cost
     |               |   3. Product Description              4. Product Stock
@@ -121,13 +122,13 @@ class Database{
     |                |  1. Getters & Setters                2.Cart cookies operations
     |----------------|  3. cart product Operations          4.Cost Operations
 
-
+**YAsser
     |---------------|   1. Order ID                         2. Cart ID
     |     Order     |   3. Customer ID                      4. Order total price with Delivery
     |---------------|   [TODO]*** TO BE DECIDED ***
 
-
-    |----------------|  1. Delivery ID                      2. CustomerID
+**Hady
+    |----------------|  1. Order ID                         2. CustomerID
     |    Delivery    |  3. Customer Address                 4. Delivery Price
     |----------------|  5. Delivery Status                  [TODO]*** TO BE DECIDED ***
 
