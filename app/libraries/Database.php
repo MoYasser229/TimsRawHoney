@@ -121,6 +121,7 @@ class Database{
     |                |  ---------------------CLASS METHODS-----------------------
     |                |  1. Getters & Setters                2.Cart cookies operations
     |----------------|  3. cart product Operations          4.Cost Operations
+    cart product operations:
 
 **YAsser
     |---------------|   1. Order ID                         2. Cart ID
