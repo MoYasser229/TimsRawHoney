@@ -7,7 +7,8 @@ class Index extends View{
       <h1> $title </h1>
       <hr>
       <p>This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+      
 EOT;
-        echo $text;
+        echo $text . "<a href = '".URLROOT."pages/test'>Click me</a>";
     }
 }

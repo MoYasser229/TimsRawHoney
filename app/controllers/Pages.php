@@ -6,4 +6,10 @@ class Pages extends Controller{
         $indexView = new Index($this->getModel(), $this);
         $indexView->output();
     }
+    public function test(){
+        $viewPath = VIEWSPATH . 'pages/test.php';
+        require_once $viewPath;
+        $testView = new Test($this->getModel(), $this);
+        $testView->output();
+    }
 }
