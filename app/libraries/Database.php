@@ -15,13 +15,13 @@ class Database{
             $this->triggerError($this->connection->error);
         
 
-        $this->statement = "CREATE DATABASE IF NOT EXISTS expensify;";
-        $this->execute();
+        // $this->statement = "CREATE DATABASE IF NOT EXISTS expensify;";
+        // $this->execute();
         
     }
 
     //SQL STATEMENTS
-    public function select($selected,$tbname,$condition = 1){
+    public function select($selected,$tbname,$condition = 1){ //MUST RETURN VALUE//
         $this->statement = "SELECT $selected FROM $tbname WHERE $condition";
         $this->execute();
     }

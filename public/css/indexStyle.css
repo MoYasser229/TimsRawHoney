@@ -1,0 +1,55 @@
+/*rgb(244,236,225)*/
+
+.transparent{
+    background-color: rgb(244,236,225);
+    /* background-color: black; */
+    height: 100px;
+}
+.navbar{
+    font-size: 20px;
+}
+.navbar a{
+    margin-right: 32%;
+}
+.navbar img{
+    background-color: black;
+}
+
+.bgBody{
+    background-color: rgb(244,236,225);
+    height: 94vh;
+    text-align: center;
+    
+}
+.alignmentText{
+    font-family: 'Dancing Script';
+    font-size: 60px;
+    padding-top: 10%;
+    margin-bottom: 8%;
+    line-height: 0.75;
+}
+.subtitle{
+    font-size: 30px;
+}
+.bgBody img{
+    margin-left: 25%;
+    width: 15vh;
+    height: 15vh;
+}
+.bgBody a{
+    color: white;
+    text-decoration: none;
+    text-align: center;
+}
+.bgBody a i{
+    color: rgb(255,118,72);
+    padding: 20px 15px 15px 15px;
+    border: 5px solid rgb(255,118,72);
+    font-size: 30px;
+    transition: background-color 1s ease-out 2ms;
+    transition: color 1s ease-out 0.25ms;
+}
+.bgBody a i:hover{
+    background-color: white;
+    color: black;
+}

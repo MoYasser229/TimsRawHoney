@@ -9,3 +9,4 @@ define('APPROOT', dirname(dirname(__FILE__)));
 define('URLROOT','http://localhost/TimsRawHoney/public/');
 define('SITENAME','Tims Raw Honey');
 define('VIEWSPATH','../app/views/');
+define('IMAGEROOT','../app/views/images/');
