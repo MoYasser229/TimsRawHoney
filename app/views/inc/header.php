@@ -25,7 +25,10 @@
         <a class="nav-link" href="#">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Shop</a>
+        <a class="nav-link" href="<?php echo URLROOT.'pages/Shop' ?>">Shop</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<?php echo URLROOT.'pages/Suggested' ?>"> Suggested </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">AboutUs</a>

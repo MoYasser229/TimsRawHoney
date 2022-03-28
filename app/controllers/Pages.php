@@ -12,4 +12,16 @@ class Pages extends Controller{
         $testView = new Test($this->getModel(), $this);
         $testView->output();
     }
+    public function Shop(){
+        $viewPath = VIEWSPATH . 'pages/Shop.php';
+        require_once $viewPath;
+        $testView = new Shop($this->getModel(), $this);
+        $testView->output();
+    }
+    public function Suggested(){
+        $viewPath = VIEWSPATH . 'pages/Suggested.php';
+        require_once $viewPath;
+        $testView = new Suggested($this->getModel(), $this);
+        $testView->output();
+    }
 }
