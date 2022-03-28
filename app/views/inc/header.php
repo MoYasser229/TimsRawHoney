@@ -29,6 +29,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="<?php echo URLROOT.'pages/Suggested' ?>"> Suggested </a>
+        <a class="nav-link" href="<?php echo URLROOT . 'pages/product'; ?>">Shop</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">AboutUs</a>

@@ -24,4 +24,18 @@ class Pages extends Controller{
         $testView = new Suggested($this->getModel(), $this);
         $testView->output();
     }
-}
+
+    public function product(){
+        $viewPath = VIEWSPATH . 'pages/product.php';
+        require_once $viewPath;
+        $testView = new product($this->getModel(), $this);
+        $testView->output();
+    }
+    public function signin(){
+        $viewPath = VIEWSPATH . 'pages/signin.php';
+        require_once $viewPath;
+        $testView = new product($this->getModel(), $this);
+        $testView->output();
+    }
+    }
+    
