@@ -2,13 +2,13 @@
 <?php 
 
 class User{
-    private FirstName;
-    private LastName;
-    private Email;
-    private Password;
-    private PhoneNumber;
-    private Role;
-    private ID;
+    private $FirstName;
+    private $LastName;
+    private $Email;
+    private $Password;
+    private $PhoneNumber;
+    private $Role;
+    private $ID;
 
     public function __construct(FirstName,LastName,Email,Password,PhoneNumber,Role,ID){
         $this->FirstName = $FirstName;
