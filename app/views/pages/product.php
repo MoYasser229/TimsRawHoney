@@ -3,7 +3,7 @@ class product extends View{
 
 public function output(){
     $title = $this->model->title;
-    // require_once APPROOT . "/views/inc/header.php";
+     require_once APPROOT . "/views/inc/header.php";
 
 ?>
 <html>
@@ -13,70 +13,93 @@ public function output(){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT . 'css/productstyle.css'; ?>">
     <script src="https://kit.fontawesome.com/1d1d7fdffa.js" crossorigin="anonymous"></script>
-    <title>Tim's Raw Honey</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <title>Tim Raw Honey</title>
 </head>
 <body>
-
-
-<div class="container">
-<img src = "<?php echo IMAGEROOT . 'jarr3.png' ; ?>" class="product-pic"/>
-    <div class="product-details">
-    <header>
-      <h1 class="title">Immune Formula</h1>
-      <!-- <span class="colorCat">mint green</span> -->
-      <div class="price">
-        <span class="before">$150</span>
-        <span class="current">$144.99</span>
-      </div>
-      <div class="rate">
-        <a href="#!" class="active">★</a>
-        <a href="#!" class="active">★</a>
-        <a href="#!" class="active">★</a>
-        <a href="#!">★</a>
-        <a href="#!">★</a>
-      </div>
-    </header>
-    <article>
-      <h5>Description</h5>
-      <p>Propolis mixed honey
-An immunity booster formula.
+  <div id="wrap">
+    <div id="product_layout_1">
+      <div class="top">
+      <div class="product_images">
+        <div class="product_image_1">
+        <img src = "<?php echo IMAGEROOT . 'jarr3.png' ; ?>" /> 
+        </div>
+        <div class="product_image_small">
+          <div class="product_image_2">
+          <img src = "<?php echo IMAGEROOT . 'jarr3.png' ; ?>" /> 
+          </div>
+                    <div class="product_image_3">
+                    <img src = "<?php echo IMAGEROOT . 'jarr3.png' ; ?>" /> 
+          </div>
+                    <div class="product_image_4">
+                    <img src = "<?php echo IMAGEROOT . 'jarr3.png' ; ?>" /> 
+          </div>
+        </div>
+        </div>
+        <div class="product_info">
+          <h1>Immune Formula</h1>
+          <div class="price">
+          <h2 class="original_price">$90</h2>
+          <h2 class="sale_price">$75</h2>
+          </div>
+          <div class="rating">
+            <i class="fa fa-star fa-3x"></i><i class="fa fa-star fa-3x"></i><i class="fa fa-star fa-3x"></i><i class="fa fa-star-half-o fa-3x"></i><i class="fa fa-star-o fa-3x"></i>
+          </div>
+          <div class="product_description">
+          <p>An immunity booster formula.
 Delicious natural and healthy.
-Propolis is a natural compount that bees produce from the sap on needle-leaved trees, trees and/or evergreens. Bees mix Sap mixed with their secreations and beeswax forming a sticky, greenish-brown product used as a coating and blocking cracks in the hive and many more in-hive usage.
-Our ancestors used propolis for its medicinal properties. Every ancient civilization used propolis for its beneficial, it was proven to treat abscesses, wounds and tumors, fights infection and help the healing process. Furthermore, old Egyptians used it to embalm mummies.
-Propolis, like all natural products, vary according to type of producers (bees), and location. Where the trees, herbs and floweres vary from a region to another which bees has the access to. What I meanis that propolis from Europe won’t have the same charactaristics as propolis from Brazil, and will differ from propolis from the middle Easter or Iran. Although, the general features of propolis prevails.</p>
-    </article>
-    <div class="controls">
-      <div class="color">
-       
-        <ul>
-          <li><a href="#!" class="colors color-bdot1 active"></a></li>
-          <!-- <li><a href="#!" class="colors color-bdot2"></a></li>
-          <li><a href="#!" class="colors color-bdot3"></a></li>
-          <li><a href="#!" class="colors color-bdot4"></a></li>
-          <li><a href="#!" class="colors color-bdot5"></a></li> -->
-        </ul>
-        <h5>In stock (Over 100 units), ready to be shipped</h5>
-      </div>
+Propolis is a natural compount that bees produce from the sap on needle-leaved trees, trees and/or evergreens. Bees mix Sap mixed with their secreations and beeswax forming a sticky, greenish-brown product used as a coating and blocking cracks in the hive and many more in-hive usage.</p>
+          </div>
+         <div class="related_info">
+           <span class="sku">SKU:1234567</span><span class="quantity">QTY:85</span>
+         </div>
+         <div class="options">
+         <div class="buying_options">
+         
+                 <div class="select">
+                 <select id="color">
+                   <option value = "1">Glass</option>
+                   <option value = "2">Plastic</option>
+                   
+                 </select>
+                 </div>
+                 <div class="select">
+                 <select id="size">
+                   <option value = "1">Small</option>
+                   <option value = "2">Medium</option>
+                   <option value = "3">Large</option>
+                   <option value = "4">X-Large</option>
+                 </select>
+                 </div>
+          </div>
+          <div class="buying">
+                 <div class="quantity">
+                   <label for="quantity">QTY:</label>
+                   <input type="text">
+                 </div>
+                 <div class="cart">
+                   <a href="#" class="add">Add to Cart <i class="fa fa-shopping-cart fa-lg"></i></a>
+                 </div>
+          </div>
+          </div>
+                 <div class="social">
+                   <span class="share">Share This:</span><span class="buttons"><img src="https://i.imgur.com/M8D8rr8.jpg"/></span>
+           </div>
+          </div>
+        </div>
+        <div class="bottom">
+        <div class="reviews">
+          <div class="head">
+            <h2>Reviews</h2>
+          </div>
+            <div class="content">
+              <span class="name">Marty McFly</span><span class="stars"><i class="fa fa-star fa-2x"></i><i class="fa fa-star fa-2x"></i><i class="fa fa-star fa-2x"></i><i class="fa fa-star-half-o fa-2x"></i><i class="fa fa-star-o fa-2x"></i></span>
+              <p class="review_text">"Check out that four by four. That is hot. Someday, Jennifer, someday. Wouldn't it be great to take that truck up to the lake. Throw a couple of sleeping bags in the back. Whoa, wait, Doc. Here you go, lady. There's a quarter. Well, it will just happen. Like the way I met your father..."</p>
+              <p class="fullReview"><a href="#">View Full Review</a></p>
+              <span class="writeReview"><a href="#">Write your Own Review</a></span>
+            </div>
+          </div>
       
-      <div class="qty">
-        <h5>qty</h5>
-        <a href="#!" class="option">(1)</a>
-      </div>
-    </div>
-    <div class="footer">
-      <button type="button">
-        <img src="http://co0kie.github.io/codepen/nike-product-page/cart.png" alt="">
-        <span>add to cart</span>
-      </button>
-       <a href="#!"><img src="http://co0kie.github.io/codepen/nike-product-page/share.png" alt=""></a>
-    </div>
-  </div>
-  
-</div>
-<div>
-<h3 class ="review">Reviews</h3>
-</div>
-
 </body>
 
 </html>
