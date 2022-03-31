@@ -6,9 +6,9 @@
 .navbar{
     font-size: 20px;
 }
-.navbar a{
-    margin-right: 32%;
-}
+/* .navbar a{
+    margin-right: 25%;
+} */
 .navbar img{
     background-color: black;
 }

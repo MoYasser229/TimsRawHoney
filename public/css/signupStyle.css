@@ -1,0 +1,11 @@
+body{
+    background-color: rgb(244,236,225);
+}
+.mainContainer{
+    background-color: white;
+    margin-top: 15%;
+    padding: 10px;
+    margin-left: 10%;
+    width: 80%;
+
+}

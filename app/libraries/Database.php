@@ -29,11 +29,7 @@ class Database{
     }
     //FUNCTIONS
     public function createDatabase(){
-<<<<<<< Updated upstream
-        $this->statement = "CREATE DATABASE IF NOT EXISTS expensify;";
-=======
-        $this->statement = "CREATE DATABASE IF NOT EXISTS timrawhoney;";
->>>>>>> Stashed changes
+        $this->statement = "CREATE DATABASE IF NOT EXISTS timsrawhoney;";
         $this->execute(0);
     }
     public function createUserTable(){
@@ -138,9 +134,18 @@ class Database{
         $this->execute(0);
     }
     //SQL STATEMENTS
+    public function query($query){
+        $this->statement = $query;
+        $res = $this->connection->query($this->statement);
+        return $res;
+    }
     public function select($selected,$tbname,$condition = 1){ //MUST RETURN VALUE//
-        $this->statement = "SELECT $selected FROM $tbname WHERE $condition";
-        $this->execute();
+        // $this->connection = new mysqli($this->host, $this->user, $this->password,$this->dbname);
+        // $this->statement = "SELECT $selected FROM $tbname WHERE $condition";
+        // $conn = new mysqli($this->host, $this->user, $this->password,$this->dbname);
+        $this->statement = "SELECT * FROM `users` WHERE 1";
+        $this->connection->query($this->statement) or die('error');
+        // $this->execute(0) or die("error1");
     }
     public function insert($tbname,$selected,$values){
         $this->statement = "INSERT INTO $tbname($selected) VALUES($values)";
@@ -156,15 +161,19 @@ class Database{
     }
 
     //SQL STATEMENTS EXECUTION
-    public function execute($result = 1){
-        $this->result = $this->connection->query($this->statement) or die($this->triggerError($this->connection->error));
+    public function execute($result = 0){
+        $this->result = $this->connection->query($this->statement);
+        // if(!$this->result){
+        //     echo $this->triggerError($this->connection->error);
+        //     echo "<script>alert('error')</script>";
+        // }
         if($result === 1)
             return $this->result->fetch_assoc();
     }
 
     //ERROR HANDLING
     public function triggerError($errorstmt){
-        return $errorstmt;
+        return $this->connection->error;
     }
 }
 
