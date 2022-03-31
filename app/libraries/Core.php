@@ -29,7 +29,8 @@ class Core{
     
         // Check for second part of url to get view and model name
         if (isset($url[1])) {
-            $modelPath = Util\pathBuilder('models', $url[1] . 'Model');
+            $path = 'models';
+            $modelPath = Util\pathBuilder($path, $url[1] . 'Model');
             if (file_exists($modelPath)) {
                 //build model name by adding Model to the view Name
                 $modelName = $url[1] . 'Model';

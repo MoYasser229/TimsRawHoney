@@ -40,6 +40,9 @@
       <li class="nav-item">
         <a class="nav-link" href="#">ContactUs</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<?php echo URLROOT . 'pages/dashboard'?>">Dashboard</a>
+      </li>
     </ul>
   </div>
 </nav>

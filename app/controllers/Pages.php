@@ -12,6 +12,7 @@ class Pages extends Controller{
         $testView = new Test($this->getModel(), $this);
         $testView->output();
     }
+<<<<<<< Updated upstream
     public function Shop(){
         $viewPath = VIEWSPATH . 'pages/Shop.php';
         require_once $viewPath;
@@ -53,3 +54,7 @@ class Pages extends Controller{
     }
     }
     
+=======
+    
+}
+>>>>>>> Stashed changes

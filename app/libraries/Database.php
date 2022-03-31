@@ -29,7 +29,11 @@ class Database{
     }
     //FUNCTIONS
     public function createDatabase(){
+<<<<<<< Updated upstream
         $this->statement = "CREATE DATABASE IF NOT EXISTS expensify;";
+=======
+        $this->statement = "CREATE DATABASE IF NOT EXISTS timrawhoney;";
+>>>>>>> Stashed changes
         $this->execute(0);
     }
     public function createUserTable(){

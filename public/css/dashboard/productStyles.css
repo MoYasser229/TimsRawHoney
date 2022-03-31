@@ -1,0 +1,91 @@
+.mainContainer{
+    background-color: white;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding: 10px;
+}
+.mainContainer h1{
+    color: #fab637;
+}
+.mainContainer hr{
+    background-color: #fab637;
+    outline: none;
+    border: none;
+    height:2px;
+}
+.searchContainer{
+    background-color: white;
+    margin-left: 10%;
+    width: 30%;
+    padding: 10px;
+    margin-top: 10px;
+}
+.searchContainer h1{
+    color: #fab637;
+    line-height: 20px;
+}
+.searchContainer hr{
+    outline: none;
+    border: none;
+    height: 2px;
+    background-color: #fab637;
+}
+.productGrid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr; 
+    grid-gap: 15px; 
+    width: 80%; 
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 10px;
+} 
+.productCard {
+    background-color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+.productCard h2{
+    color: #fab637;
+}
+.productCard hr{
+    outline: none;
+    border: none;
+    height: 2px;
+    background-color: #fab637;
+}
+.smallGrid{
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+}
+.productButtons{
+    background-color: white;
+    border: none;
+    outline: none;
+    border: 3px solid #fab637;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #fab637;
+    transition: 0.5s;
+}
+.productButtons:hover{
+    background-color: #FBAB7E;
+    background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+    color: white;
+}
+@media screen and (max-width: 1024px){
+    .productGrid{
+        grid-template-columns: 1fr;
+        margin: 0;
+        padding: 0;
+    }
+    .searchContainer{
+        width: 100%;
+        margin:0;
+        margin-right: 50%;
+        text-align: center;
+    }
+}
+

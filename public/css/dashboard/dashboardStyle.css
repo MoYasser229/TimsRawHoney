@@ -1,0 +1,243 @@
+@import url("https://fonts.googleapis.com/css?family=Lato");
+
+.topContainer{
+    background-color: white;
+    margin-right:5%;
+    margin-left: 5%;
+    height: 25%;
+    /* text-align: center; */
+    padding: 10px;
+}
+.topContainer .topHeader{
+    padding-top: 50px;
+    margin-left: 30px;
+    color: #fab637;
+}
+.topContainer hr{
+    outline: none;border: none;
+    background-color: #F7CE68;
+    height: 2px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.grid-cards { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    grid-gap: 10px; 
+    width: 100%; 
+    padding: 20px;
+    text-align: center;
+} 
+@media screen and (max-width: 1024px){
+    .grid-cards{
+        grid-template-columns: 1fr;
+        margin: 0;
+        padding: 0;
+    }
+}
+.card { 
+    
+    /* margin: 20px; */
+    color:#263238;
+    border: 6px solid #F7CE68;
+    border-radius: 15px;
+    height: 300px;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+}
+.card h1{
+    font-size: 50px;
+}
+.card p{
+    font-size: 30px;
+}
+.tableClass{
+    margin-left: 10%;
+    margin-right: 10%;
+    
+    background-color: #FBAB7E;
+    background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+
+}
+.grid-buttons { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    grid-gap: 10px; 
+    width: 50%; 
+    margin-left: 25%;
+} 
+@media screen and (max-width: 1024px){
+    .grid-buttons{
+        grid-template-columns: 1fr;
+        width: 95%;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+.bn39 {
+    outline: none;
+    border: none;
+    background-color: #FBAB7E;
+    background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+    border-radius: 6px;
+    box-sizing: border-box;
+    color: #FBAB7E;
+    /* display: block; */
+    height: 50px;
+    font-size: 1.4em;
+    font-weight: 600;
+    padding: 4px;
+    /* position: relative; */
+    text-decoration: none;
+    width: 100%;
+    height: 150px;
+  }
+  
+  .bn39:hover {
+    color: #fff;
+  }
+  
+  .bn39 .bn39span {
+    align-items: center;
+    background: white;
+    border-radius: 6px;
+    height: 100%;
+    display: flex;
+    justify-content:center;
+    transition: background 0.5s ease;
+    width: 100%;
+  }
+  
+  .bn39:hover .bn39span {
+    background: transparent;
+  }
+  .bn39 .bn39span .icon{
+      font-size: 50px;
+  }
+  .btn.vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .grid-table{
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr; 
+    grid-gap: 5px; 
+    width: 100%; 
+    text-align: center;
+    padding: 20px;
+    height: 20%;
+    
+  }
+  .grid-table table {
+    border: 6px solid #F7CE68;
+    border-radius: 15px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    table-layout: fixed;
+    color: #263238;
+    font-size: 20px;
+    /* margin-top: 17px; */
+  }
+  
+  .grid-table table caption {
+    font-size: 1.5em;
+    margin: .5em 0 .75em;
+  }
+  
+  .grid-table table tr {
+    background-color: transparent;
+    border: 3px solid #F7CE68;
+    padding: .35em;
+  }
+  
+  .grid-table table th,
+  table td {
+    padding: .625em;
+    text-align: center;
+  }
+  
+  .grid-table table th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  
+  @media screen and (max-width: 1024px) {
+      .grid-table{
+          grid-template-columns: 1fr;
+          margin: 0;
+          width: 95%;
+          margin-left: 10px;
+          margin-right: 10px;
+      }
+    .grid-table table {
+      border: 0;
+    }
+  
+    .grid-table table caption {
+      font-size: 1.3em;
+    }
+    
+    .grid-table table thead {
+      border: none;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+    
+    .grid-table table tr {
+      border-bottom: 3px solid #F7CE68;
+      display: block;
+      margin-bottom: .625em;
+    }
+    
+    .grid-table table td {
+      border-bottom: 1px solid #F7CE68;
+      display: block;
+      font-size: .8em;
+      text-align: right;
+    }
+    
+    .grid-table table td::before {
+      /*
+      * aria-label has no advantage, it won't be read inside a table
+      content: attr(aria-label);
+      */
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    .grid-table table td:last-child {
+      border-bottom: 0;
+    }
+  }
+.customerButton{
+    /* margin: 10px; */
+    /* padding: 10px; */
+    width: 100%;
+    text-align: center;
+}
+.gridchild{
+  display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    grid-gap: 10px; 
+    width: 100%; 
+    height: 100%;
+    text-align: center;
+    padding: 20px;
+}
+.gridchild h1{
+  border: 1px solid #F7CE68;
+  border-radius: 10px;
+}
+

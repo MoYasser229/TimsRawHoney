@@ -1,0 +1,66 @@
+.mainContainer{
+    background-color: white;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding: 10px;
+}
+.mainContainer h1{
+    color: #fab637;
+
+}
+.mainContainer hr{
+    outline: none;border: none;
+    height:2px;
+    background-color: #fab637;
+}
+.searchContainer{
+    background-color: white;
+    width: 30%;
+    margin-left: 10%;
+    padding: 10px;
+    margin-top: 10px;
+}
+.searchContainer h1{
+    color: #fab637;
+}
+.searchContainer hr{
+    outline: none;border: none;
+    height: 2px;
+    background-color: #fab637;
+}
+.productGrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 10px;
+    
+}
+.productCard{
+    background-color: white;
+
+    padding: 10px;
+}
+.productCard h1{
+    color: #fab637;
+}
+.productCard hr{
+    outline: none;
+    border: none;
+    height: 2px;
+    background-color: #fab637;
+}
+.update{
+    background-color: white;
+    outline: none;
+    border: 2px solid #fab637;
+    padding: 10px;
+    font-size: 15px;
+    transition: 0.5s;
+}
+.update:hover{
+    background-color: #fab637;
+    color: white;
+}

@@ -1,0 +1,65 @@
+.mainContainer{
+    background-color: white;
+    width: 80%;
+    margin-left: 10%;
+    padding: 10px;
+}
+.mainContainer h1{
+    color: #fab637;
+}
+.mainContainer hr{
+    outline: none;
+    border: none;
+    height: 2px;
+    background-color: #fab637;
+
+}
+.gridTable{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    width: 100%;
+    
+}
+.cardTable{
+    border: 3px solid #F7CE68;
+    border-radius: 15px;
+    padding: 40px;
+    text-align: center;
+}
+.searchContainer{
+    background-color: white;
+    width: 30%;margin-left: 10%;
+    color: #fab637;
+    padding: 10px;
+    margin-top: 10px;
+
+}
+.searchContainer hr{
+    outline: none;
+    border: none;
+    height: 2px;
+    background-color: #fab637;
+}
+.surveyGrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+    margin-left: 10%;
+    margin-top: 10px;
+    width: 80%;
+    
+}
+.surveyCard{
+    background-color: white;
+    padding: 10px;
+}
+.surveyCard h1{
+    color: #fab637;
+}
+.surveyCard hr{
+    outline: none;
+    border: none;
+    height: 2px;
+    background-color: #fab637;
+}

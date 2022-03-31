@@ -1,0 +1,83 @@
+.mainContainer{
+    background-color: white;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;  
+    padding: 10px;
+}
+.mainContainer h1{
+    color: #fab637;
+}
+.mainContainer hr{
+    outline: none;
+    border: none;
+    height: 2px;
+    background-color: #fab637;
+}
+.gridCards { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr; 
+    grid-gap: 15px; 
+    width: 100%; 
+    /* margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 10px; */
+} 
+.gridCustomer{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 15px;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 10px;
+}
+.customerCard {
+    background-color: white;
+    padding: 10px;
+}
+.customerCard h2{
+    color: #fab637;
+}
+.customerCard hr{
+    outline: none;
+    border: none;
+    height: 2px;
+    background-color: #fab637;
+}
+.cardChild{
+    border: 2px solid #fab637;
+    text-align: center;
+    padding: 10px
+}
+.cardChild h3{
+    color: #fab637;
+    font-weight: 700;
+}
+.searchContainer{
+    background-color: white;
+    width: 30%;
+    margin-left: 10%;
+    padding: 10px;
+    margin-top: 10px;
+}
+.searchContainer h1{
+    color: #fab637;
+}
+.searchContainer hr{
+    outline: none;
+    border: none;
+    height: 2px;
+    background-color: #fab637;
+}
+@media screen and (max-width: 1024px){
+    .gridCards{
+        grid-template-columns: 1fr;
+        margin: 0;
+        padding: 0;
+    }
+    .gridCustomer{
+        grid-template-columns: 1fr;
+        margin: 0;
+        padding: 0;
+    }
+}
