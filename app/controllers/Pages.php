@@ -32,9 +32,17 @@ class Pages extends Controller{
         $testView->output();
     }
     public function signin(){
+
         $viewPath = VIEWSPATH . 'pages/signin.php';
         require_once $viewPath;
-        $testView = new product($this->getModel(), $this);
+        $testView = new signin($this->getModel(), $this);
+        $testView->output();
+    }
+    public function signup(){
+        
+        $viewPath = VIEWSPATH . 'pages/signup.php';
+        require_once $viewPath;
+        $testView = new signup($this->getModel(), $this);
         $testView->output();
     }
     }

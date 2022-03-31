@@ -10,7 +10,7 @@ class User{
     private $Role;
     private $ID;
 
-    public function __construct(FirstName,LastName,Email,Password,PhoneNumber,Role,ID){
+    public function __construct($FirstName,$LastName,$Email,$Password,$PhoneNumber,$Role,$ID){
         $this->FirstName = $FirstName;
         $this->LastName = $LastName;
         $this->Email = $Email;

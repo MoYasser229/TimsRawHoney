@@ -16,19 +16,19 @@ $this->order = $order;
 public function getHomeAddress(){
     return $this->HomeAddress;
 }
-public function setHomeAddress(){
-    $this->HomeAddress = $HomeAddress;
+public function setHomeAddress($HomeAddress){
+    $this->HomeAddress =  $HomeAddress;
 }
 public function getCart(){
     return $this->Cart;
 }
-public function setCart(){
+public function setCart($cart){
     $this->Cart = $this->Cart;
 }
 public function getorder(){
     return $this->Order;
 }
-public function setOrder(){
+public function setOrder($order){
     $this->Order = $this->Order;
 }
 

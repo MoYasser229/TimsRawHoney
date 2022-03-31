@@ -15,11 +15,124 @@ class Database{
             $this->triggerError($this->connection->error);
         
 
-        // $this->statement = "CREATE DATABASE IF NOT EXISTS expensify;";
-        // $this->execute();
-        
+        $this->createDatabase();
+        $this->createUserTable();
+        $this->createProductTable();
+        $this->createOrderTable();
+        $this->createDeliveryTable();
+        $this->createSurveyTable();
+        $this->createReviewTable();
+        $this->createErrorTable();
+        $this->createOffersTable();
+        $this->createProductTable();
+        $this->createWishListTable();
     }
-
+    //FUNCTIONS
+    public function createDatabase(){
+        $this->statement = "CREATE DATABASE IF NOT EXISTS expensify;";
+        $this->execute(0);
+    }
+    public function createUserTable(){
+        $this->statement = "CREATE TABLE IF NOT EXISTS users(
+            ID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+            fname VARCHAR(30),
+            lname VARCHAR(30),
+            email VARCHAR(128),
+            pswrd VARCHAR(30),
+            phoneNumber1 VARCHAR(30),
+            phoneNumber2 VARCHAR(30),
+            userRole VARCHAR(30),
+            homeAddress1 VARCHAR(255),
+            homeAddress2 VARCHAR(255)
+            )";
+        $this->execute(0);
+    }
+    public function createProductTable(){
+        $this->statement = "CREATE TABLE IF NOT EXISTS products(
+            ID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+            productName VARCHAR(30),
+            productCost INT(10) NOT NULL,
+            productStock INT(10) NOT NULL,
+            productDescription VARCHAR(255) NOT NULL
+        )";
+        $this->execute(0);
+    }
+    public function createOrderTable(){
+        $this->statement = "CREATE TABLE IF NOT EXISTS orders(
+            ID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+            customerID INT(6) NOT NULL,
+            quantity INT(10) NOT NULL,
+            orderTotalPrice INT(10) NOT NULL,
+            FOREIGN KEY (customerID) REFERENCES users(ID)
+        )";
+        $this->execute(0);
+    }
+    public function createDeliveryTable(){
+        $this->statement = "CREATE TABLE IF NOT EXISTS deliveries(
+            deliveryID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+            orderID INT(6) NOT NULL,
+            deliveryPrice INT(10) NOT NULL,
+            deliveryStatus VARCHAR(30),
+            deliveryLink VARCHAR(30),
+            FOREIGN KEY (orderID) REFERENCES orders(ID) 
+            )";
+            $this->execute(0);
+    }
+    public function createSurveyTable(){
+        $this->statement = "CREATE TABLE IF NOT EXISTS survey(
+            surveyID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+            customerID INT(6) NOT NULL,
+            FOREIGN KEY (customerID) REFERENCES users(ID)
+        )";
+        $this->execute(0);
+    }
+    public function createReviewTable(){
+        $this->statement = "CREATE TABLE IF NOT EXISTS review(
+            reviewID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+            customerID INT(6) NOT NULL,
+            stars INT(10) NOT NULL,
+            FOREIGN KEY (customerID) REFERENCES users(ID)
+        )";
+        $this->execute(0);
+    }
+    public function createErrorTable(){
+        $this->statement = "CREATE TABLE IF NOT EXISTS error(
+            errorID INT(10) NOT NULL,
+            errorMessage VARCHAR(255)
+        )";
+        $this->execute(0);
+    }
+    public function createOffersTable(){
+        $this->statement = "CREATE TABLE IF NOT EXISTS offers(
+            offerID INT(10) NOT NULL PRIMARY KEY,
+            productID INT(10) NOT NULL,
+            offerPercentage INT(10) NOT NULL,
+            offerTitle VARCHAR(15) NOT NULL,
+            campaignLength VARCHAR(30) NOT NULL,
+            createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (productID) REFERENCES products(ID)
+        )";
+        $this->execute(0);
+    }
+    public function createPromoCodesTable(){
+        $this->statement = "CREATE TABLE IF NOT EXISTS promoCodes(
+            promoID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+            promoCode VARCHAR(30) NOT NULL,
+            productID INT(6) NOT NULL,
+            FOREIGN KEY (productID) REFERENCES products(ID)
+        )";
+        $this->execute(0);
+    }
+    public function createWishListTable(){
+        $this->statement = "CREATE TABLE IF NOT EXISTS wishList(
+            wishListID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+            customerID INT(6) NOT NULL,
+            productID INT(6) NOT NULL,
+            FOREIGN KEY (customerID) REFERENCES users(ID),
+            FOREIGN KEY (productID) REFERENCES products(ID)
+        )";
+        $this->execute(0);
+    }
     //SQL STATEMENTS
     public function select($selected,$tbname,$condition = 1){ //MUST RETURN VALUE//
         $this->statement = "SELECT $selected FROM $tbname WHERE $condition";
@@ -39,9 +152,10 @@ class Database{
     }
 
     //SQL STATEMENTS EXECUTION
-    public function execute(){
+    public function execute($result = 1){
         $this->result = $this->connection->query($this->statement) or die($this->triggerError($this->connection->error));
-        return $this->result->fetch_assoc();
+        if($result === 1)
+            return $this->result->fetch_assoc();
     }
 
     //ERROR HANDLING
