@@ -1,11 +1,68 @@
 body{
     background-color: rgb(244,236,225);
 }
-.mainContainer{
-    background-color: white;
-    margin-top: 15%;
-    padding: 10px;
-    margin-left: 10%;
-    width: 80%;
 
+h1{
+	text-align: center;
+	color: rgb(250, 229, 211);
+	font-weight: 50px;
+	font-family: sans-serif;
+}
+h1:hover{
+	color: white;
+
+}
+.form{
+    max-width: 400px;
+    background: rgba(229, 152, 102);
+    border-radius: 20px;
+    box-sizing: border-box ;
+    padding: 40px;
+    margin: auto;
+    color: white;
+    margin-top: 100px;	
+    margin-bottom: 50px;
+}
+input[type=text],input[type=password]{
+	width: 100%;
+	border-radius: 10px;
+	box-sizing: border-box;
+	background:rgb(255, 255, 255);
+	border: none;
+	font-weight: 500;
+	font-size: 16px;
+	outline: none;
+	border-bottom: 1px solid white;
+	margin: 6px;
+	color: rgb(0, 0, 0);
+	padding: 12px 5px;
+}
+
+input[type=submit]{
+	cursor: pointer;
+	width: 200px;
+	margin-top: 25px;
+	margin-left: 60px;
+	border-radius: 18px;
+	font-size: 25px;
+	background-color: rgb(250, 229, 211);
+	outline: none;
+	border:none;
+	box-sizing: border-box;
+	padding: 5px;
+	transition-duration:0.4s;
+}
+input[type=submit]:hover{
+	background-color: black;
+	color: rgb(250, 229, 211);
+	border: 1px solid orange;
+}
+
+
+.aclk{
+	color:  rgb(255, 255, 255);
+	text-decoration: none;
+}
+.aclk:hover{
+	color:rgb(29, 100, 33) ;
 }

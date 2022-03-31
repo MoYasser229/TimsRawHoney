@@ -8,9 +8,9 @@ class signup extends View{
          ?>
             <link rel="stylesheet" href="<?php echo $css;?>"/>
             <body>
-              <div class="mainContainer">
+             
+                <div class="form">
                 <h1>Register</h1>
-                <hr>
                 <form action="" method = "POST">
                   First Name: <br>
                   <input type="text" name = "fname"><br>
@@ -29,8 +29,10 @@ class signup extends View{
                   Home Address 2: <br>
                   <input type="text" name = "homeAddress2"><br><br>
                   <input type="submit" name="submit">
+                  <h3>Already have account ? <a class="aclk" href="#">Click here!</a></h3>
                 </form>
-              </div>
+    </div>
+           
             </body>
          <?php
     }
