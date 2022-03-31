@@ -1,0 +1,27 @@
+.transparent{
+    background-color: rgb(244,236,225);
+    /* background-color: black; */
+    height: 100px;
+}
+.navbar{
+    font-size: 20px;
+}
+.navbar a{
+    margin-right: 32%;
+}
+.navbar img{
+    background-color: black;
+}
+
+
+
+.alignmentText{
+    font-family: 'Dancing Script';
+    font-size: 60px;
+    padding-top: 10%;
+    margin-bottom: 8%;
+    line-height: 0.75;
+}
+.subtitle{
+    font-size: 30px;
+}

@@ -45,5 +45,11 @@ class Pages extends Controller{
         $testView = new signup($this->getModel(), $this);
         $testView->output();
     }
+    public function Cart(){
+        $viewPath = VIEWSPATH . 'pages/Cart.php';
+        require_once $viewPath;
+        $testView = new Cart($this->getModel(), $this);
+        $testView->output();
+    }
     }
     
