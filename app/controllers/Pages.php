@@ -97,5 +97,14 @@ class Pages extends Controller{
         $testView = new Cart($this->getModel(), $this);
         $testView->output();
     }
+    public function logout()
+    {
+        echo 'logout called';
+        unset($_SESSION['ID']);
+        unset($_SESSION['email']);
+        session_destroy();
+        redirect('pages/siginin');
+    }
+
     }
     
