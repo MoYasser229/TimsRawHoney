@@ -48,7 +48,7 @@
         <a class="nav-link" href="#">ContactUs</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo URLROOT . 'pages/signin'?>">Profile</a>
+        <a class="nav-link" href="<?php echo URLROOT . 'pages/profile'?>">Profile</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="<?php echo URLROOT . 'pages/signup'?>">SignOut</a>

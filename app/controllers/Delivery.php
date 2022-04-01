@@ -17,38 +17,37 @@ function __construct($OrderID,$CustomerID,$CustomerAddress,$DeliveryStatus,$Deli
   public function getOrder(){
       return $this->OrderID;
   }
-  public function setOrder(){
+  public function setOrder($OrderID){
      $this->OrderID=$OrderID;
   }
 
   public function getCustomer(){
       return $this->CustomerID;
   }
-  public function setCustomer(){
+  public function setCustomer($CustomerID){
      $this->CustomerID=$CustomerID;
   }
 
   public function getCustomerAddress(){
       return $this->CustomerAddress;
   }
-  public function setCustomerAddress(){
+  public function setCustomerAddress($CustomerAddress){
      $this->CustomerAddress= $CustomerAddress;
   }
 
   public function getDeliveryStatus(){
     return $this->DeliveryStatus;
     }
-  public function setDeliveryStatus(){
+  public function setDeliveryStatus($DeliveryStatus){
     $this->DeliveryStatus= $DeliveryStatus;   
   }
 
-  public getDeliveryPrice(){
+  public function getDeliveryPrice(){
       return $this->DeliveryPrice;
   }
- public setDeliveryPrice(){
-     this->DeliveryPrice= $DeliveryPrice;
+ public function setDeliveryPrice($DeliveryPrice){
+     $this->DeliveryPrice= $DeliveryPrice;
  }
 }
 
 
->

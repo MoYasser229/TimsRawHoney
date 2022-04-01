@@ -1,0 +1,158 @@
+body{
+  background-color: rgb(244,236,225);
+  height: 100%;
+}
+.mainContainer{
+  margin-top: 10%;
+  width: 80%;
+  background-color:white;
+  margin-left: 10%;
+  margin-right: 10%;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-gap: 10px;
+  box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
+}
+.mainChild{
+  background-color: white;
+  padding: 50px;
+  font-family: "Helvetica Neue",;
+}
+.navChild{
+  background-color: #FBAB7E;
+  background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+
+}
+.myButton{
+   background-color: transparent;
+    width: 100%;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    padding: 10px;
+    font-size: 20px;
+    color: white;
+    transition: 0.5s;
+}
+.myButton:hover{
+  background-color: white;
+  color:#FBAB7E
+}
+.selected{
+  background-color: white;
+  color: #FBAB7E
+}
+.margin-bottom{
+  margin-bottom: 10%;
+}
+.personal{
+  display: block;
+}
+.security{
+  display: none;
+}
+.orders{
+  display: none;
+}
+.orders h6{
+  margin-top: 15px;
+  color: gray;
+}
+.address{
+  display: none;
+}
+.delete{
+  display: none;
+}
+.header{
+  color: #FBAB7E;
+}
+.headerSeparator{
+  outline: none;
+  border: none;
+  height: 2px;
+  background-color: #FBAB7E;
+}
+.security form input[type="text"]{
+  outline: none;
+  border: none;
+  border-bottom: 3px solid #FBAB7E;
+  color: gray;
+  width: 300px;
+}
+.personal form input[type="text"],[type="password"]{
+  margin-right: 100px;
+  outline: none;
+  border: none;
+  border-bottom: 3px solid #FBAB7E; 
+  color: gray;
+  width: 300px
+}
+.submitButton{
+  background-color: #FBAB7E;
+  background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+  outline: none;
+  border: none;
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
+  padding: 10px;
+  float: right;
+}
+.personal p{
+  font-size: 20px;
+  color: gray;
+}
+.security p{
+  font-size: 20px;
+  color: gray;
+}
+.orders{
+  overflow: auto;
+}
+.gridView{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 10px;
+  width: 100%;
+
+}
+.gridCard{
+  border: 1px solid #FBAB7E;
+  padding: 10px;
+}
+.gridCard h5{
+  color: gray;
+}
+.gridCard button{
+  outline: none;border:none;
+  padding: 10px;
+  background: #FBAB7E;
+  background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+  color: white;
+  font-weight: 600;
+}
+.address form input[type="text"]{
+  outline: none;
+  border: none;
+  border-bottom: 3px solid #FBAB7E;
+  color: gray;
+  width: 300px;
+}
+.address p{
+  color: gray;
+  font-size: 20px;
+}
+.delete h5{
+  color: gray;
+}
+.deleteButton{
+  background:red;
+  font-weight:600;
+  padding: 10px;
+  outline: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  margin-top: 50px;
+}

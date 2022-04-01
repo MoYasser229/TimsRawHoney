@@ -29,7 +29,7 @@ class signup extends View{
                   Home Address 2: <br>
                   <input type="text" name = "homeAddress2"><br><br>
                   <input type="submit" name="submit">
-                  <h3>Already have account ? <a class="aclk" href="#">Click here!</a></h3>
+                  <h3>Already have account ? <a class="aclk" href="<?php echo URLROOT . "pages/signin"?>">Click here!</a></h3>
                 </form>
     </div>
            

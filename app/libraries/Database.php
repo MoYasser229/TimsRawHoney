@@ -63,6 +63,7 @@ class Database{
             customerID INT(6) NOT NULL,
             quantity INT(10) NOT NULL,
             orderTotalPrice INT(10) NOT NULL,
+            createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (customerID) REFERENCES users(ID)
         )";
         $this->execute(0);
