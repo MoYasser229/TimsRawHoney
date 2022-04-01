@@ -43,7 +43,7 @@ class profileModel extends Model{
 
     // }
     public function deleteAccount($ID){
-        $result = $this->database->query("DELETE * FROM users WHERE ID = '$ID'")->fetch_assoc();
+        $result = $this->database->query("DELETE FROM users WHERE ID = '$ID'");
         return ($result)?true:false;
     }
     public function updatePersonal($ID,$fname,$lname, $phone1, $phone2){

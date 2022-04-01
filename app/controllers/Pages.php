@@ -103,7 +103,7 @@ class Pages extends Controller{
         unset($_SESSION['ID']);
         unset($_SESSION['email']);
         session_destroy();
-        redirect('pages/siginin');
+        redirect('pages/signin');
     }
     public function profile(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -159,6 +159,9 @@ class Pages extends Controller{
             }
             if(isset($_POST['submitDelete'])){
                 $model->deleteAccount($_SESSION['ID']);
+                unset($_SESSION['ID']);
+                unset($_SESSION['email']);
+                session_destroy();
                 redirect('pages/index');
             }
         }

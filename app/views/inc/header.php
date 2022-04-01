@@ -51,7 +51,7 @@
         <a class="nav-link" href="<?php echo URLROOT . 'pages/profile'?>">Profile</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo URLROOT . 'pages/signup'?>">SignOut</a>
+        <a class="nav-link" href="<?php echo URLROOT . 'pages/logout'?>">SignOut</a>
       </li>
     </ul>
       <?php
