@@ -61,6 +61,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
 body {
   color: #333;
+  background-color: rgb(244,236,225);
   -webkit-font-smoothing: antialiased;
   font-family: "Droid Serif", serif;
 }
@@ -109,6 +110,7 @@ img {
 }
 
 .heading {
+  margin-top: 5%;
   padding: 1em 0;
   border-bottom: 1px solid #D0D0D0;
 }
