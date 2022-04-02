@@ -31,7 +31,7 @@ class profile extends View{
                         <form action="" method="post">
                             <p>
                             First Name:&nbsp;&nbsp;&nbsp;
-                            <input type="text" name = "fname" value = "<?php echo $profileData['fname']; ?>">
+                            <input type="text" name = "fname" value = "<?php echo $profileData['fname']; ?>"><br><br>
                             Last Name:&nbsp;&nbsp;&nbsp;
                             <input type="text" name = "lname" value = "<?php echo $profileData['lname']; ?>"><br><br>
                             Phone Number 1:&nbsp;&nbsp;&nbsp;
@@ -49,9 +49,13 @@ class profile extends View{
                             <p>
                             Email:&nbsp;&nbsp;&nbsp;
                             <input type="text" name = "email" value = "<?php echo $profileData['email']; ?>"><br><br>
-                            Password:&nbsp;&nbsp;&nbsp;
-                            <input type="password" name = "password" value = "<?php echo $profileData['pswrd']; ?>"><br><br>
-                            </p>
+                            Enter current password:&nbsp;&nbsp;&nbsp;
+                            <input type="password" name = "password" placeholder = "Enter your old password" ><br><br>
+                            Enter new password:&nbsp;&nbsp;&nbsp;
+                            <input type="password" name = "newPassword" placeholder = "Enter new password" ><br><br>
+                            Confirm New Password:&nbsp;&nbsp;&nbsp;
+                            <input type="password" name = "confirmNewPassword" placeholder = "Confirm Your Password"><br><br>
+                        </p>
                             <button class = "submitButton" type="submit" name = "submitSecurity">UPDATE</button>
                         </form>
                     </div>

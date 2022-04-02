@@ -34,6 +34,7 @@ class Pages extends Controller{
     public function signin(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $email = $_POST['email'];
+            // $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
             $password = $_POST['password'];
             $signInModel = $this->getModel();
             $signInModel->setemail($email);
@@ -62,6 +63,7 @@ class Pages extends Controller{
     public function signup(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $email = $_POST['email'];
+            // $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
             $password = $_POST['password'];
             $fname = $_POST['fname'];
             $lname = $_POST['lname'];
@@ -129,19 +131,24 @@ class Pages extends Controller{
             }
             if(isset($_POST['submitSecurity'])){
                 $email = $_POST['email'];
-                $password = $_POST['password'];
+                $password = ($_POST['password']);
+                $newPassword = ($_POST['newPassword']);
+                // $confirmPassword = ( $_POST['confirmNewPassword']);
                 $error = false;
                 $validation = false;
-
+                $confirm = false;
                 if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
                     $validation = true;
                     echo "<script>alert('Email is invalid')</script>";
                 }
-                if(empty($email) || empty($password))
+                if(empty($email) || empty($password) || empty($newPassword))
                     $error = true;
-
-                if(!$error && !$validation){
-                    $result = $model->updateSecurity($_SESSION['ID'],$email,$password);
+                if($_POST['newPassword'] != $_POST['confirmNewPassword']){
+                    $confirm = true;
+                    echo "<script>alert('The confirmation password is incorrect')</script>";
+                }
+                if(!$error && !$validation && !$confirm){
+                    $result = $model->updateSecurity($_SESSION['ID'],$email,$newPassword);
                     if($result){
                         redirect('pages/profile');
                     }
