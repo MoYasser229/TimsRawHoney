@@ -338,7 +338,6 @@ class shop extends View{
           </div>
         </div>  
       </div>
-
       </body>
       </html>
       <?php
