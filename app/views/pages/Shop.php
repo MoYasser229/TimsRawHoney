@@ -24,7 +24,7 @@ class shop extends View{
             <div class="product-grid">
               <div class="product-image">
                 <a href="#" class="image">
-                    <img src="<?php echo IMAGEROOT ."jar3.jpg"; ?>"class ="model">
+                    <img src="<?php echo IMAGEROOT ."jarr3.png"; ?>"class ="model">
                 </a>
                 <span class="product-discount-label">-10%</span>
                 <ul class="product-links">
@@ -64,7 +64,7 @@ class shop extends View{
           <div class="product-grid">
             <div class="product-image">
               <a href="#" class="image">
-                <img src="<?php echo IMAGEROOT . "jar3.jpg"; ?>"class ="model">
+                <img src="<?php echo IMAGEROOT . "jarr3.png"; ?>"class ="model">
               </a>
               <span class="product-discount-label">-31%</span>
               <ul class="product-links">
