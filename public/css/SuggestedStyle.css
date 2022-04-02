@@ -25,21 +25,11 @@
     font-family: "Montserrat", sans-serif;
     font-weight: 400;
     font-size: 10vh;
+    margin-top: 10vh;
     text-transform: uppercase;
   }
 
-html, body {
-    min-height: 50%;
-}
-body, div, form, input, p { 
-  padding: 0;
-  margin: 0;
-  outline: none;
-  font-family: Roboto, Arial, sans-serif;
-  font-size: 14px;
-  color: #666;
-  line-height: 22px;
-}
+
 h1{
   font-weight: 400;
 }
