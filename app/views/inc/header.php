@@ -38,15 +38,15 @@
       <li class="nav-item">
         <a class="nav-link" href="<?php echo URLROOT.'pages/Suggested' ?>"> Suggested </a>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" href="#">AboutUs</a>
-      </li>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link" href="<?php echo URLROOT . 'pages/Cart'; ?>">Cart</a>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" href="#">ContactUs</a>
-      </li>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link" href="<?php echo URLROOT . 'pages/profile'?>">Profile</a>
       </li>
@@ -68,12 +68,12 @@
           <a class="nav-link" href="<?php echo URLROOT.'pages/Suggested' ?>"> Suggested </a>
   
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" href="#">AboutUs</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">ContactUs</a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a class="nav-link" href="<?php echo URLROOT . 'pages/signin'?>">SignIn</a>
         </li>
