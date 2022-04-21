@@ -6,34 +6,132 @@ class signup extends View{
         $icon = $this->model->icon;
          require_once APPROOT . "/views/inc/header.php";
          ?>
-            <link rel="stylesheet" href="<?php echo $css;?>"/>
-            <body>
-             
-                <div class="form">
-                <h1>Register</h1>
-                <form action="" method = "POST">
-                  First Name: <br>
-                  <input type="text" name = "fname"><br>
-                  Last Name: <br>
-                  <input type="text" name = "lname"><br>
-                  Email: <br>
-                  <input type="text" name = "email"><br>
-                  Password: <br>
-                  <input type="password" name = "password"><br>
-                  Phone Number 1: <br>
-                  <input type="text" name = "phoneNumber1"><br>
-                  Phone Number 2: <br>
-                  <input type="text" name = "phoneNumber2"><br>
-                  Home Address 1: <br>
-                  <input type="text" name = "homeAddress1"><br>
-                  Home Address 2: <br>
-                  <input type="text" name = "homeAddress2"><br><br>
-                  <input type="submit" name="submit">
-                  <h3>Already have account ? <a class="aclk" href="<?php echo URLROOT . "pages/signin"?>">Click here!</a></h3>
-                </form>
-    </div>
+         
+         <head>
+           <link rel="stylesheet" href="<?php echo $css;?>"/>
+           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        </head>
+        <body>
+        
+        <div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v13.0&appId=1921176278089033&autoLogAppEvents=1" nonce="g2XAyTi6"></script>
+        <div class="container" id="container">
+	
+	<div class="form-container sign-in-container">
+    
+		<form id = "form" action="" method = "POST">
+			<h1 class = regHeader>Create New Account</h1>
+			<div class="social-container">
+				<a href="#" class="social link" onclick="checkLoginState()"><i class="fab fa-facebook-f"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Register with Facebook</a>
+      </div>
+      <div id="email" class = "warning"><?php echo $this->model->getSocialError(); ?></div>
+			<span><div id="status"></div> or manually register a new account  </span><br>
+      <input class = mainSignUp type="text" name = "myName" placeholder = "Full Name"><div id="email" class = "warning"><?php echo $this->model->getErrorName(); ?></div></input>
+			<input class = mainSignUp type="email" placeholder="Email" name = "email"/>
+      <div id="email" class = "warning"><?php echo $this->model->getErrorEmail(); ?></div>
+      
+			<input class = colSignUp type="password" placeholder="Password" name = "password"/>
+      
+      <input class = colSignUp type="password" placeholder="Confirm your password" name = "confirmPassword"/>
+      <div id="email" class = "warning"><?php echo $this->model->getErrorPassword(); ?></div>
+      <div id="email" class = "warning"><?php echo $this->model->getErrorConfirmPassword(); ?></div>
+      <div id="email" class = warning"><?php echo $this->model->getErrorConfirmation(); ?></div>
+      <input class = "colSignUp" type="text" placeholder="Phone Number" name = "phone1"/>
+      <input class = "colSignUp" type="text" placeholder = "Alternative Phone Number" name = "phone2"/>
+      <div id="email" class="warning"><?php echo $this->model->getErrorPhone1(); ?></div>
+      <input class = "colSignUp" type="text" placeholder = "Home Address" name = "address1"/>
+      <input class = "colSignUp" type="text" placeholder = "Alternative Home Address" name = "address2"/>
+      <div id="email" class="warning"><?php echo $this->model->getErrorAddress1(); ?></div>
+      <button type = submit name = regular>Register</button>
+		</form>
+    <form id = "socialForm" class = "hidden" action="" method = "POST">
+      <h1>Welcome</h1>
+      <span>Please continue the registration form.</span>
+      <input class = "facebookData mainSignUp" type="text" name = "emailFacebook2" id = "emailFacebook" value = "<?php echo "FaceBook Email: " . $this->model->getEmail()?>" disabled />
+      <input class = "facebookData mainSignUp" type="text" name = "myNameFacebook2" id = "name" value = "<?php echo "FaceBook Name: " . $this->model->getName()?>" disabled/>
+      
+      <input class = "facebookData mainSignUp" type="hidden" name = "emailFacebook" id = "emailFacebook2" />
+      <input class = "facebookData mainSignUp" type="hidden" name = "myNameFacebook" id = "name2" />
+      <hr>
+      <input class = colSignUp type="password" placeholder = "Password" name = "password"/>
+      <input class = colSignUp type="password" placeholder = "Confirm Password" name = "confirmPassword"/>
+      <div id="email" class = "warning"><?php echo $this->model->getErrorPassword(); ?></div>
+      <div id="email" class = "warning"><?php echo $this->model->getErrorConfirmPassword(); ?></div>
+      <div id="email" class = warning"><?php echo $this->model->getErrorConfirmation(); ?></div>
+      <input class = colSignUp type="text" placeholder="Phone Number" name = "phone1"/>
+      <input class = colSignUp type="text" placeholder = "Alternative Phone Number" name = "phone2"/>
+      <div id="email" class="warning"><?php echo $this->model->getErrorPhone1(); ?></div>
+      <input class = colSignUp type="text" placeholder = "Home Address" name = "address1"/>
+      <input class = colSignUp type="text" placeholder = "Alternative Home Address" name = "address2"/>
+      <div id="email" class="warning"><?php echo $this->model->getErrorAddress1(); ?></div>
+      <button type = submit name = "submitFacebook" value = "facebook">Sign In</button>
+    </form>
+	</div>
+	<div class="overlay-container">
+		<div class="overlay">
+			<div class="overlay-panel overlay-right">
+				<h1>Already Registered?</h1>
+				<p>Click the button below to sign in</p>
+				<button class="ghost" onclick = "window.location.replace('<?php echo URLROOT . 'pages/signin'; ?>')">Sign In</button>
+			</div>
+		</div>
+	</div>
+</div>
+        </body>
+        
+<script>
+  
+    function statusChangeCallback(response) {
+                if (response.status === 'connected') {
+                    FB.api('/me',{ locale: 'en_US', fields: 'name, email' }, function (response) {
+                        console.log('Successful login for: ' + response.email);
+                        $.post("",{id: "signin" , email: response.email}).done((data) =>{
+                          if(data != "false"){
+                            $('#form').css('display', 'none')
+                            $('#socialForm').css('display', 'block')
+                            $('#emailFacebook').val('Facebook Email: ' + response.email);
+                            $('#name').val('Facebook Name: ' + response.name);
+                            $('#emailFacebook2').val(response.email)
+                            $('#name2').val(response.name)
+                            
+                            }
+                        })
+                    });
+                } else {
+                    // The person is not logged into your app or we are unable to tell.
+                    document.getElementById('status').innerHTML = 'Please log ' +
+                      'into this app.';
+                }
+            }
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1921176278089033',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v13.0'
+    });
+      
+    FB.AppEvents.logPageView();   
+    
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+    function checkLoginState() {
+      FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+        // alert(response.name);
+      });
+    }
+</script>
            
             </body>
+            
          <?php
     }
 }

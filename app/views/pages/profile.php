@@ -31,9 +31,8 @@ class profile extends View{
                         <form action="" method="post">
                             <p>
                             First Name:&nbsp;&nbsp;&nbsp;
-                            <input type="text" name = "fname" value = "<?php echo $profileData['fname']; ?>"><br><br>
-                            Last Name:&nbsp;&nbsp;&nbsp;
-                            <input type="text" name = "lname" value = "<?php echo $profileData['lname']; ?>"><br><br>
+                            <input type="text" name = "name" value = "<?php echo $profileData['fullName']; ?>"><br><br>
+                            
                             Phone Number 1:&nbsp;&nbsp;&nbsp;
                             <input type="text" name = "phone1" value = "<?php echo $profileData['phoneNumber1']; ?>"><br><br>
                             Alternative Phone Number:&nbsp;&nbsp;&nbsp;

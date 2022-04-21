@@ -33,9 +33,28 @@ class Pages extends Controller{
     }
     public function signin(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            if(isset($_POST['id']) && $_POST['id'] === 'signin'){
+                $email = $_POST['email'];
+                $model = $this->getModel();
+                $model->setemail($email);
+                $result = $model->facebookSignIn();
+                if(!$result)
+                    echo 'false';
+                else
+                    if($row = $result){
+                        $session = new Session();
+                        $session->setSession("ID",$row['ID']);
+                        $session->setSession("email",$row['email']);
+                        echo ($row['userRole'] === "ADMIN")? URLROOT . "dashboard/home": URLROOT . "pages/index";  
+                    }
+
+                return;
+            }
+            else{
             $email = $_POST['email'];
             // $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
             $password = $_POST['password'];
+            if(!empty($email) && !empty($password)){
             $signInModel = $this->getModel();
             $signInModel->setemail($email);
             $signInModel->setpassword($password);
@@ -43,6 +62,7 @@ class Pages extends Controller{
             if($result !== false){
                 if($row = $result){
                     $session = new Session();
+                    
                     $session->setSession("ID",$row['ID']);
                     $session->setSession("email",$row['email']);
                     if($row['userRole'] === "CUSTOMER")
@@ -54,7 +74,12 @@ class Pages extends Controller{
             else{
                 echo "<script>alert('Username or password is incorrect')</script>";
             }
-        }
+            }
+            else{
+                $this->getModel()->setErrorEmail('*Please enter your email');
+                $this->getModel()->setErrorPassword('*Please enter your password');
+            }
+        }}
         $viewPath = VIEWSPATH . 'pages/signin.php';
         require_once $viewPath;
         $testView = new signin($this->getModel(), $this);
@@ -62,30 +87,102 @@ class Pages extends Controller{
     }
     public function signup(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $email = $_POST['email'];
+            $signUp = $this->getModel();
+            
             // $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
             $password = $_POST['password'];
-            $fname = $_POST['fname'];
-            $lname = $_POST['lname'];
-            $homeAddress1 = $_POST['homeAddress1'];
-            $homeAddress2 = $_POST['homeAddress2'];
-            $phoneNumber1 = $_POST['phoneNumber1'];
-            $phoneNumber2 = $_POST['phoneNumber2'];
-            $signUp = $this->getModel();
-            $signUp->setemail($email);
+            $confirmNewPassword = $_POST['confirmPassword'];
+            $homeAddress1 = $_POST['address1'];
+            $homeAddress2 = $_POST['address2'];
+            $phoneNumber1 = $_POST['phone1'];
+            $phoneNumber2 = $_POST['phone2'];
+            $signUp->setConfirmPassword($confirmNewPassword);
             $signUp->setpassword($password);
-            $signUp->setfname($fname);
-            $signUp->setlname($lname);
             $signUp->sethomeaddress1($homeAddress1);
             $signUp->sethomeaddress2($homeAddress2);
             $signUp->setphonenumber1($phoneNumber1);
             $signUp->setphonenumber2($phoneNumber2);
-            $result = $signUp->register();
-            if($result === true){
-                redirect("pages/index");
+            $error = false;
+            // echo "<script>alert('Facebook')</script>";
+            if(isset($_POST['submitFacebook'])){
+                $fullName = $_POST['myNameFacebook'];
+                $email = $_POST['emailFacebook'];
+                $signUp->setName($fullName);
+                $signUp->setemail($email);
+                $error = false;
+                if(!$signUp->repeatEmail()){
+                    $error = true;
+                    redirect('pages/signin');
+                }
+                if(!$signUp->checkPassword() || empty($password) || empty($confirmNewPassword) || $password != $confirmNewPassword || (empty($phoneNumber1) && empty($phoneNumber2)) || empty($homeAddress1) && empty($homeAddress2)){
+                    $error = true;
+                    $signUp->setSocialError('*Something wrong with the data given. Please Sign Up Again and check you enter all data needed');
+                }
+                if(!$error){
+                    $result = $signUp->register();
+                    if($result === true){
+                        redirect("pages/signin");
+                    }
+                    else{
+                        echo "<script>alert('error')</script>";
+                    }
+                }
             }
-            else{
-                echo "<script>alert('error')</script>";
+            else if(isset($_POST['regular'])){
+                $fullName = $_POST['myName'];
+                $email = $_POST['email'];
+                $signUp->setName($fullName);
+                $signUp->setemail($email);
+                //Check If email already used
+                if(!$signUp->validateEmail()){
+                    $error = true;
+                    $signUp->setErrorEmail('*Email is invalid');
+                }
+                if(!$signUp->repeatEmail()){
+                    $error = true;
+                    $signUp->setErrorEmail('*Email already used. Sign in instead');
+                }
+                if(empty($email)){
+                    $error = true;
+                    $signUp->setErrorEmail('*REQUIRED: Please Enter an email');
+                }
+                if(empty($fullName)){
+                    $error = true;
+                    $signUp->setErrorName('*REQUIRED: Please enter your name');
+                }
+                if(!$signUp->checkPassword()){
+                    $error = true;
+                    $signUp->setErrorPassword('*Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.');
+                }
+                if(empty($password)){
+                    $error = true;
+                    $signUp->setErrorPassword('*REQUIRED: Please enter your password');
+                }
+                if(empty($confirmNewPassword)){
+                    $error = true;
+                    $signUp->setErrorConfirmPassword('*REQUIRED: Please confirm your password');
+                }
+                if($password != $confirmNewPassword){
+                    $error = true;
+                    $signUp->setErrorConfirmation('Confirmation of the password is different to the password written');
+                }
+                if(empty($phoneNumber1) && empty($phoneNumber2)){
+                    $error = true;
+                    $signUp->setErrorPhone1('*REQUIRED: Please Enter at least one phone Number');
+                }
+                if(empty($homeAddress1) && empty($homeAddress2)){
+                    $error = true;
+                    $signUp->setErrorAddress1('*REQUIRED: Please enter at least one address');
+                }
+                if(!$error){
+                    $result = $signUp->register();
+                    if($result === true){
+                        redirect("pages/signin");
+                    }
+                    else{
+                        echo "<script>alert('error')</scrip>";
+                    }
+                }
             }
         }
         $viewPath = VIEWSPATH . 'pages/signup.php';
@@ -114,14 +211,19 @@ class Pages extends Controller{
             if(isset($_POST['submitPersonal'])){
                 $fname = $_POST['fname'];
                 $lname = $_POST['lname'];
+                $name = $_POST['name'];
                 $phone1 = $_POST['phone1'];
                 $phone2 = $_POST['phone2'];
                 $error = false;
-                if(empty($fname) || empty($lname) || empty($phone1) || empty($phone2))
+                if(empty($name)){
                     $error = true;
+                }
+                if((empty($phone1) || empty($phone2))){
+                    $error = true;
+                }
                 if(!$error){
                     $model = $this->getModel();
-                    $result = $model->updatePersonal($_SESSION['ID'],$fname, $lname, $phone1,$phone2);
+                    $result = $model->updatePersonal($_SESSION['ID'],$name, $phone1,$phone2);
                     if($result){
                         redirect('pages/profile');
                     }

@@ -13,7 +13,21 @@ class signinModel extends Model{
     private $userRole;
     private $homeAddress1;
     private $homeAddress2;
+    private $errorEmail;
+    private $errorPassword;
 
+    public function setErrorEmail($errorEmail){
+        $this->errorEmail = $errorEmail;
+    }
+    public function setErrorPassword($errorPassword){
+        $this->errorPassword = $errorPassword;
+    }
+    public function getErrorEmail(){
+        return $this->errorEmail;
+    }
+    public function getErrorPassword(){
+        return $this->errorPassword;
+    }
     public function setid($ID) {
     $this->ID = $ID;
     }
@@ -76,7 +90,15 @@ class signinModel extends Model{
     }
     public function gethomeAddress2() {
         return $this->homeAddress2;
-    }      
+    }   
+    public function facebookSignIn(){
+        $result = $this->database->query("SELECT * FROM users WHERE email = '{$this->email}'");
+        $rows = mysqli_num_rows($result);
+        if($rows === 0){
+            return false;
+        }
+        return $result->fetch_assoc();
+    }   
                         
     public function signin(){
         $result = $this->database->query("SELECT * FROM users WHERE email = '{$this->email}' AND pswrd = '{$this->pswrd}'");
@@ -85,7 +107,8 @@ class signinModel extends Model{
             return false;
         }
         return $result->fetch_assoc();
-    }                    
+    } 
+                       
 }
 
 ?>

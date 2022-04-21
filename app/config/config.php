@@ -6,7 +6,7 @@ define('DATABASEPASSWORD','');
 define('DATABASENAME','timsrawhoney');
 
 define('APPROOT', dirname(dirname(__FILE__)));
-define('URLROOT','http://localhost/TimsRawHoney/public/');
+define('URLROOT','https://localhost/TimsRawHoney/public/');
 define('SITENAME','Tims Raw Honey');
 define('VIEWSPATH','../app/views/');
-define('IMAGEROOT','http://localhost/TimsRawHoney/public/images/');
+define('IMAGEROOT','https://localhost/TimsRawHoney/public/images/');

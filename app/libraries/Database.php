@@ -10,12 +10,13 @@ class Database{
     private $result;
 
     public function __construct(){
+        
         $this->connection = new mysqli($this->host, $this->user, $this->password,$this->dbname);
         if(!$this->connection)
             $this->triggerError($this->connection->error);
         
 
-        $this->createDatabase();
+        // $this->createDatabase();
         $this->createUserTable();
         $this->createProductTable();
         $this->createOrderTable();
@@ -30,13 +31,13 @@ class Database{
     //FUNCTIONS
     public function createDatabase(){
         $this->statement = "CREATE DATABASE IF NOT EXISTS timsrawhoney;";
+        // $this->exec("CREATE DATABASE IF NOT EXISTS timsrawhoney;");
         $this->execute(0);
     }
     public function createUserTable(){
         $this->statement = "CREATE TABLE IF NOT EXISTS users(
             ID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
-            fname VARCHAR(30),
-            lname VARCHAR(30),
+            fullName VARCHAR(30),
             email VARCHAR(128),
             pswrd VARCHAR(30),
             phoneNumber1 VARCHAR(30),
@@ -168,6 +169,11 @@ class Database{
         //     echo $this->triggerError($this->connection->error);
         //     echo "<script>alert('error')</script>";
         // }
+        if($result === 1)
+            return $this->result->fetch_assoc();
+    }
+    public function exec($statement,$result = 0){
+        $this->result = $this->connection->query($statement);
         if($result === 1)
             return $this->result->fetch_assoc();
     }

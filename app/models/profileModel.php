@@ -46,8 +46,8 @@ class profileModel extends Model{
         $result = $this->database->query("DELETE FROM users WHERE ID = '$ID'");
         return ($result)?true:false;
     }
-    public function updatePersonal($ID,$fname,$lname, $phone1, $phone2){
-        $result = $this->database->query("UPDATE users SET fname = '$fname',lname = '$lname', phoneNumber1 = '$phone1',phoneNumber2 = '$phone2' WHERE ID = $ID ");
+    public function updatePersonal($ID,$name, $phone1, $phone2){
+        $result = $this->database->query("UPDATE users SET fullName = '$name', phoneNumber1 = '$phone1',phoneNumber2 = '$phone2' WHERE ID = $ID ");
         return ($result)?true:false;
     }
     public function updateSecurity($ID,$email,$password){
