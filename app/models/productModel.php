@@ -6,6 +6,12 @@ class productModel extends Model{
     public function getimage(){
         return IMAGEROOT . 'jarr3.png' ;
     }
+    public function getCost(){
+        return 90;
+    }
+    public function getOffer(){
+        return 75;
+    }
 }
 
 

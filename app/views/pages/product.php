@@ -5,6 +5,8 @@ public function output(){
     $title = $this->model->title;
      require_once APPROOT . "/views/inc/header.php";
     $Image=$this->model->getimage();
+    $cost=$this->model->getCost();
+    $offer =$this->model->getOffer();
 ?>
 <html>
 <head>   
@@ -39,8 +41,8 @@ public function output(){
         <div class="product_info">
           <h1>Immune Formula</h1>
           <div class="price">
-          <h2 class="original_price">$90</h2>
-          <h2 class="sale_price">$75</h2>
+          <h2 class="original_price"><?php echo $cost?></h2>
+          <h2 class="sale_price"><?php echo $offer?></h2>
           </div>
           <div class="rating">
             <i class="fa fa-star fa-3x"></i><i class="fa fa-star fa-3x"></i><i class="fa fa-star fa-3x"></i><i class="fa fa-star-half-o fa-3x"></i><i class="fa fa-star-o fa-3x"></i>
