@@ -4,7 +4,7 @@ class product extends View{
 public function output(){
     $title = $this->model->title;
      require_once APPROOT . "/views/inc/header.php";
-
+    $Image=$this->model->getimage();
 ?>
 <html>
 <head>   
@@ -22,17 +22,17 @@ public function output(){
       <div class="top">
       <div class="product_images">
         <div class="product_image_1">
-        <img src = "<?php echo IMAGEROOT . 'jarr3.png' ; ?>" /> 
+        <img src = "<?php echo $Image ; ?>" /> 
         </div>
         <div class="product_image_small">
           <div class="product_image_2">
-          <img src = "<?php echo IMAGEROOT . 'jarr3.png' ; ?>" /> 
+          <img src = "<?php echo $Image ; ?>" /> 
           </div>
                     <div class="product_image_3">
-                    <img src = "<?php echo IMAGEROOT . 'jarr3.png' ; ?>" /> 
+                    <img src = "<?php echo $Image ; ?>" /> 
           </div>
                     <div class="product_image_4">
-                    <img src = "<?php echo IMAGEROOT . 'jarr3.png' ; ?>" /> 
+                    <img src = "<?php echo $Image ; ?>" /> 
           </div>
         </div>
         </div>
