@@ -7,6 +7,8 @@ public function output(){
     $Image=$this->model->getimage();
     $cost=$this->model->getCost();
     $offer =$this->model->getOffer();
+    $material= $this->model->getMaterial();
+    $size=$this->model->getSize();
 ?>
 <html>
 <head>   
@@ -60,17 +62,17 @@ Propolis is a natural compount that bees produce from the sap on needle-leaved t
          
                  <div class="select">
                  <select id="color">
-                   <option value = "1">Glass</option>
-                   <option value = "2">Plastic</option>
+                   <option value = "1"><?php echo $material[0][0] ?></option>
+                   <option value = "2"><?php echo $material[0][1] ?></option>
                    
                  </select>
                  </div>
                  <div class="select">
                  <select id="size">
-                   <option value = "1">Small</option>
-                   <option value = "2">Medium</option>
-                   <option value = "3">Large</option>
-                   <option value = "4">X-Large</option>
+                   <option value = "1"><?php echo $size[0][0]?></option>
+                   <option value = "2"><?php echo $size[0][1]?></option>
+                   <option value = "3"><?php echo $size[0][2]?></option>
+                   <option value = "4"><?php echo $size[0][3]?>e</option>
                  </select>
                  </div>
           </div>

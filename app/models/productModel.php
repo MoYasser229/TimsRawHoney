@@ -12,6 +12,13 @@ class productModel extends Model{
     public function getOffer(){
         return 75;
     }
+    public function getMaterial(){
+    return array(["Glass","Plastic"]);
+    }
+    public function getSize(){
+        return array(["Small","Medium","Large","XLarge"]);
+    }
+
 }
 
 
