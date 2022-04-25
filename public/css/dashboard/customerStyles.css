@@ -81,3 +81,15 @@
         padding: 0;
     }
 }
+.tableData{
+    /* border: 1px solid #fab637; */
+    padding: 10px;
+    text-align: center;
+}
+.tableData hr{
+    width: 50%;
+    opacity: 0.5;
+}
+.tableData .data{
+    margin-left: 15px;
+}

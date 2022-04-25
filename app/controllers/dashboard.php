@@ -50,4 +50,21 @@ class dashboard extends Controller{
         $surveyView = new Survey($this->getModel(), $this);
         $surveyView->output();  
     }
+    public function ajax(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            //  print_r($_POST);
+            $search = $_POST['searchData'];
+            $model = $_POST['modelData'];
+            $model = $model . "Model";
+            require_once APPROOT . "/models/$model.php";
+            $mod = new $model();
+            $mod->setCustomers($search);
+            $mod->viewCustomers();
+            
+        }
+        $ajaxPath = VIEWSPATH . 'ajax/search.php';
+        require_once $ajaxPath;
+        $surveyView = new ajax($this->getModel(), $this);
+        $surveyView->output();  
+    }
 }
