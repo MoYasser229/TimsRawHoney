@@ -26,10 +26,36 @@ class Pages extends Controller{
     }
 
     public function product(){
-        $viewPath = VIEWSPATH . 'pages/product.php';
-        require_once $viewPath;
-        $testView = new product($this->getModel(), $this);
-        $testView->output();
+        // habd
+        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+            // if(isset($_POST['ShowButton'])){
+            //     $product->setButtonShow($_POST['ShowButton']);
+            //     $product->setID($_POST['CardID']);
+            //     echo($product->button());
+            // }
+            
+           
+                 if(isset($_POST['review'])){
+                    echo " <div class='content'>
+                       <span class='name'>{$this->model->getName($_SESSION['ID'])}</span><span class='stars'><i class='fa fa-star fa-2x'></i><i class='fa fa-star fa-2x'></i><i class='fa fa-star fa-2x'></i><i class='fa fa-star-half-o fa-2x'></i><i class='fa fa-star-o fa-2x'></i></span>
+                       <p class='review_text'>{$_POST['review']}</p>
+                       <!-- <p class='fullReview'><a href='#'>View Full Review</a></p> -->
+                    </div><br>" ;
+                 }
+                
+
+        }else{
+            $viewPath = VIEWSPATH . 'pages/product.php';
+            require_once $viewPath;
+            $testView = new product($this->getModel(), $this);
+            $testView->output();
+        }
+        // habd
+        // $viewPath = VIEWSPATH . 'pages/product.php';
+        // require_once $viewPath;
+        // $testView = new product($this->getModel(), $this);
+        // $testView->output();
     }
     public function signin(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -278,6 +304,23 @@ class Pages extends Controller{
         require_once $profilePath;
         $profile = new Profile($this->getModel(), $this);
         $profile->output();
+    }
+    public function ajax(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            //  print_r($_POST);
+            // $search = $_POST['searchData'];
+             $model = $_POST['modelData'];
+             $model = $model . "Model";
+            require_once APPROOT . "/models/$model.php";
+            $mod = new $model();
+            // $mod->setCustomers($search);
+            // $mod->viewCustomers();
+            
+        }
+        $ajaxPath = VIEWSPATH . 'ajax/review.php';
+        require_once $ajaxPath;
+        // $surveyView = new ajax($this->getModel(), $this);
+        // $surveyView->output();  
     }
     }
     

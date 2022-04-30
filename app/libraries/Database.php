@@ -92,8 +92,12 @@ class Database{
         $this->statement = "CREATE TABLE IF NOT EXISTS review(
             reviewID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
             customerID INT(6) NOT NULL,
+            productID INT(6) NOT NULL,
             stars INT(10) NOT NULL,
-            FOREIGN KEY (customerID) REFERENCES users(ID)
+            reviewText VARCHAR(255),
+            createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (customerID) REFERENCES users(ID),
+            FOREIGN KEY (productID) REFERENCES products(ID)
         )";
         $this->execute(0);
     }

@@ -303,3 +303,7 @@ img{
 @media (max-width:500px){
   #product_layout_1 .product_images,#product_layout_1 .product_info,#product_layout_1 .reviews,#product_layout_1 .related,#product_layout_1 .product_info .buying,#product_layout_1 .product_info .buying_options, #product_layout_1 .product_info .social{width:100%; margin-left:0;margin-right:0} 
 }
+.star-light
+{
+    color:#e9ecef;
+}

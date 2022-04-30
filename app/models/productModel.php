@@ -18,6 +18,11 @@ class productModel extends Model{
     public function getSize(){
         return array(["Small","Medium","Large","XLarge"]);
     }
+    public function getName($ID){
+        
+        $result = $this->database->query("SELECT * FROM users WHERE ID= $ID");
+        return $result -> fetch_assoc()['fullName'];
+    }
 
 }
 
