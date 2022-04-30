@@ -63,6 +63,9 @@ body{
 .address{
   display: none;
 }
+.promo{
+  display: none;
+}
 .delete{
   display: none;
 }
@@ -157,4 +160,18 @@ body{
   color: white;
   font-size: 20px;
   margin-top: 50px;
+}
+.promoItem h2{
+  color: #F7CE68;
+}
+.promoItem span{
+  color: gray;
+  font-weight: 300;
+  transition: all 0.2s ease-in-out;
+}
+.promoItem span:hover{
+  font-weight: 600;
+}
+.promoItem h4{
+  color: red;
 }

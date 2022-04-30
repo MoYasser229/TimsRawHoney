@@ -55,8 +55,9 @@
 }
 .searchContainer{
     background-color: white;
-    width: 30%;
+    /* width: 30%; */
     margin-left: 10%;
+    margin-right: 10%;
     padding: 10px;
     margin-top: 10px;
 }
@@ -68,6 +69,7 @@
     border: none;
     height: 2px;
     background-color: #fab637;
+    margin-bottom: 20px;
 }
 @media screen and (max-width: 1024px){
     .gridCards{
@@ -76,6 +78,11 @@
         padding: 0;
     }
     .gridCustomer{
+        grid-template-columns: 1fr;
+        margin: 0;
+        padding: 0;
+    }
+    .gridPromo{
         grid-template-columns: 1fr;
         margin: 0;
         padding: 0;
@@ -92,4 +99,203 @@
 }
 .tableData .data{
     margin-left: 15px;
+}
+#search{
+    margin-right: 10px;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    border-bottom: 2px solid #fab637;
+    color: black;
+    font-size: 30px;
+}
+#search::placeholder{
+    color: black;
+}
+#searchButton{
+    outline: none;
+    border: none;
+    background-color: #F7CE68;
+    color: white;
+    padding: 10px;
+    font-size: 30px;
+    transition: all 0.2s ease-in-out;
+    border-radius: 15px;
+    margin-right: 100px;
+
+}
+#searchButton:hover{
+    color: #FBAB7E;
+    background-color: white;
+    background-image: none;
+}
+.centerized{
+    text-align: center;
+    margin-bottom: 20px;
+}
+select{
+    outline: none;
+    border:none;
+    border-bottom: 2px solid #fab637;
+    margin-right: 30px;
+    font-size: 20px;
+    padding: 10px;
+}
+option{
+    background-color: #FBAB7E;
+    color: white;
+    /* background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%); */
+}
+option:hover{
+    background-color: white;
+    /* color:black; */
+}
+option:checked{
+    background-color:white;
+    color: black
+}
+.PromoMain{
+    background-color: white;
+    width: 80%;
+    margin-left: 10%;
+    padding: 10px;
+}
+.PromoMain h1{
+    color: #F7CE68;
+
+}
+.PromoMain hr{
+    border: none;
+    outline: none;
+    background-color: #fab637;
+    height: 3px;
+}
+.PromoMain p{
+    color: gray;
+}
+.gridPromo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    width: 80%;
+    margin-left: 10%;
+}
+.promoCard{
+    background-color: white;
+    padding: 30px;
+}
+.promoCard h2{
+    color: #FBAB7E;
+}
+.promoCard h3{
+    color: gray
+}
+.promoCard button{
+    outline: none;
+    border: none;
+    color: white;
+    background-color: #FBAB7E;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+}
+.promoCard button:hover{
+    background-color: red;
+}
+.promoCard .extendPromo:hover{
+    background-color: green;
+}
+.promoCard label{
+    line-height: 50px;
+    color: rgb(97, 97, 97);
+    font-family: arial;
+    font-size: 15px;
+    user-select: none;
+}
+.promoCard hr{
+    outline: none;
+    border: none;
+    background-color: #F7CE68;
+    height: 3px;
+}
+.PromoGen{
+    background-color: white;
+    width: 80%;
+    margin-left: 10%;
+    padding: 10px;
+}
+.PromoGen h1{
+    color: #FBAB7E;
+
+}
+.PromoGen .promoInput{
+    outline: none;
+    border: 2px solid #fab637;
+    color: gray;
+    font-size: 20px;
+    padding: 10px;
+}
+.PromoGen  span{
+    user-select: none;
+    color: gray;
+    border: 2px solid #fab637;
+    padding: 10px;
+    font-size: 20px;
+    transition: all 0.2s ease-in-out;
+}
+.PromoGen  span:hover{
+    color: white;
+    background-color: #FBAB7E;
+    padding: 12px;
+}
+.PromoGen  button{
+    outline: none;
+    border: none;
+    color: white;
+    background-color: #FBAB7E;
+    padding: 10px;
+    font-size: 20px;
+    transition: all 0.2s ease-in-out;
+}
+.PromoGen  button:hover{
+    padding: 12px;
+}
+.PromoGen .daysInput{
+    border: 2px solid #fab637;
+    width: 30%;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+.PromoGen .daysInput input{
+    border: none;
+    outline: none;
+    background: white;
+    font-size: 20px;
+    color: gray;
+    /* width: 80%; */
+    padding: 10px;
+    
+    
+}
+.PromoGen .daysInput .defspan{
+    color: rgb(105, 105, 105);
+    border-left: 2px solid #fab637;
+    height:100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+.PromoGen label{
+    line-height: 50px;
+    color: rgb(97, 97, 97);
+    font-family: arial;
+    font-size: 15px;
+    user-select: none;
+}
+#warning{
+    color: red;
+    margin-top: 10px;
 }

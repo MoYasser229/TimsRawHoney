@@ -20,10 +20,54 @@ class dashboard extends Controller{
         $salesView->output();
     }
     public function customer(){
-        $customerPath = VIEWSPATH . 'dashboard/customer.php';
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            
+            if(isset($_POST['promoCode'])){
+                $promoCode = $_POST['promoCode'];
+                $discount = $_POST['discount'];
+                $length = $_POST['length'];
+                $error = true;
+                if(empty($discount) || $discount > 100){
+                    echo "falseDiscount";
+                    $error = false;
+                }
+                if (empty($promoCode)){
+                    echo "falsePromo";
+                    $error = false;
+                }
+                if($error){
+                    $this->model->insertPromo($promoCode, $discount,$length);
+                    $this->model->getPromo();
+                    $this->model->viewPromo();
+                }
+            }
+            if(isset($_POST['deleteid'])){
+                $id = $_POST['deleteid'];
+                $this->model->deletePromo($id);
+                $this->model->viewPromo();
+                
+            }
+            if(isset($_POST['extendid'])){
+                $id = $_POST['extendid'];
+                $length = $_POST['length'];
+                $this->model->extendPromo($id,$length);
+                $this->model->viewPromo();
+            }
+            if(isset($_POST['type'])){
+                $type = $_POST['type'];
+                $filter = $_POST['filter'];
+                $this->model->sortPromo($type,$filter);
+                $this->model->viewPromo();
+            }
+            // print_r( $_POST);
+        }
+        else{
+            $customerPath = VIEWSPATH . 'dashboard/customer.php';
         require_once $customerPath;
         $customerView = new Customer($this->getModel(), $this);
         $customerView->output();
+        }
+        
     }
     public function delivery(){
         $deliveryPath = VIEWSPATH . 'dashboard/delivery.php';
@@ -52,19 +96,22 @@ class dashboard extends Controller{
     }
     public function ajax(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            //  print_r($_POST);
-            $search = $_POST['searchData'];
+            
             $model = $_POST['modelData'];
             $model = $model . "Model";
             require_once APPROOT . "/models/$model.php";
             $mod = new $model();
-            $mod->setCustomers($search);
+            if(isset($_POST['searchData'])){
+                $type = $_POST['typeData'];
+                $filter = $_POST['filterData'];
+                $search = $_POST['searchData'];
+                $mod->setCustomers($search,$type,$filter);
+                
+            }
             $mod->viewCustomers();
             
+            
         }
-        $ajaxPath = VIEWSPATH . 'ajax/search.php';
-        require_once $ajaxPath;
-        $surveyView = new ajax($this->getModel(), $this);
-        $surveyView->output();  
+        
     }
 }

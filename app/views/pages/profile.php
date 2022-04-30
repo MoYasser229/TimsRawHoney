@@ -9,7 +9,11 @@ class profile extends View{
         $profileData = $profileModel->getUserData($_SESSION['ID']);
         $pendingOrders = $profileModel->getPendingOrders($_SESSION['ID']);
         $deliveredOrders = $profileModel->getDeliveredOrders($_SESSION['ID']);
-
+        foreach($profileData as $profile){
+            $profileData = $profile;
+            break;
+        }
+        
 
         require_once APPROOT . "/views/inc/header.php";
         ?>
@@ -22,6 +26,7 @@ class profile extends View{
                     <button id = "security" class = "myButton margin-bottom"><i class="fas fa-lock"></i><br>Security</button><br>
                     <button id = "orders" class = "myButton margin-bottom"><i class="fas fa-receipt"></i><br>My Orders</button><br>
                     <button id = "address" class = "myButton margin-bottom"><i class="fas fa-address-card"></i><br>My Address Book</button><br>
+                    <button id = "promo" class = "myButton margin-bottom"><i class="fa-solid fa-percent"></i><br>My Promo Codes</button><br>
                     <button id = "delete" class = "myButton"><i class="fas fa-trash"></i><br>Delete Account</button>
                 </div>
                 <div class="mainChild">
@@ -30,7 +35,7 @@ class profile extends View{
                         <hr class = "headerSeparator">
                         <form action="" method="post">
                             <p>
-                            First Name:&nbsp;&nbsp;&nbsp;
+                            Full Name:&nbsp;&nbsp;&nbsp;
                             <input type="text" name = "name" value = "<?php echo $profileData['fullName']; ?>"><br><br>
                             
                             Phone Number 1:&nbsp;&nbsp;&nbsp;
@@ -64,32 +69,32 @@ class profile extends View{
                         <h3 class = header>Pending Orders</h3>
                         <div class="gridView">
                             <?php 
-                            if(count($pendingOrders) === 0){
+                            if($pendingOrders === 0){
                                 echo "<h6>No Pending Orders</h6>";
                             }
                             else
-                                foreach($pendingOrders as $order){
+                                foreach ($pendingOrders as $order){
                                     echo "
-                                    <div class='gridCard'>
-                                    <h5>Order Serial: <strong>{$order['ID']}</strong></h5>
-                                    <hr>
-                                    <p>Order Total Price: <strong>{$order['orderTotalPrice']} EGP</strong></p>
-                                    <p>Order Items: <strong>{$order['quantity']} items</strong></p>
-                                    <p>Order status: <strong>PENDING</strong></p>
-                                    <p>Order Date: <strong>{$order['createdAt']}</strong></p>
-                                    <form method='post' action = ''>
-                                    <button type = 'submit' name = 'viewOrder' value = '{$order['ID']}'>View Order</button>
-                                    </form>
-                                    </div>
+                                        <div class='gridCard'>
+                                        <h5>Order Serial: <strong>{$order['ID']}</strong></h5>
+                                        <hr>
+                                        <p>Order Total Price: <strong>{$order['orderTotalPrice']} EGP</strong></p>
+                                        <p>Order Items: <strong>{$order['quantity']} items</strong></p>
+                                        <p>Order status: <strong>{$order['deliveryStatus']}</strong></p>
+                                        <p>Order Date: <strong>{$order['createdAt']}</strong></p>
+                                        <form method='post' action = ''>
+                                        <button type = 'submit' name = 'viewOrder' value = '{$order['ID']}'>View Order</button>
+                                        </form>
+                                        </div>
                                     ";
-                                } ?>
-                            
+                                }
+                             ?>
                         </div>
                         <br>
                         <h3 class = header>Delivered Orders</h3>
                         <div class="gridView">
                         <?php 
-                            if(count($deliveredOrders) === 0){
+                            if($deliveredOrders === 0){
                                 echo "<h6>No Previous Delivered Orders</h6>";
                             }
                             else
@@ -100,7 +105,7 @@ class profile extends View{
                                     <hr>
                                     <p>Order Total Price: <strong>{$order['orderTotalPrice']} EGP</strong></p>
                                     <p>Order Items: <strong>{$order['quantity']} items</strong></p>
-                                    <p>Order status: <strong>PENDING</strong></p>
+                                    <p>Order status: <strong>{$order['deliveryStatus']}</strong></p>
                                     <p>Order Date: <strong>{$order['createdAt']}</strong></p>
                                     <form method='post' action = ''>
                                     <button type = 'submit' name = 'viewOrder' value = '{$order['ID']}'>View Order</button>
@@ -127,6 +132,30 @@ class profile extends View{
                             <button class = "submitButton" type="submit" name = "submitAddress">UPDATE</button>
                         </form>
                     </div>
+                    <div class="promo">
+                        <h1 class="header">PROMO CODES</h1>
+                        <hr class="headerSeparator">
+                        <div class="promoItem">
+                            <?php
+                                $promocodes = $this->model->getPromos();
+                                foreach($promocodes as $code){
+                                    if(strtotime(date("Y-m-d"))>strtotime($code['createdAt'])){
+                                        continue;
+                                    }
+                                    $dateDiff = floor((strtotime($code['createdAt']. "+ {$code['promoLength']} days") - strtotime(date("Y-m-d")))/86400);
+                                    echo "
+                                        <h2>{$code['promoValue']} Discount on items</h2>
+                                        <h3>Copy the code <span>{$code['promoCode']}</span> to use the discount</h3>
+                                        <h4>$dateDiff DAYS LEFT!</h4>
+                                        <hr>
+
+                                    ";
+                                }
+                            ?>
+                        </div>
+                        
+
+                    </div>
                     <div class="delete">
                         <h1 class = "header">Delete Account</h1>
                         <hr class = "headerSeparator">
@@ -147,6 +176,8 @@ class profile extends View{
                     $(".address").css("display", "none");
                     $(".delete").css("display", "none");
                     $(".personal").css("display", "block");
+                    $(".promo").css("display", "none");
+                    $("#promo").removeClass("selected");
                     $("#security").removeClass("selected");
                     $("#address").removeClass("selected");
                     $("#delete").removeClass("selected");
@@ -160,6 +191,8 @@ class profile extends View{
                     $(".address").css("display", "none");
                     $(".delete").css("display", "none");
                     $(".security").css("display", "block");
+                    $(".promo").css("display", "none");
+                    $("#promo").removeClass("selected");
                     $("#security").addClass("selected");
                     $("#address").removeClass("selected");
                     $("#delete").removeClass("selected");
@@ -172,6 +205,8 @@ class profile extends View{
                     $(".delete").css("display", "none");
                     $(".security").css("display", "none");
                     $(".orders").css("display", "block");
+                    $(".promo").css("display", "none");
+                    $("#promo").removeClass("selected");
                     $("#security").removeClass("selected");
                     $("#address").removeClass("selected");
                     $("#delete").removeClass("selected");
@@ -184,6 +219,8 @@ class profile extends View{
                     $(".security").css("display", "none");
                     $(".orders").css("display", "none");
                     $(".address").css("display", "block");
+                    $(".promo").css("display", "none");
+                    $("#promo").removeClass("selected");
                     $("#security").removeClass("selected");
                     $("#address").addClass("selected");
                     $("#delete").removeClass("selected");
@@ -196,9 +233,25 @@ class profile extends View{
                     $(".orders").css("display", "none");
                     $(".address").css("display", "none");
                     $(".delete").css("display", "block");
+                    $(".promo").css("display", "none");
+                    $("#promo").removeClass("selected");
                     $("#security").removeClass("selected");
                     $("#address").removeClass("selected");
                     $("#delete").addClass("selected");
+                    $("#orders").removeClass("selected");
+                    $("#personal").removeClass("selected");
+                })
+                $("#promo").click(function(){
+                    $(".personal").css("display", "none");
+                    $(".security").css("display", "none");
+                    $(".orders").css("display", "none");
+                    $(".address").css("display", "none");
+                    $(".delete").css("display", "none");
+                    $(".promo").css("display", "block");
+                    $("#promo").addClass("selected");
+                    $("#security").removeClass("selected");
+                    $("#address").removeClass("selected");
+                    $("#delete").removeClass("selected");
                     $("#orders").removeClass("selected");
                     $("#personal").removeClass("selected");
                 })

@@ -25,7 +25,7 @@ class Database{
         $this->createReviewTable();
         $this->createErrorTable();
         $this->createOffersTable();
-        $this->createProductTable();
+        $this->createPromoCodesTable();
         $this->createWishListTable();
     }
     //FUNCTIONS
@@ -63,9 +63,11 @@ class Database{
             ID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
             customerID INT(6) NOT NULL,
             quantity INT(10) NOT NULL,
+            promocodeid INT(10),
             orderTotalPrice INT(10) NOT NULL,
             createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (customerID) REFERENCES users(ID)
+            FOREIGN KEY (customerID) REFERENCES users(ID),
+            FOREIGN KEY (promocodeid) REFERENCES promocodes(promoID)
         )";
         $this->execute(0);
     }
@@ -117,6 +119,7 @@ class Database{
             campaignLength VARCHAR(30) NOT NULL,
             createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (productID) REFERENCES products(ID)
+            
         )";
         $this->execute(0);
     }
@@ -124,8 +127,10 @@ class Database{
         $this->statement = "CREATE TABLE IF NOT EXISTS promoCodes(
             promoID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
             promoCode VARCHAR(30) NOT NULL,
-            productID INT(6) NOT NULL,
-            FOREIGN KEY (productID) REFERENCES products(ID)
+            promoValue VARCHAR(10) NOT NULL,
+            promoLength VARCHAR(10) NOT NULL,
+            active INT(10) NOT NULL,
+            createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         )";
         $this->execute(0);
     }

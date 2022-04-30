@@ -235,8 +235,7 @@ class Pages extends Controller{
             $model = $this->getModel();
             
             if(isset($_POST['submitPersonal'])){
-                $fname = $_POST['fname'];
-                $lname = $_POST['lname'];
+                
                 $name = $_POST['name'];
                 $phone1 = $_POST['phone1'];
                 $phone2 = $_POST['phone2'];
@@ -244,10 +243,12 @@ class Pages extends Controller{
                 if(empty($name)){
                     $error = true;
                 }
-                if((empty($phone1) || empty($phone2))){
+                if((empty($phone1) && empty($phone2))){
                     $error = true;
                 }
+                
                 if(!$error){
+                    
                     $model = $this->getModel();
                     $result = $model->updatePersonal($_SESSION['ID'],$name, $phone1,$phone2);
                     if($result){
@@ -269,7 +270,17 @@ class Pages extends Controller{
                     $validation = true;
                     echo "<script>alert('Email is invalid')</script>";
                 }
-                if(empty($email) || empty($password) || empty($newPassword))
+                if(empty($password) || empty($newPassword)){
+                    $pass = $this->model->getOldPassword($_SESSION['ID']);
+                    $newPassword = $pass['pswrd'];
+                }
+                else if($this->model->getOldPassword($_SESSION['ID'])){
+                    $error = true;
+                }
+                else if(!$this->model->checkPassword($newPassword)){
+                    $error = true;
+                }
+                if(empty($email))
                     $error = true;
                 if($_POST['newPassword'] != $_POST['confirmNewPassword']){
                     $confirm = true;
@@ -282,7 +293,7 @@ class Pages extends Controller{
                     }
                 }
                 else if($error){
-                    echo "<script>alert('Email/Password is empty')</script>";
+                    echo "<script>alert('Email/Password is invalid')</script>";
                 }
             }
             if(isset($_POST['submitAddress'])){

@@ -5,7 +5,7 @@ class profileModel extends Model{
     public $css = URLROOT . "css/profileStyles.css";
     public $icon = IMAGEROOT . "icon/";
     public function getUserData($ID){
-        $result = $this->database->query("SELECT * FROM users WHERE ID = '$ID'")->fetch_assoc();
+        $result = $this->database->query("SELECT * FROM users WHERE ID = '$ID'");
         return $result;
 
     }
@@ -13,35 +13,34 @@ class profileModel extends Model{
 
     // }
     public function getPendingOrders($ID){
-        $result = $this->database->query("SELECT * FROM orders WHERE customerID = '$ID'")->fetch_assoc();
-        $pending = [];
-        while($row = $result){
-            $result2 = $this->database->query("SELECT * FROM deliveries WHERE orderID = '{$row['ID']}'")->fetch_assoc();
-            if($row1 = $result2){
-                if($row1['deliveryStatus'] == 'PENDING')
-                    $pending[] = $row1['deliveryStatus'];
-            }
+        $result = $this->database->query("SELECT * FROM orders,deliveries WHERE orders.customerID = $ID AND orders.ID = deliveries.orderID AND deliveries.deliveryStatus = 'PENDING'");
+        if(mysqli_num_rows($result) == 0){
+            return 0;
         }
-        return $pending;
+        return $result;
     }
     public function getDeliveredOrders($ID){
-        $result = $this->database->query("SELECT * FROM orders WHERE customerID = '$ID'")->fetch_assoc();
-        $delivered = [];
-        while($row = $result){
-            $result2 = $this->database->query("SELECT * FROM deliveries WHERE orderID = '{$row['ID']}'")->fetch_assoc();
-            if($row1 = $result2){
-                if($row1['deliveryStatus'] == 'DELIVERED')
-                    $delivered[] = $row1['deliveryStatus'];
-            }
+        $result = $this->database->query("SELECT * FROM orders,deliveries WHERE orders.customerID = $ID AND orders.ID = deliveries.orderID AND deliveries.deliveryStatus = 'DELIVERED'");
+        if(mysqli_num_rows($result) == 0){
+            return 0;
         }
-        return $delivered;
+        return $result;
     }
-    // public function getAddress(){
-
-    // }
-    // public function getAlternateAddress(){
-
-    // }
+    public function getPromos(){
+        $result = $this->database->query("SELECT * FROM promocodes WHERE active = '1'");
+        return $result;
+    }
+    public function getOldPassword($ID){
+        $result = $this->database->query("SELECT pswrd FROM users WHERE ID = '$ID'")->fetch_assoc();
+        return $result;
+    }
+    public function checkPassword($password){
+        $uppercase = preg_match('@|A-Z|@',$password);
+        $lowercase = preg_match('@|a-z|@',$password);
+        $number = preg_match('@|0-9|@',$password);
+        $specialChars = preg_match('@[^\w]@',$password);
+        return (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8)?false:true; 
+    }
     public function deleteAccount($ID){
         $result = $this->database->query("DELETE FROM users WHERE ID = '$ID'");
         return ($result)?true:false;

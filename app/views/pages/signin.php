@@ -10,6 +10,8 @@ class signin extends View{
           
           <link rel="stylesheet" href="<?php echo $css; ?>"/>
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+          <div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v13.0&appId=1921176278089033&autoLogAppEvents=1" nonce="CMIUeiCA"></script>
         </head>
         <body>
         <div id="fb-root"></div>
@@ -19,9 +21,14 @@ class signin extends View{
 		<form action="" onsubmit = "validate()" method = "POST">
 			<h1>Sign in</h1>
 			<div class="social-container">
+      <!-- <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"> -->
+        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+        </fb:login-button>
+      <!-- </div> -->
       
 				<!-- <a href="#" class="social link" onclick="checkLoginState()"><i class="fab fa-facebook-f"></i></a> -->
-				<a href="#" class="social link" onclick="checkLoginState()"><i class="fab fa-facebook-f"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign In with Facebook</a>
+        <!-- <div class="fb-login-button" onclick="checkLoginState()" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div> -->
+				<!-- <a href="#" class="social link" onclick="checkLoginState()"><i class="fab fa-facebook-f"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign In with Facebook</a> -->
       </div>
 			<span><div id="status"></div> or use your account  </span>
 			<input id = "emailText" type="email" placeholder="Email" name = "email"/>
