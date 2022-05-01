@@ -2,8 +2,8 @@
 
 .topContainer{
     background-color: white;
-    margin-right:5%;
-    margin-left: 5%;
+    margin-right:10%;
+    margin-left: 10%;
     height: 25%;
     /* text-align: center; */
     padding: 10px;
@@ -41,16 +41,17 @@
     color:#263238;
     border: 6px solid #F7CE68;
     border-radius: 15px;
-    height: 300px;
+    /* height: 300px; */
+    padding: 10px;
     display: flex;
     justify-content:center;
     align-items:center;
 }
 .card h1{
-    font-size: 50px;
+    font-size: 30px;
 }
 .card p{
-    font-size: 30px;
+    font-size: 20px;
 }
 .tableClass{
     margin-left: 10%;

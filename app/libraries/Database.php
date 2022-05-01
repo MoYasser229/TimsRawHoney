@@ -16,7 +16,7 @@ class Database{
             $this->triggerError($this->connection->error);
         
 
-        // $this->createDatabase();
+        $this->createOrderItemsTable();
         $this->createUserTable();
         $this->createProductTable();
         $this->createOrderTable();
@@ -52,8 +52,10 @@ class Database{
         $this->statement = "CREATE TABLE IF NOT EXISTS products(
             ID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
             productName VARCHAR(30),
-            productCost INT(10) NOT NULL,
+            retailCost INT(10) NOT NULL,
+            manifactureCost INT(10) NOT NULL,
             productStock INT(10) NOT NULL,
+            productImage VARCHAR(124) NOT NULL,
             productDescription VARCHAR(255) NOT NULL
         )";
         $this->execute(0);
@@ -68,6 +70,19 @@ class Database{
             createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (customerID) REFERENCES users(ID),
             FOREIGN KEY (promocodeid) REFERENCES promocodes(promoID)
+        )";
+        $this->execute(0);
+    }
+    public function createOrderItemsTable(){
+        $this->statement = "CREATE TABLE IF NOT EXISTS orderItems(
+            orderID INT(6) NOT NULL,
+            customerID INT(6) NOT NULL,
+            productID INT(10) NOT NULL,
+            productPrice INT(10) NOT NULL,
+            createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (customerID) REFERENCES users(ID),
+            FOREIGN KEY (orderID) REFERENCES orders(ID),
+            FOREIGN KEY (productID) REFERENCES products(ID)
         )";
         $this->execute(0);
     }

@@ -33,7 +33,7 @@ class home extends View{
                 <hr>
                 <div class = "grid-cards">
                     <div class="card">
-                            <h1><?php echo $sold; ?><br> <p> PRODUCTS SOLD</p> </h1>
+                            <h2><?php echo $sold; ?><br> <p> PRODUCTS SOLD</p> </h2>
                     </div>
                     <div class="card">
                         <h1><?php echo 'CAIRO'; ?><br> <p> BEST SALES BY REGION</p> </h1>

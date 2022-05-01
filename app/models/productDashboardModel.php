@@ -5,4 +5,55 @@ class productDashboardModel extends Model{
     public $icon = IMAGEROOT . "icon/";
     public $css = URLROOT . "css/dashboard/productStyles.css";
     public $headercss = URLROOT . "css/dashboard/headerStyles.css";
+    private $products;
+
+    public function setProducts($products){
+        $this->products = $products;
+    }
+    public function databaseProducts(){
+        $result = $this->database->query("SELECT * FROM products");
+        $this->setProducts($result);
+    }
+    public function getStock($product){
+        $result = $this->database->query("SELECT COUNT(*) as quantity,productID FROM orderitems,products WHERE products.ID = orderitems.productID AND products.ID = {$product['ID']}");
+        // if($row = $result)
+            return $result->fetch_assoc()['quantity'];
+    }
+    public function getProducts(){
+        foreach($this->products as $product){
+            $profit = ceil(($product['manifactureCost'] / $product['retailCost'])*100);
+            $availableStock = $product['productStock'] - $this->getStock($product);
+            $stockRatio = ceil(($availableStock / $product['productStock'])*100);
+        echo "
+        <div class='productCard'>
+                    <div class='smallGrid2'>
+                        <img src='".IMAGEROOT."{$product['productImage']}'>  
+                        
+                        <div class='smallGridChild2'>
+                                <h2>{$product['productName']}</h2>
+                                <hr>
+                                <h4>Retail Price &nbsp;&nbsp;&nbsp; <span>{$product['retailCost']} EGP</span></h4>
+                                <h4>Manifacture Cost &nbsp;&nbsp;&nbsp; <span>{$product['manifactureCost']} EGP</span></h4>
+                                <h4>Available stock &nbsp;&nbsp;&nbsp; <span>{$availableStock}</span></h4>
+                                
+                        </div>
+                    </div>
+                    
+                    <br>
+                    <h1>PRODUCT STATISTICS</h1>
+                    <div class='smallGrid'>
+                      
+                        <div class='pie' style='--p:$profit;--c:#fab137;--f:#fab137'>PROFIT<br> $profit%</div>
+                            
+                            <div class='pie' style='--p:$stockRatio;--c:#FBAB7E;--f:#FBAB7E'>STOCK<br> $stockRatio%</div>
+                    </div>
+                    <br>
+                    <button class ='productButtons2'>EDIT PRODUCT</button>
+                </div>
+        
+        ";
+    }
+    }
+
+
 }

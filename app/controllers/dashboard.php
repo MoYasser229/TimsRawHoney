@@ -8,6 +8,11 @@ class dashboard extends Controller{
         $dashboardView->output();
     }
     public function productDashboard(){
+        if($_REQUEST['REQUEST_METHOD']=='POST'){
+            // $this->model->databaseProducts();
+            // $_POST['searchSameh'] = 
+            
+        }
         $productPath = VIEWSPATH . 'dashboard/productDashboard.php';
         require_once $productPath;
         $productView = new productDashboard($this->getModel(), $this);

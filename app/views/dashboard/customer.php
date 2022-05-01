@@ -188,9 +188,8 @@ class customer extends View{
                         type = $("#type").val()
                         filter = $("#filter").val()
                         model = "customer"
-                        typeData = "type"
-                        modelData = "model"
-                        filterData = "filter"
+
+                        
                         var url = "ajax"
                         $.ajax({
                             type: "POST",

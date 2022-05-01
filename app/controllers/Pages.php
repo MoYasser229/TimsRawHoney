@@ -71,6 +71,7 @@ class Pages extends Controller{
                         $session = new Session();
                         $session->setSession("ID",$row['ID']);
                         $session->setSession("email",$row['email']);
+                        // $cookie = new Cookie($row['ID']);
                         echo ($row['userRole'] === "ADMIN")? URLROOT . "dashboard/home": URLROOT . "pages/index";  
                     }
 
