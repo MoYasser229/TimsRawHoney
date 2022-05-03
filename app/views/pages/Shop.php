@@ -30,7 +30,7 @@ class shop extends View{
             <div class="product-grid">
            
               <div class="product-image">
-              <a class = "image" type="hidden" name="hidden_name" href="<?php echo URLROOT.'pages/products' ?>?id=<?php echo $row['ID']; ?>"><img src="<?php echo IMAGEROOT.$row["productImage"]; ?>" class="model" /></a><br />
+              <a class = "image" type="hidden" name="hidden_name" href="<?php echo URLROOT.'pages/product' ?>?id=<?php echo $row['ID']; ?>"><img src="<?php echo IMAGEROOT.$row["productImage"]; ?>" class="model" /></a><br />
                 
               <!-- <span class="product-discount-label">-10%</span>
                 <ul class="product-links">

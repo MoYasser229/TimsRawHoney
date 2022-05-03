@@ -4,11 +4,14 @@ class product extends View{
 public function output(){
     $title = $this->model->title;
      require_once APPROOT . "/views/inc/header.php";
-    $Image=$this->model->getimage();
-    $cost=$this->model->getCost();
+     $ID=$_GET['id'];
+    $Image=$this->model->getimage($ID);
+    $cost=$this->model->getCost($ID);
     $offer =$this->model->getOffer();
     $material= $this->model->getMaterial();
     $size=$this->model->getSize();
+    // $productid=$this->model->getProductId();
+    $productname=$this->model->getProductName($ID);
 ?>
 <html>
 <head>   
@@ -27,27 +30,20 @@ public function output(){
     <title>Tim Raw Honey</title>
 </head>
 <body>
+  <?php
+    
+  ?> 
   <div id="wrap">
     <div id="product_layout_1">
+      <form method="post" action="">
       <div class="top">
       <div class="product_images">
         <div class="product_image_1">
-        <img src = "<?php echo $Image ; ?>" /> 
-        </div>
-        <div class="product_image_small">
-          <div class="product_image_2">
-          <img src = "<?php echo $Image ; ?>" /> 
-          </div>
-                    <div class="product_image_3">
-                    <img src = "<?php echo $Image ; ?>" /> 
-          </div>
-                    <div class="product_image_4">
-                    <img src = "<?php echo $Image ; ?>" /> 
-          </div>
+        <img src = "<?php echo IMAGEROOT.$Image ; ?>" /> 
         </div>
         </div>
         <div class="product_info">
-          <h1>Immune Formula</h1>
+          <h1><?php echo $productname ?></h1>
           <div class="price">
           <h2 class="original_price"><?php echo $cost?></h2>
           <h2 class="sale_price"><?php echo $offer?></h2>
@@ -68,17 +64,17 @@ Propolis is a natural compount that bees produce from the sap on needle-leaved t
          
                  <div class="select">
                  <select id="color">
-                   <option value = "1"><?php echo $material[0][0] ?></option>
-                   <option value = "2"><?php echo $material[0][1] ?></option>
+                   <option value = "1" id="glass"><?php echo $material[0][0] ?></option>
+                   <option value = "2"id="plastic"><?php echo $material[0][1] ?></option>
                    
                  </select>
                  </div>
                  <div class="select">
                  <select id="size">
-                   <option value = "1"><?php echo $size[0][0]?></option>
-                   <option value = "2"><?php echo $size[0][1]?></option>
-                   <option value = "3"><?php echo $size[0][2]?></option>
-                   <option value = "4"><?php echo $size[0][3]?>e</option>
+                   <option value = "1" id="small"><?php echo $size[0][0]?></option>
+                   <option value = "2" id="medium"><?php echo $size[0][1]?></option>
+                   <option value = "3" id="large"><?php echo $size[0][2]?></option>
+                   <option value = "4" id="xlarge"><?php echo $size[0][3]?></option>
                  </select>
                  </div>
           </div>
@@ -88,7 +84,8 @@ Propolis is a natural compount that bees produce from the sap on needle-leaved t
                    <input type="text">
                  </div>
                  <div class="cart">
-                   <a href="#" class="add">Add to Cart <i class="fa fa-shopping-cart fa-lg"></i></a>
+                   <!-- <a href="#" class="add">Add to Cart <i class="fa fa-shopping-cart fa-lg"></i></a> -->
+                   <button class="add" name="addtocart"> Add to Cart <i class="fa fa-shopping-cart fa-lg"></i></button>
                  </div>
           </div>
           </div>
@@ -97,6 +94,9 @@ Propolis is a natural compount that bees produce from the sap on needle-leaved t
            </div>
           </div>
         </div>
+      </form>
+    <!-- </div>
+  </div> -->
         <div class="bottom">
         <div class="reviews">
           <div class="head">

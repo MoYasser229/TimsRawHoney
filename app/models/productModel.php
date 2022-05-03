@@ -2,12 +2,24 @@
 class productModel extends Model{
 
     public $title = "Tim's Raw Honey";
-     
-    public function getimage(){
-        return IMAGEROOT . 'jarr3.png' ;
+
+    // public function getProductId($ID){
+    //     $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
+    //     return $result -> fetch_assoc()['ID'];
+    // }
+    public function getProductName($ID){
+        $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
+        return $result -> fetch_assoc()['productName'];
     }
-    public function getCost(){
-        return 90;
+    public function getimage($ID){
+        // return IMAGEROOT . 'jarr3.png' ;
+        $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
+        return $result -> fetch_assoc()['productImage'];
+    }
+    public function getCost($ID){
+        // return 90;
+        $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
+        return $result -> fetch_assoc()['retailCost'];
     }
     public function getOffer(){
         return 75;

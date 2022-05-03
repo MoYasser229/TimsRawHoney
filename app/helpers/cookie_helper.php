@@ -13,7 +13,7 @@ class cookie{
         $_COOKIE["cart$ID"]="";
     }
 
-    public function addtocart($customerID,$productID,$quantity){
+    public function addtocart($customerID,$productID,$quantity,$material,$size){
       
 
  if(isset($_COOKIE["cart$customerID"]))
@@ -47,8 +47,10 @@ class cookie{
  else
  {
   $item_array = array(
-   'productID'   => $_POST["hidden_id"],
-   'quantity'  => $_POST["quantity"]
+   'productID'   => $productID,
+   'quantity'  => $quantity,
+   'material' => $material,
+   'size' => $size
   );
   $cart_data[] = $item_array;
  }
