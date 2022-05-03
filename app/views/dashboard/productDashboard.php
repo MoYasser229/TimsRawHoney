@@ -84,7 +84,7 @@ class productDashboard extends View{
                 });
                 function submitForm(){
                     fd = new FormData()
-                    productName = $("#productName").val()
+                    productName = $("#name").val()
                     retailCost = $("#retail").val()
                     manifactureCost = $("#manifacture").val()
                     productStock = $("#stock").val()
