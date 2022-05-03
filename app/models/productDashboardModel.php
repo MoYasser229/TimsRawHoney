@@ -19,6 +19,10 @@ class productDashboardModel extends Model{
         // if($row = $result)
             return $result->fetch_assoc()['quantity'];
     }
+    public function insertProduct($name,$rcost,$mcost,$stock,$image,$desc){
+        $this->database->query("INSERT INTO products(productName,retailCost,manifactureCost,productStock,productImage,productDescription) VALUES('$name','$rcost','$mcost','$stock','$image','$desc')");
+
+    }
     public function getProducts(){
         foreach($this->products as $product){
             $profit = ceil(($product['manifactureCost'] / $product['retailCost'])*100);
@@ -30,7 +34,7 @@ class productDashboardModel extends Model{
                         <img src='".IMAGEROOT."{$product['productImage']}'>  
                         
                         <div class='smallGridChild2'>
-                                <h2>{$product['productName']}</h2>
+                                <h2>".strtoUpper($product['productName'])."</h2>
                                 <hr>
                                 <h4>Retail Price &nbsp;&nbsp;&nbsp; <span>{$product['retailCost']} EGP</span></h4>
                                 <h4>Manifacture Cost &nbsp;&nbsp;&nbsp; <span>{$product['manifactureCost']} EGP</span></h4>
@@ -42,10 +46,15 @@ class productDashboardModel extends Model{
                     <br>
                     <h1>PRODUCT STATISTICS</h1>
                     <div class='smallGrid'>
-                      
-                        <div class='pie' style='--p:$profit;--c:#fab137;--f:#fab137'>PROFIT<br> $profit%</div>
+                        <div class='childPie'>
+                            <div class='pie' style='--p:$profit;--c:#fab137;--f:#fab137'>PROFIT<br> $profit%</div>
+                        </div>
+                        <div class='childPie'>
+                        <div class='pie' style='--p:$stockRatio;--c:#FBAB7E;--f:#FBAB7E'>STOCK<br> $stockRatio%</div>
+                        </div>
+                        
                             
-                            <div class='pie' style='--p:$stockRatio;--c:#FBAB7E;--f:#FBAB7E'>STOCK<br> $stockRatio%</div>
+                            
                     </div>
                     <br>
                     <button class ='productButtons2'>EDIT PRODUCT</button>

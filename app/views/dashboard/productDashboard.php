@@ -7,6 +7,7 @@ class productDashboard extends View{
         $headercss = $this->model->headercss;
         require_once APPROOT . "/views/inc/managerHeader.php";
         ?>
+            <div class="mainClass">
             <div class="mainContainer">
                 <h1>PRODUCT</h1>
                 
@@ -32,14 +33,13 @@ class productDashboard extends View{
                     <input id=stock type="text" name=productStock placeholder="Enter the capacity of the stock">
                     <br>
                     <div class="file-input">
-                    <input name=productImage type="file" id="file" class="file">
+                    <input name=productImage type="file" id="file" class="file" accept="image/*">
                     <label for="file">
                     <i class="fa-solid fa-upload"></i>&nbsp; Upload Image
-                        <p class="file-name"></p>
+                        
                     </label>
+                    <p id="file-name"></p>
                     </div>
-                    <br>
-                    <br>
                     <textarea id=description name=productDescription placeholder="Enter a brief description about your product" rows="4" cols="40"></textarea>
                     <br>
                     <br>
@@ -67,6 +67,7 @@ class productDashboard extends View{
                 $this->model->getProducts(); 
                 ?>
             </div>
+            </div>
             <script>
                 const file = document.querySelector('#file');
                 file.addEventListener('change', (e) => {
@@ -78,34 +79,53 @@ class productDashboard extends View{
                 const fileSize = (size / 1000).toFixed(2);
                 // Set the text content
                 const fileNameAndSize = `${fileName} - ${fileSize}KB`;
-                document.querySelector('.file-name').textContent = fileNameAndSize;
+                $('#file-name').html(fileNameAndSize)
+                // document.querySelector('.file-name').textContent = fileNameAndSize;
                 });
                 function submitForm(){
                     fd = new FormData()
                     productName = $("#productName").val()
-                    retailCost = $("#retailCost").val()
-                    manifactureCost = $("#manifactureCost").val()
-                    productStock = $("#productStock").val()
-                    
-                    productImage = $("#productImage").prop("files")[0]
+                    retailCost = $("#retail").val()
+                    manifactureCost = $("#manifacture").val()
+                    productStock = $("#stock").val()
+                    productImage = $("#file")[0].files[0]
                     description = $("#description").val()
                     error = false
-                    alert(productImage)
 
                     if(productName == "" || retailCost == "" || manifactureCost == "" || productStock == "" || description == "")
                         error = true
-                    if(productImage.length <= 0){
+                    if(!productImage){
                         error = true
-                        $("#productImage").css("border","2px solid red")
+                        $("#productImage").css("border","none")
+                    }
+                    else{
+                        type = productImage['type']
+                        size = productImage['size']
+                        if(!type.includes("image/")){
+                            error = true
+                        }
+                        if(size <= 0){
+                            error = true
+                        }
                     }
                     if(!error){
-                        fd.append("productImage",productImage[0])
+                        fd.append("productImage",productImage)
                         fd.append("retailCost",retailCost)
                         fd.append("manifactureCost",manifactureCost)
                         fd.append("productStock",productStock)
                         fd.append("description",description)
                         fd.append("productName",productName)
-
+                        $.ajax({
+                            type: 'POST',
+                            url: 'productDashboard',
+                            data:fd,
+                            contentType: false,
+                            processData: false,
+                            success: (result)=>{
+                                $(".productGrid").html(result)
+                                // alert(result)
+                            }
+                        })
                     }
                     else{
                         $(".subButton").css("background-color", "red")

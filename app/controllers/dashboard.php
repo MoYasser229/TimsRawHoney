@@ -8,15 +8,35 @@ class dashboard extends Controller{
         $dashboardView->output();
     }
     public function productDashboard(){
-        if($_REQUEST['REQUEST_METHOD']=='POST'){
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
             // $this->model->databaseProducts();
-            // $_POST['searchSameh'] = 
+            // echo $_FILES['productImage']["name"];
+            
+            $file = $_FILES['productImage']['name'];
+            $productName = $_POST['productName'];
+            $retailCost = $_POST['retailCost'];
+            $manifactureCost = $_POST['manifactureCost'];
+            $productStock = $_POST['productStock'];
+            $description = $_POST['description'];
+
+            $this->model->insertProduct($productName,$retailCost,$manifactureCost,$productStock,$file,$description);
+            $this->model->databaseProducts();
+            $this->model->getProducts();
+
+            $explodeFile = explode(".",$file);
+            $fileName = md5($explodeFile[0]);
+            $extension = $explodeFile[1];
+            $fullFile = $fileName."." . $extension;
+            $target_dir = APPROOT . "/images/$fullFile";
+            move_uploaded_file($_FILES["productImage"]["tmp_name"],$target_dir);
             
         }
-        $productPath = VIEWSPATH . 'dashboard/productDashboard.php';
-        require_once $productPath;
-        $productView = new productDashboard($this->getModel(), $this);
-        $productView->output();
+        else{
+            $productPath = VIEWSPATH . 'dashboard/productDashboard.php';
+            require_once $productPath;
+            $productView = new productDashboard($this->getModel(), $this);
+            $productView->output();
+        }
     }
     public function sales(){
         $salesPath = VIEWSPATH . 'dashboard/sales.php';

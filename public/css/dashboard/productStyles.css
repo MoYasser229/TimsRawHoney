@@ -1,7 +1,7 @@
 .mainContainer{
     background-color: white;
-    margin-left: 10%;
-    margin-right: 10%;
+    /* margin-left: 10%;
+    margin-right: 10%; */
     padding: 10px;
 }
 .mainContainer h1{
@@ -15,9 +15,9 @@
 }
 .searchContainer{
     background-color: white;
-    margin-left: 10%;
+    /* margin-left: 10%;
     margin-right: 10%;
-    width: 80%;
+    width: 80%; */
     padding: 10px;
     margin-top: 10px;
 }
@@ -33,11 +33,11 @@
 }
 .productGrid { 
     display: grid; 
-    grid-template-columns: 1fr 1fr 1fr; 
+    grid-template-columns: 2fr 2fr 2fr; 
     grid-gap: 15px; 
-    width: 80%; 
+    /* width: 80%; 
     margin-left: 10%;
-    margin-right: 10%;
+    margin-right: 10%; */
     margin-top: 10px;
 } 
 .productCard {
@@ -57,10 +57,14 @@
     background-color: #fab637;
 }
 .smallGrid{
-    width: 100%;
+    /* width: 100%; */
     display: grid; 
     grid-template-columns: 1fr 1fr; 
+    text-align: center;
 }
+/* .childPie{
+    background-color: black;
+} */
 .productButtons{
     background-color: white;
     border: none;
@@ -111,14 +115,14 @@
     --c:green;
     --w:125px;
     --f: green;
-    
+    width: 100%;
     color: var(--f);
     width:var(--w);
     aspect-ratio:1;
     position:relative;
     display:inline-grid;
     margin:5px;
-    margin-left: 60px;
+    /* margin-left: 60px; */
     place-content:center;
     font-size:25px;
     font-weight:bold;
@@ -210,8 +214,7 @@
   }
   
   .file-input label {
-    display: block;
-    position: relative;
+    
     width: 100%;
     height: 50px;
     /* border-radius: 25px; */
@@ -234,23 +237,23 @@
     color: #555;
   }
   
-  input:hover + label,
-  input:focus + label {
+  .file:hover + label,
+  .file:focus + label {
     transform: scale(1.02);
     background: #FBAB7E;
     color: white;
   }
   
   /* Adding an outline to the label on focus */
-  input:focus + label {
+  .file:focus + label {
     outline: 1px solid #000;
     outline: -webkit-focus-ring-color auto 2px;
   }
 
 
 .gridContainer{
-    width: 80%;
-    margin-left: 10%;
+    /* width: 80%;
+    margin-left: 10%; */
     margin-top: 10px;
     grid-gap: 10px;
     display: grid;
@@ -260,6 +263,7 @@
     padding: 10px;
     background-color: white;
 }
+
 .subButton{
     outline: none;
     border: none;
@@ -283,27 +287,45 @@
     font-size: 15px;
     
 }
+.mainClass{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+@media screen and (max-width: 1880px){
+    .productGrid{
+        grid-template-columns: 1fr 1fr;
+    }
+    .pie{
+        /* margin-left: 50px; */
+        --w:150px;
+    }
+}
 @media screen and (max-width: 1024px){
+    .mainClass{
+        margin-right: 10%;
+        
+    }
+    
     .gridContainer{
         grid-template-columns: 1fr;
         margin: 0;
         padding: 0;
         width: 100%;
-        margin-left: 10%;
+        /* margin-left: 10%; */
         margin-top: 10px;
     }
     .productGrid{
         grid-template-columns: 1fr;
         margin: 0;
         padding: 0;
-        margin-left: 10%;
+        /* margin-left: 10%; */
         margin-top: 10px;
         margin-bottom: 10px;
     }
     .searchContainer{
-        width: 80%;
+        /* width: 80%; */
         margin:0;
-        margin-left: 10%;
+        /* margin-left: 10%; */
         text-align: center;
         margin-top: 10px;
         margin-bottom: 10px;
@@ -313,11 +335,12 @@
         margin-bottom: 10px;
     }
     .pie{
-        margin-left: 15px;
+        /* margin-left: 15px; */
         --w:150px;
     }
     .smallGrid2 img{
         width: 100%;
+        height: 100%;
         margin: 0;
         /* padding: 0; */
         border: 10px solid white;
@@ -331,9 +354,6 @@
     }
     .productCard{
         padding: 0;
-    }
-    #addProduct{
-        width:80%;
     }
 }
 
