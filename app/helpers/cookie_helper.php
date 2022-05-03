@@ -71,3 +71,5 @@ class cookie{
     setcookie("cart$customerID", $item_data, time() + 2678400);
     }
 }
+    }
+}
