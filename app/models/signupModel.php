@@ -65,7 +65,7 @@ class signupModel extends Model{
         return $this->errorPassword;
     }
     public function setConfirmPassword($confirmPassword){
-        $this->confirmPassword = $confirmPassword;
+        $this->confirmPassword = md5($confirmPassword);
     }
     public function getConfirmPassword(){
         return $this->confirmPassword;
@@ -98,7 +98,7 @@ class signupModel extends Model{
         return $this->email;
     }
     public function setpassword($pswrd){
-        $this->pswrd = $pswrd;
+        $this->pswrd = md5($pswrd);
     }
     public function getpassword(){
         return $this->pswrd;
@@ -187,7 +187,7 @@ class signupModel extends Model{
         $lowercase = preg_match('@|a-z|@',$password);
         $number = preg_match('@|0-9|@',$password);
         $specialChars = preg_match('@[^\w]@',$password);
-        return (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8)?false:true; 
+        return (!$uppercase || !$lowercase || !$number  || strlen($password) < 8)?false:true; 
     }
 }
 

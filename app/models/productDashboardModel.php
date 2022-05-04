@@ -25,7 +25,14 @@ class productDashboardModel extends Model{
     }
     public function getProducts(){
         foreach($this->products as $product){
-            $profit = ceil(($product['manifactureCost'] / $product['retailCost'])*100);
+            $profit = ceil((($product['retailCost'] - $product['manifactureCost'])/$product['manifactureCost'])*100);
+            $text = "profit";
+            $color = "#fab137";
+            if($profit < 0){
+                $text = "Loss";
+                $profit = abs($profit);
+                $color = "red";
+            }
             $availableStock = $product['productStock'] - $this->getStock($product);
             $stockRatio = ceil(($availableStock / $product['productStock'])*100);
         echo "
@@ -47,7 +54,7 @@ class productDashboardModel extends Model{
                     <h1>PRODUCT STATISTICS</h1>
                     <div class='smallGrid'>
                         <div class='childPie'>
-                            <div class='pie' style='--p:$profit;--c:#fab137;--f:#fab137'>PROFIT<br> $profit%</div>
+                            <div class='pie' style='--p:$profit;--c:$color;--f:$color'>$text<br> $profit%</div>
                         </div>
                         <div class='childPie'>
                         <div class='pie' style='--p:$stockRatio;--c:#FBAB7E;--f:#FBAB7E'>STOCK<br> $stockRatio%</div>

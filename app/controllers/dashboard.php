@@ -18,16 +18,16 @@ class dashboard extends Controller{
             $manifactureCost = $_POST['manifactureCost'];
             $productStock = $_POST['productStock'];
             $description = $_POST['description'];
-
-            $this->model->insertProduct($productName,$retailCost,$manifactureCost,$productStock,$file,$description);
-            $this->model->databaseProducts();
-            $this->model->getProducts();
-
             $explodeFile = explode(".",$file);
             $fileName = md5($explodeFile[0]);
             $extension = $explodeFile[1];
             $fullFile = $fileName."." . $extension;
-            $target_dir = APPROOT . "/images/$fullFile";
+            $this->model->insertProduct($productName,$retailCost,$manifactureCost,$productStock,$fullFile,$description);
+            $this->model->databaseProducts();
+            $this->model->getProducts();
+
+            
+            $target_dir = IMAGEROOT . "$fullFile";
             move_uploaded_file($_FILES["productImage"]["tmp_name"],$target_dir);
             
         }

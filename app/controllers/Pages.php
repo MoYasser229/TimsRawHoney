@@ -141,7 +141,7 @@ class Pages extends Controller{
                     $error = true;
                     redirect('pages/signin');
                 }
-                if(!$signUp->checkPassword() || empty($password) || empty($confirmNewPassword) || $password != $confirmNewPassword || (empty($phoneNumber1) && empty($phoneNumber2)) || empty($homeAddress1) && empty($homeAddress2)){
+                if(!$signUp->checkPassword() || empty($password) || empty($confirmNewPassword) || $this->model->getpassword() != $this->model->getConfirmPassword() || (empty($phoneNumber1) && empty($phoneNumber2)) || empty($homeAddress1) && empty($homeAddress2)){
                     $error = true;
                     $signUp->setSocialError('*Something wrong with the data given. Please Sign Up Again and check you enter all data needed');
                 }
