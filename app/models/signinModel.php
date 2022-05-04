@@ -56,7 +56,7 @@ class signinModel extends Model{
         return $this->email;
     }
     public function setpassword($pswrd){
-        $this->pswrd = $pswrd;
+        $this->pswrd = md5($pswrd);
     }
     public function getpassword(){
         return $this->pswrd;
