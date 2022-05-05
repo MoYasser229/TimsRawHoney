@@ -57,6 +57,8 @@ class Database{
             productStock INT(10) NOT NULL,
             productImage VARCHAR(124) NOT NULL,
             productDescription VARCHAR(255) NOT NULL
+            
+
         )";
         $this->execute(0);
     }
@@ -68,8 +70,8 @@ class Database{
             promocodeid INT(10),
             orderTotalPrice INT(10) NOT NULL,
             createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (customerID) REFERENCES users(ID),
-            FOREIGN KEY (promocodeid) REFERENCES promocodes(promoID)
+            FOREIGN KEY (customerID) REFERENCES users(ID) ON DELETE CASCADE,
+            FOREIGN KEY (promocodeid) REFERENCES promocodes(promoID) ON DELETE CASCADE
         )";
         $this->execute(0);
     }
@@ -80,9 +82,9 @@ class Database{
             productID INT(10) NOT NULL,
             productPrice INT(10) NOT NULL,
             createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (customerID) REFERENCES users(ID),
-            FOREIGN KEY (orderID) REFERENCES orders(ID),
-            FOREIGN KEY (productID) REFERENCES products(ID)
+            FOREIGN KEY (customerID) REFERENCES users(ID) ON DELETE CASCADE,
+            FOREIGN KEY (orderID) REFERENCES orders(ID) ON DELETE CASCADE,
+            FOREIGN KEY (productID) REFERENCES products(ID) ON DELETE CASCADE
         )";
         $this->execute(0);
     }
@@ -93,7 +95,7 @@ class Database{
             deliveryPrice INT(10) NOT NULL,
             deliveryStatus VARCHAR(30),
             deliveryLink VARCHAR(30),
-            FOREIGN KEY (orderID) REFERENCES orders(ID) 
+            FOREIGN KEY (orderID) REFERENCES orders(ID) ON DELETE CASCADE
             )";
             $this->execute(0);
     }
@@ -101,7 +103,7 @@ class Database{
         $this->statement = "CREATE TABLE IF NOT EXISTS survey(
             surveyID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
             customerID INT(6) NOT NULL,
-            FOREIGN KEY (customerID) REFERENCES users(ID)
+            FOREIGN KEY (customerID) REFERENCES users(ID) ON DELETE CASCADE
         )";
         $this->execute(0);
     }
@@ -113,8 +115,8 @@ class Database{
             stars INT(10) NOT NULL,
             reviewText VARCHAR(255),
             createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (customerID) REFERENCES users(ID),
-            FOREIGN KEY (productID) REFERENCES products(ID)
+            FOREIGN KEY (customerID) REFERENCES users(ID) ON DELETE CASCADE,
+            FOREIGN KEY (productID) REFERENCES products(ID) ON DELETE CASCADE
         )";
         $this->execute(0);
     }
@@ -133,7 +135,7 @@ class Database{
             offerTitle VARCHAR(15) NOT NULL,
             campaignLength VARCHAR(30) NOT NULL,
             createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (productID) REFERENCES products(ID)
+            FOREIGN KEY (productID) REFERENCES products(ID) ON DELETE CASCADE
             
         )";
         $this->execute(0);
@@ -154,8 +156,8 @@ class Database{
             wishListID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
             customerID INT(6) NOT NULL,
             productID INT(6) NOT NULL,
-            FOREIGN KEY (customerID) REFERENCES users(ID),
-            FOREIGN KEY (productID) REFERENCES products(ID)
+            FOREIGN KEY (customerID) REFERENCES users(ID) ON DELETE CASCADE,
+            FOREIGN KEY (productID) REFERENCES products(ID) ON DELETE CASCADE
         )";
         $this->execute(0);
     }

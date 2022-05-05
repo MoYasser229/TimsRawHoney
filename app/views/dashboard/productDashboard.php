@@ -1,5 +1,52 @@
 <?php 
 class productDashboard extends View{
+    public function checkStock(){
+        $this->model->checkStock();
+        $warning = $this->model->getStockWarning();
+        if($warning === "none"){
+            echo "<div class = 'noError'><h1>STOCK</h1><i class='fa-solid fa-clipboard-check'></i><br><h4>NOTHING TO WORRY ABOUT</h4><p>All stocks are healthy with nothing missing.</p></div>";
+        }
+        else if($warning === "error"){
+            echo "<div class = 'error'>
+                <h1>STOCK</h1>
+                <i class='fa-solid fa-triangle-exclamation'></i>
+                <br>
+                <h4>WARNING</h4>
+                <p>One or more products need an increase in their stocks as there are no longer avaialable stock for them.</p>
+                <a class = 'navigate' href='stocks'>UPDATE STOCK</a>
+            </div>";
+        }
+        else if($warning === "half")
+            echo "<div class = 'warning'>
+                <h1>STOCK</h1>
+                <i class='fa-solid fa-circle-exclamation'></i>
+                <br>
+                <h4>SMALL WARNING</h4>
+                <p>Some stocks need to be restored.</p>
+                <a class = 'navigate' href='stocks'>UPDATE STOCK</a>
+            </div>";
+    }
+    public function checkProfit(){
+        $check = $this->model->checkProfit();
+        if($check){
+            echo "<div class = 'error'>
+                <h1>LOSS</h1>
+                <i class='fa-solid fa-triangle-exclamation'></i>
+                <br>
+                <h4>LOSS DETECTED</h4>
+                <p>One or more products have been detected as a losing product. You might consider updating the retail price</p>
+            </div>";
+        }
+        else{
+            echo "<div class = 'noError'>
+                <h1>PROFIT</h1>
+                <i class='fa-solid fa-clipboard-check'></i>
+                <br>
+                <h4>NO LOSS DETECTED</h4>
+                <p>Products have no loss depending on their retail and manifacture cost.</p>
+            </div>";
+        }
+    }
     public function output(){
         $title = $this->model->title;
         $icon = $this->model->icon;
@@ -47,35 +94,71 @@ class productDashboard extends View{
                     <div id=error></div>
                 </div>
                 <div class="informationCard">
-                    
+                    <h1>OVERVIEW</h1>
+                    <hr>
+                    <div class="overviewgrid">
+                    <div class="overviewChild best">
+                        <h1>BEST SELLER</h1>
+                        <?php
+                            $best = $this->model->getBestSeller();
+                        ?>
+                        <i class="fa-solid fa-ranking-star"></i>
+                        
+                        <h4><?php echo strtoupper($best['productName']); ?></h4>
+                        <p>With <strong><?php echo $best['quantity'];?></strong> taken from stock, <strong><?php echo $best['productName']; ?></strong> is the best seller among the products.</p>
+
+                        </div>
+                        <div class="overviewChild zero">
+                        <h1>ZERO SELLER</h1>
+                        <?php
+                            $zero = $this->model->getZeroSeller();
+                        ?>
+                        <i class="fa-solid fa-heart-crack"></i>
+                        
+                        <h4><?php echo strtoupper($zero['productName']); ?></h4>
+                        <p>Unfortunately, the product <strong><?php echo $zero['productName']; ?></strong> is the least selling product. Moreover, its Manifacture Cost is the highest among the least selling with a value of <strong><?php echo $zero['manifactureCost']; ?> EGP</strong></p>
+
+                        </div>
+                        <div class="overviewChild">
+                            <?php $this->checkStock(); ?>
+                        </div>
+                        <div class="overviewChild">
+                            <?php $this->checkProfit(); ?>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
             
             <div class="searchContainer">
                 <h1>SEARCH AND SORT</h1> 
                 <hr>
-                <div class="formSort">
+                <!-- <div class="formSort"> -->
                 <div class="centerized">
                     <input type="text" id = "search" placeholder="Search Here">
-                    <button id = "searchButton"><i class="fas fa-search"></i></button>
+                    <button id = searchButton onclick = "submitSearch()"><i class="fas fa-search"></i></button>
                     <!-- <br><br> -->
                     <select name="type" id = 'type'>
-                        <option id="typeChosen" value = "fullName" selected>NAME</option>
-                        <option id="typeChosen" value = "sales">NUMBER OF ORDERS</option>
+                        <option id="typeChosen" value = "productName" selected>PRODUCT NAME</option>
+                        <option id="typeChosen" value = "retailCost">RETAIL COST</option>
+                        <option id="typeChosen" value = "manifactureCost">MANIFACTURE COST</option>
+                        <option id="typeChosen" value = "stock">STOCK</option>
                     </select>
                     <select name="filter" id = 'filter'>
                         <option value = "DESC" selected>DESCENDING</option>
                         <option value = "ASC">ASCENDING</option>
                     </select>
                 </div>
-                </div>
+                <!-- </div> -->
             </div>
-            <div class="productGrid">
+            <div id="editCard">
+                <div id="editForm"></div>
+            </div>
+            <div id="productTable">
                 <?php 
                 $this->model->databaseProducts();
                 $this->model->getProducts(); 
                 ?>
-            </div>
             </div>
             <script>
                 const file = document.querySelector('#file');
@@ -91,6 +174,105 @@ class productDashboard extends View{
                 $('#file-name').html(fileNameAndSize)
                 // document.querySelector('.file-name').textContent = fileNameAndSize;
                 });
+                $("#type").change(() => {
+                    type = $("#type").val();
+                    filter = $("#filter").val();
+                    $.ajax({
+                        type: 'POST',
+                        url: 'productDashboard',
+                        data: {type:type,filter:filter},
+                        success: (result)=>{
+                            $("#productTable").html(result)
+                        }
+                    })
+                });
+                $("#filter").change(() => {
+                    type = $("#type").val();
+                    filter = $("#filter").val();
+                    $.ajax({
+                        type: 'POST',
+                        url: 'productDashboard',
+                        data: {type:type,filter:filter},
+                        success: (result)=>{
+                            $("#productTable").html(result)
+                        }
+                    })
+                });
+                
+                function submitSearch() {
+                    search = $('#search').val()
+                    $.ajax({
+                        type: 'POST',
+                        url: 'productDashboard',
+                        data: {search:search},
+                        success: (result)=>{
+                            $("#productTable").html(result)
+                        }
+                    })
+                }
+                function submitEdit() {
+                    pname = $("#productName").val()
+                    rcost = $("#retailCost").val()
+                    mcost = $("#manifactureCost").val()
+                    productImage = $("#file2")[0].files[0]
+                    submit = $("#submitEdit").val()
+
+                    error = false;
+                    if(pname == "" || rcost == "" || mcost == "")
+                        error = true
+                    if(!productImage){
+                        productImage = $("#file2").val()
+                    }
+                    
+                    // else{
+                    //     type = productImage['type']
+                    //     size = productImage['size']
+                    //     if(!type.includes("image/")){
+                    //         error = true
+                    //     }
+                    //     if(size <= 0){
+                    //         error = true
+                    //     }
+                    // }
+                    if(!error){
+                        $.ajax({
+                            type: 'POST',
+                            url: 'productDashboard',
+                            data: {productName: pname, retailCost: rcost,manifactureCost: mcost,productImage:productImage,submitEdit:submit},
+                            success: (result)=>{
+                                $(".productGrid").html(result)
+                            }
+                        })
+                    }
+                    else{
+                        $("#errorMessage").html("Please check the inputs. Something is empty.")
+                    }
+                }
+                function deleteProduct(value) {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'productDashboard',
+                        data: {delete:value},
+                        success: (result)=>{
+                            $("#productTable").html(result)
+                        }
+                    })
+                }
+                function editProduct(value) {
+                    $("#editCard").css('display','block');
+                    $.ajax({
+                        type: 'POST',
+                        url: 'productDashboard',
+                        data:{edit: value},
+                        success: (result)=>{
+                            $("#editForm").html(result)
+                        }
+                    })
+
+                }
+                function dismiss(){
+                    $("#editCard").css('display','none');
+                }
                 function submitForm(){
                     fd = new FormData()
                     productName = $("#name").val()

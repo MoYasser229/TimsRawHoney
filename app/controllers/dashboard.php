@@ -9,26 +9,54 @@ class dashboard extends Controller{
     }
     public function productDashboard(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            // $this->model->databaseProducts();
-            // echo $_FILES['productImage']["name"];
-            
-            $file = $_FILES['productImage']['name'];
-            $productName = $_POST['productName'];
-            $retailCost = $_POST['retailCost'];
-            $manifactureCost = $_POST['manifactureCost'];
-            $productStock = $_POST['productStock'];
-            $description = $_POST['description'];
-            $explodeFile = explode(".",$file);
-            $fileName = md5($explodeFile[0]);
-            $extension = $explodeFile[1];
-            $fullFile = $fileName."." . $extension;
-            $this->model->insertProduct($productName,$retailCost,$manifactureCost,$productStock,$fullFile,$description);
-            $this->model->databaseProducts();
-            $this->model->getProducts();
+            if(isset($_POST['type'])){
+                $type = $_POST['type'];
+                $filter = $_POST['filter'];
+                $this->model->sortProducts($type, $filter);
+                $this->model->getProducts();
+            }
+            if(isset($_POST['edit'])){
+                $this->model->getEditInfo($_POST['edit']);
+            }
+            if(isset($_POST['submitEdit'])){
+                $productName = $_POST['productName'];
+                $retail = $_POST['retailCost'];
+                $manifactureCost = $_POST['manifactureCost'];
+                $productImage = $_POST['productImage'];
+                $this->model->editProduct($_POST['submitEdit'],$productName,$retail,$manifactureCost,$productImage);
+                $this->model->databaseProducts();
+                $this->model->getProducts();
+            }
+            if(isset($_POST['delete'])){
+                $delete = $_POST['delete'];
+                $this->model->deleteProduct($delete);
+                $this->model->databaseProducts();
+                $this->model->getProducts();
+            }
+            if(isset($_POST['search'])){
+                $this->model->searchProduct($_POST['search']);
+                $this->model->getProducts();
+                // add_to_cart($_POST['productID'],$_SESSION['ID']);
+            }
+            if(isset($_POST['name'])){
+                $file = $_FILES['productImage']['name'];
+                $productName = $_POST['productName'];
+                $retailCost = $_POST['retailCost'];
+                $manifactureCost = $_POST['manifactureCost'];
+                $productStock = $_POST['productStock'];
+                $description = $_POST['description'];
+                $explodeFile = explode(".",$file);
+                $fileName = md5($explodeFile[0]);
+                $extension = $explodeFile[1];
+                $fullFile = $fileName."." . $extension;
+                $this->model->insertProduct($productName,$retailCost,$manifactureCost,$productStock,$fullFile,$description);
+                $this->model->databaseProducts();
+                $this->model->getProducts();
 
-            
-            $target_dir = IMAGEROOT . "$fullFile";
-            move_uploaded_file($_FILES["productImage"]["tmp_name"],$target_dir);
+                
+                $target_dir = IMAGEROOT . "$fullFile";
+                move_uploaded_file($_FILES["productImage"]["tmp_name"],$target_dir);
+            }
             
         }
         else{
