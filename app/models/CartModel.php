@@ -13,11 +13,11 @@ class CartModel extends model
       }
       public function getCost($ID){
           $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
-          return $result -> fetch_assoc()['productCost'];
+          return $result -> fetch_assoc()['retailCost'];
       }
       public function getOffer($ID){
           $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
-          return $result -> fetch_assoc()['productCost']*90/100;
+          return $result -> fetch_assoc()['retailCost']*90/100;
       }
       public function getMaterial(){
       return "Glass";

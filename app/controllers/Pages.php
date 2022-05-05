@@ -34,7 +34,21 @@ class Pages extends Controller{
             //     $product->setID($_POST['CardID']);
             //     echo($product->button());
             // }
-            
+            if(isset($_POST['addtocart'])){
+                $cookie = new cookie($_SESSION['ID']);
+                
+                $productname = $_POST['productname'];
+                $productimage = $_POST['productimage'];
+                $productprice = $_POST['prouctprice'];
+                $productID = $_GET['id'];
+                $productMaterial= $_POST['material'];
+                $productsize=$_POST['size'];
+      
+
+                $cookie-> addtocart($_SESSION['ID'],$productID,$productname,$productimage,$productprice,1,$productMaterial,$productsize);
+         
+
+            }
            
                  if(isset($_POST['review'])){
                     echo " <div class='content'>

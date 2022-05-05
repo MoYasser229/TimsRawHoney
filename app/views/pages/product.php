@@ -39,13 +39,13 @@ public function output(){
       <div class="top">
       <div class="product_images">
         <div class="product_image_1">
-        <img src = "<?php echo IMAGEROOT.$Image ; ?>" /> 
+        <img name="productimage" src = "<?php echo IMAGEROOT.$Image ; ?>" /> 
         </div>
         </div>
         <div class="product_info">
-          <h1><?php echo $productname ?></h1>
+          <h1 name="productname"><?php echo $productname ?></h1>
           <div class="price">
-          <h2 class="original_price"><?php echo $cost?></h2>
+          <h2 name="productprice" class="original_price"><?php echo $cost?></h2>
           <h2 class="sale_price"><?php echo $offer?></h2>
           </div>
           <div class="rating">
@@ -63,14 +63,14 @@ Propolis is a natural compount that bees produce from the sap on needle-leaved t
          <div class="buying_options">
          
                  <div class="select">
-                 <select id="color">
+                 <select id="color" name="material">
                    <option value = "1" id="glass"><?php echo $material[0][0] ?></option>
                    <option value = "2"id="plastic"><?php echo $material[0][1] ?></option>
                    
                  </select>
                  </div>
                  <div class="select">
-                 <select id="size">
+                 <select id="size" name="size">
                    <option value = "1" id="small"><?php echo $size[0][0]?></option>
                    <option value = "2" id="medium"><?php echo $size[0][1]?></option>
                    <option value = "3" id="large"><?php echo $size[0][2]?></option>
@@ -88,12 +88,12 @@ Propolis is a natural compount that bees produce from the sap on needle-leaved t
                    <!-- <button class="add" name="addtocart"> Add to Cart <i class="fa fa-shopping-cart fa-lg"></i></button> -->
                    <?php if(isset($_SESSION['ID'])){
       ?>
-                <a href="<?php echo URLROOT.'pages/Cart'?>?id=<?php echo $row['ID']; ?>" class="add" id=>Add to Cart <i class="fa fa-shopping-cart fa-lg"></i> </a>
+                <a href="<?php echo URLROOT.'pages/Cart'?>?id=<?php echo $row['ID']; ?>" name="addtocart" class="add" id=>Add to Cart <i class="fa fa-shopping-cart fa-lg"></i> </a>
                 <?php
                 }
                 else{
                 ?>
-               <a href="<?php echo URLROOT.'pages/signup'?>" class="add" id=>Add to Cart <i class="fa fa-shopping-cart fa-lg"></i> </a>
+               <a href="<?php echo URLROOT.'pages/signup'?>" class="add"  id=>Add to Cart <i class="fa fa-shopping-cart fa-lg"></i> </a>
                 <?php
                 }
                 ?>
