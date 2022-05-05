@@ -2,7 +2,7 @@
 class Cart extends View{
     public function output(){
         $title = $this->model->title;
-        $name=this->>model->getName();
+        $name=$this->model->getName();
         $Image=$this->model->getimage();
     $cost=$this->model->getCost();
     $offer =$this->model->getOffer();

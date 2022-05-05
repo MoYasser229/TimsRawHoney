@@ -3,7 +3,10 @@ class CartModel extends model
 {
      public $title = "Tim's Raw Honey";
      
-  
+    public function getName($ID){
+        $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
+          return $result -> fetch_assoc()['productName'];
+    }
      public function getimage($ID){
           $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
           return IMAGEROOT . $result -> fetch_assoc()['productImage'];
@@ -25,4 +28,3 @@ class CartModel extends model
  
   
   }
-}

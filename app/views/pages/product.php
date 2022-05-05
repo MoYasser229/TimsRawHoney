@@ -85,7 +85,8 @@ Propolis is a natural compount that bees produce from the sap on needle-leaved t
                  </div>
                  <div class="cart">
                    <!-- <a href="#" class="add">Add to Cart <i class="fa fa-shopping-cart fa-lg"></i></a> -->
-                   <button class="add" name="addtocart"> Add to Cart <i class="fa fa-shopping-cart fa-lg"></i></button>
+                   <!-- <button class="add" name="addtocart"> Add to Cart <i class="fa fa-shopping-cart fa-lg"></i></button> -->
+                   <a href="#" class="add" id=>Add to Cart <i class="fa fa-shopping-cart fa-lg"></i> </a>
                  </div>
           </div>
           </div>

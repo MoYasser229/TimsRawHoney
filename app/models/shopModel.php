@@ -26,6 +26,6 @@ class ShopModel extends model
           $result = $this->database->query("SELECT * FROM products");
           return $result;
       }
-     
+         
 }
 
