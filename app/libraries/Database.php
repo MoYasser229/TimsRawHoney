@@ -39,7 +39,7 @@ class Database{
             ID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
             fullName VARCHAR(30),
             email VARCHAR(128),
-            pswrd VARCHAR(30),
+            pswrd VARCHAR(64),
             phoneNumber1 VARCHAR(30),
             phoneNumber2 VARCHAR(30),
             userRole VARCHAR(30),

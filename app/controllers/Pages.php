@@ -80,7 +80,7 @@ class Pages extends Controller{
             else{
             $email = $_POST['email'];
             // $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
-            $password = $_POST['password'];
+            $password = md5($_POST['password']);
             if(!empty($email) && !empty($password)){
             $signInModel = $this->getModel();
             $signInModel->setemail($email);
@@ -99,7 +99,7 @@ class Pages extends Controller{
                 }
             }
             else{
-                echo "<script>alert('Username or password is incorrect')</script>";
+                echo "<script>alert('$password Username or password is incorrect')</script>";
             }
             }
             else{
