@@ -38,8 +38,18 @@ class shop extends View{
                     <li><a href="#"><i class="fa fa-heart"></i></a></li>
                     <li><a href="#"><i class="fa fa-random"></i></a></li>
                 </ul> -->
+                <?php if(isset($_SESSION['ID'])){
+      ?>
+                <a href="<?php echo URLROOT.'pages/Cart'?>" class="add-to-cart">Add to Cart</a>
+                <?php
+                }
+                else{
+                ?>
+               <a href="<?php echo URLROOT.'pages/signup'?>" class="add-to-cart">Add to Cart</a>
+                <?php
+                }
+                ?>
 
-                <a href="" class="add-to-cart">Add to Cart</a>
               </div>
               <div class="product-content">
                 <!-- <h3 class="title"><a href="#">Sage Honey</a></h3> -->

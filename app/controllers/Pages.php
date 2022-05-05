@@ -71,7 +71,7 @@ class Pages extends Controller{
                         $session = new Session();
                         $session->setSession("ID",$row['ID']);
                         $session->setSession("email",$row['email']);
-                        // $cookie = new Cookie($row['ID']);
+                          // $cookie = new Cookie($row['ID']);
                         echo ($row['userRole'] === "ADMIN")? URLROOT . "dashboard/home": URLROOT . "pages/index";  
                     }
 
@@ -317,6 +317,21 @@ class Pages extends Controller{
         $profile = new Profile($this->getModel(), $this);
         $profile->output();
     }
+
+    //habd
+//     public function cart(){
+   
+//         if($_SERVER['REQUEST_METHOD'] == 'POST'){
+//             $model = $this->getModel();
+            
+           
+//     }
+// }
+
+// public function shop(){
+
+// }
+    //habd
     public function ajax(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             //  print_r($_POST);
