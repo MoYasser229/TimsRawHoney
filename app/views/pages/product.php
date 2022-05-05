@@ -86,7 +86,18 @@ Propolis is a natural compount that bees produce from the sap on needle-leaved t
                  <div class="cart">
                    <!-- <a href="#" class="add">Add to Cart <i class="fa fa-shopping-cart fa-lg"></i></a> -->
                    <!-- <button class="add" name="addtocart"> Add to Cart <i class="fa fa-shopping-cart fa-lg"></i></button> -->
-                   <a href="#" class="add" id=>Add to Cart <i class="fa fa-shopping-cart fa-lg"></i> </a>
+                   <?php if(isset($_SESSION['ID'])){
+      ?>
+                <a href="<?php echo URLROOT.'pages/Cart'?>?id=<?php echo $row['ID']; ?>" class="add" id=>Add to Cart <i class="fa fa-shopping-cart fa-lg"></i> </a>
+                <?php
+                }
+                else{
+                ?>
+               <a href="<?php echo URLROOT.'pages/signup'?>" class="add" id=>Add to Cart <i class="fa fa-shopping-cart fa-lg"></i> </a>
+                <?php
+                }
+                ?>
+                  
                  </div>
           </div>
           </div>
