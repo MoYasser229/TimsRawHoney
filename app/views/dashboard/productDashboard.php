@@ -55,10 +55,19 @@ class productDashboard extends View{
                 <h1>SEARCH AND SORT</h1> 
                 <hr>
                 <div class="formSort">
-                    <input type="text" name=search id=search placeholder="Search">
-                    <!-- <select name="type" id="type">
-                        <option value=""></option>
-                    </select> -->
+                <div class="centerized">
+                    <input type="text" id = "search" placeholder="Search Here">
+                    <button id = "searchButton"><i class="fas fa-search"></i></button>
+                    <!-- <br><br> -->
+                    <select name="type" id = 'type'>
+                        <option id="typeChosen" value = "fullName" selected>NAME</option>
+                        <option id="typeChosen" value = "sales">NUMBER OF ORDERS</option>
+                    </select>
+                    <select name="filter" id = 'filter'>
+                        <option value = "DESC" selected>DESCENDING</option>
+                        <option value = "ASC">ASCENDING</option>
+                    </select>
+                </div>
                 </div>
             </div>
             <div class="productGrid">

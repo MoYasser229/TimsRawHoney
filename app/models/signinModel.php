@@ -56,7 +56,7 @@ class signinModel extends Model{
         return $this->email;
     }
     public function setpassword($pswrd){
-        $this->pswrd = md5($pswrd);
+        $this->pswrd = $pswrd;
     }
     public function getpassword(){
         return $this->pswrd;
@@ -101,12 +101,14 @@ class signinModel extends Model{
     }   
                         
     public function signin(){
-        $result = $this->database->query("SELECT * FROM users WHERE email = '{$this->email}' AND pswrd = '{$this->pswrd}'");
+        $result = $this->database->query("SELECT * FROM users WHERE email = '{$this->email}'");
         $rows = mysqli_num_rows($result);
         if($rows === 0){
             return false;
         }
         return $result->fetch_assoc();
+        
+        
     } 
                        
 }

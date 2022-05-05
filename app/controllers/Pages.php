@@ -79,8 +79,8 @@ class Pages extends Controller{
             }
             else{
             $email = $_POST['email'];
-            // $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
-            $password = md5($_POST['password']);
+            $password = $_POST['password'];
+            // $password = md5($_POST['password']);
             if(!empty($email) && !empty($password)){
             $signInModel = $this->getModel();
             $signInModel->setemail($email);
@@ -88,18 +88,23 @@ class Pages extends Controller{
             $result = $signInModel->signin();
             if($result !== false){
                 if($row = $result){
-                    $session = new Session();
-                    
-                    $session->setSession("ID",$row['ID']);
-                    $session->setSession("email",$row['email']);
-                    if($row['userRole'] === "CUSTOMER")
-                        redirect("pages/index");
-                    else
-                        redirect("dashboard/home");
+                    if(!password_verify($password,$row['pswrd'])){
+                        echo "<script>alert('password is incorrect')</script>";
+                    }
+                    else{
+                        $session = new Session();
+                        echo "<script>alert('donee')</script>";
+                        $session->setSession("ID",$row['ID']);
+                        $session->setSession("email",$row['email']);
+                        if($row['userRole'] === "CUSTOMER")
+                            redirect("pages/index");
+                        else
+                            redirect("dashboard/home");
+                    }
                 }
             }
             else{
-                echo "<script>alert('$password Username or password is incorrect')</script>";
+                echo "<script>alert('Email is incorrect')</script>";
             }
             }
             else{
@@ -116,8 +121,8 @@ class Pages extends Controller{
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $signUp = $this->getModel();
             
-            // $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
-            $password = $_POST['password'];
+            $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
+            // $password = $_POST['password'];
             $confirmNewPassword = $_POST['confirmPassword'];
             $homeAddress1 = $_POST['address1'];
             $homeAddress2 = $_POST['address2'];
@@ -141,7 +146,7 @@ class Pages extends Controller{
                     $error = true;
                     redirect('pages/signin');
                 }
-                if(!$signUp->checkPassword() || empty($password) || empty($confirmNewPassword) || $this->model->getpassword() != $this->model->getConfirmPassword() || (empty($phoneNumber1) && empty($phoneNumber2)) || empty($homeAddress1) && empty($homeAddress2)){
+                if(!$signUp->checkPassword() || empty($password) || empty($confirmNewPassword) || !password_verify($this->model->getConfirmPassword(),$password) || (empty($phoneNumber1) && empty($phoneNumber2)) || (empty($homeAddress1) && empty($homeAddress2))){
                     $error = true;
                     $signUp->setSocialError('*Something wrong with the data given. Please Sign Up Again and check you enter all data needed');
                 }
@@ -189,9 +194,9 @@ class Pages extends Controller{
                     $error = true;
                     $signUp->setErrorConfirmPassword('*REQUIRED: Please confirm your password');
                 }
-                if($password != $confirmNewPassword){
+                if(!password_verify($confirmNewPassword, $password)){
                     $error = true;
-                    $signUp->setErrorConfirmation('Confirmation of the password is different to the password written');
+                    $signUp->setErrorConfirmation("$password and $confirmNewPassword Confirmation of the password is different to the password written");
                 }
                 if(empty($phoneNumber1) && empty($phoneNumber2)){
                     $error = true;
@@ -207,7 +212,7 @@ class Pages extends Controller{
                         redirect("pages/signin");
                     }
                     else{
-                        echo "<script>alert('error')</scrip>";
+                        echo "<script>alert('error')</script>";
                     }
                 }
             }

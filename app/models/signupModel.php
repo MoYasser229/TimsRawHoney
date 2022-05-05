@@ -65,7 +65,7 @@ class signupModel extends Model{
         return $this->errorPassword;
     }
     public function setConfirmPassword($confirmPassword){
-        $this->confirmPassword = md5($confirmPassword);
+        $this->confirmPassword = $confirmPassword;
     }
     public function getConfirmPassword(){
         return $this->confirmPassword;
@@ -98,7 +98,7 @@ class signupModel extends Model{
         return $this->email;
     }
     public function setpassword($pswrd){
-        $this->pswrd = md5($pswrd);
+        $this->pswrd = $pswrd;
     }
     public function getpassword(){
         return $this->pswrd;
