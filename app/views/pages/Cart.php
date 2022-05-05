@@ -2,12 +2,13 @@
 class Cart extends View{
     public function output(){
         $title = $this->model->title;
-        $name=$this->model->getName();
-        $Image=$this->model->getimage();
-    $cost=$this->model->getCost();
-    $offer =$this->model->getOffer();
-    $material= $this->model->getMaterial();
-    $size=$this->model->getSize();
+        $id=$_GET['id'];
+        $name=$this->model->getName($id);
+        $Image=$this->model->getimage($id);
+     $cost=$this->model->getCost($id);
+    // $offer =$this->model->getOffer($id);
+    // $material= $this->model->getMaterial($id);
+    // $size=$this->model->getSize();
         require_once APPROOT . "/views/inc/header.php";
         //         $text = <<<EOT
                 
@@ -42,11 +43,11 @@ class Cart extends View{
         
     <div class="infoWrap"> 
         <div class="cartSection">
-        <img src="http://lorempixel.com/output/technics-q-c-300-300-4.jpg" alt="" class="itemImg" />
+        <img src="<?php echo IMAGEROOT.$Image ; ?>" alt="" class="itemImg" />
           <p class="itemNumber">#QUE-007544-002</p>
-          <h3>Item Name 1</h3>
+          <h3><?php echo $name ?></h3>
         
-           <p> <input type="text"  class="qty" placeholder="3"/> x $5.00</p>
+           <p> <input type="text"  class="qty" placeholder="1"/> x <?php echo $cost?></p>
         
           <p class="stockStatus"> In Stock</p>
         </div>  

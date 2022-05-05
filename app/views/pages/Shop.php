@@ -40,7 +40,7 @@ class shop extends View{
                 </ul> -->
                 <?php if(isset($_SESSION['ID'])){
       ?>
-                <a href="<?php echo URLROOT.'pages/Cart'?>" class="add-to-cart">Add to Cart</a>
+                <a href="<?php echo URLROOT.'pages/Cart'?>?id=<?php echo $row['ID']; ?>" class="add-to-cart">Add to Cart</a>
                 <?php
                 }
                 else{
