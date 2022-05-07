@@ -420,14 +420,148 @@ select{
 .invisible{
     display: none;
 }
-.editForm{
-    display: block;
-    background-color: green;
+#editCard{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 10px;
+    grid-gap: 10px;
+}
+#editInfo{
+    background-color:white;
+    padding: 20px;
+    text-align: center;
+}
+#editInfo h1{
+    margin-left: 10px;
+    color: red;
+
+}
+#editInfo p{
+    color: gray;
+    /* line-height: 4px; */
+}
+#editInfo p .navStock{
+    color: white;
+    background-color: #FBAB7E;
+    padding: 10px;
+    text-decoration: none;
+}
+#editForm{
+    background-color: white;
+    
+    padding: 10px;
+    /* width: 50%; */
+}
+#editForm .closeForm{
+    background-color: red;
+    color: white;
+    outline: none;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    padding: 10px;
+    /* float: right; */
+    font-weight: bold;
+}
+#editForm .closeForm:hover{
+    transform: scale(1.1);
+}
+#editForm h1{
+    color: #fab637;
+    text-align: center;
+}
+#editForm hr{
+    outline: none;
+    border: none;
+    height: 2px;
+    background-color: #fab637;
+    margin-bottom: 10px;
+}
+#editForm input[type="text"]{
+    outline: none;
+    border: none;
+    border-bottom: 2px solid #fab637;
+    padding: 5px;
+    color: gray;
+    font-size: 20px;
+    width: 50%;
+}
+#editForm span{
+    color: gray;
+    margin-right: 10px;
+}
+.gridProduct{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+    margin-top: 10px;
 }
 #editCard{
     display: none;
 }
+.file2 {
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+  }
+  
+  .file-input2 label {
+    
+    width: 100%;
+    height: 50px;
+    /* border-radius: 25px; */
+    background: transparent;
+    border: 5px solid #FBAB7E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FBAB7E;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all .2s ease-out;
+  }
+  
+  .file-name2 {
+    position: absolute;
+    bottom: -35px;
+    left: 10px;
+    font-size: 0.85rem;
+    color: #555;
+  }
+  
+  .file2:hover + label,
+  .file2:focus + label {
+    transform: scale(1.02);
+    background: #FBAB7E;
+    color: white;
+  }
+  
+  /* Adding an outline to the label on focus */
+  .file2:focus + label {
+    outline: 1px solid #000;
+    outline: -webkit-focus-ring-color auto 2px;
+  }
+  #submitEdit{
+      outline: none;
+      border: none;
+      width: 100%;
+      background: #FBAB7E;
+      background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+      padding: 10px;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      cursor: pointer;
+  }
+  .descProduct{
+      color: gray;
+      margin-left: 10px;
+      margin-right: 10px;
+  }
 @media screen and (max-width: 1880px){
+    .gridProduct{
+        grid-template-columns: 1fr 1fr;
+    }
     .productGrid{
         grid-template-columns: 1fr 1fr;
     }
@@ -436,7 +570,13 @@ select{
         --w:150px;
     }
 }
-@media screen and (max-width: 1024px){
+@media screen and (max-width: 780px){
+    #editCard{
+        grid-template-columns: 1fr;
+    }
+    .gridProduct{
+        grid-template-columns: 1fr;
+    }
     .overviewgrid{
         grid-template-columns: 1fr
     }
@@ -468,7 +608,7 @@ select{
         margin-top: 10px;
     }
     .productGrid{
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
         margin: 0;
         padding: 0;
         /* margin-left: 10%; */

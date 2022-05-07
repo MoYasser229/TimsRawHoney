@@ -16,17 +16,20 @@ class Database{
             $this->triggerError($this->connection->error);
         
 
-        $this->createOrderItemsTable();
+        
         $this->createUserTable();
         $this->createProductTable();
-        $this->createOrderTable();
-        $this->createDeliveryTable();
+        
+        
         $this->createSurveyTable();
         $this->createReviewTable();
         $this->createErrorTable();
         $this->createOffersTable();
         $this->createPromoCodesTable();
         $this->createWishListTable();
+        $this->createOrderTable();
+        $this->createOrderItemsTable();
+        $this->createDeliveryTable();
     }
     //FUNCTIONS
     public function createDatabase(){

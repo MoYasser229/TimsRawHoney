@@ -39,7 +39,7 @@ public function output(){
       <div class="top">
       <div class="product_images">
         <div class="product_image_1">
-        <img name="productimage" src = "<?php echo IMAGEROOT.$Image ; ?>" /> 
+        <img name="productimage" src = "<?php echo IMAGEROOT."product/".$Image ; ?>" /> 
         </div>
         </div>
         <div class="product_info">

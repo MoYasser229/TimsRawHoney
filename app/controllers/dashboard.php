@@ -22,8 +22,18 @@ class dashboard extends Controller{
                 $productName = $_POST['productName'];
                 $retail = $_POST['retailCost'];
                 $manifactureCost = $_POST['manifactureCost'];
-                $productImage = $_POST['productImage'];
-                $this->model->editProduct($_POST['submitEdit'],$productName,$retail,$manifactureCost,$productImage);
+                $productImage = isset($_POST['productImage'])?$_POST['productImage'] : $_FILES['productImage'];
+                $fullFile = isset($_POST['productImage'])?$_POST['productImage'] : $_FILES['productImage'];
+                if(isset($_FILES['productImage'])){
+                    $file = $_FILES['productImage']['name'];
+                    $explodeFile = explode(".",$file);
+                    $fileName = md5($explodeFile[0]);
+                    $extension = $explodeFile[1];
+                    $fullFile = $fileName."." . $extension;
+                    $target_dir = "../public" . "/images/product/$fullFile";
+                    move_uploaded_file($_FILES["productImage"]["tmp_name"],$target_dir);
+                }
+                $this->model->editProduct($_POST['submitEdit'],$productName,$retail,$manifactureCost,$fullFile);
                 $this->model->databaseProducts();
                 $this->model->getProducts();
             }
@@ -38,7 +48,7 @@ class dashboard extends Controller{
                 $this->model->getProducts();
                 // add_to_cart($_POST['productID'],$_SESSION['ID']);
             }
-            if(isset($_POST['name'])){
+            if(isset($_POST['addProduct'])){
                 $file = $_FILES['productImage']['name'];
                 $productName = $_POST['productName'];
                 $retailCost = $_POST['retailCost'];
@@ -54,7 +64,7 @@ class dashboard extends Controller{
                 $this->model->getProducts();
 
                 
-                $target_dir = IMAGEROOT . "$fullFile";
+                $target_dir = "../public" . "/images/product/$fullFile";
                 move_uploaded_file($_FILES["productImage"]["tmp_name"],$target_dir);
             }
             

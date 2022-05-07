@@ -90,7 +90,7 @@ class productDashboard extends View{
                     <textarea id=description name=productDescription placeholder="Enter a brief description about your product" rows="4" cols="40"></textarea>
                     <br>
                     <br>
-                    <button onclick="submitForm()" class=subButton>ADD PRODUCT</button>
+                    <button onclick="submitForm()" class=subButton id=addProdoct value=add >ADD PRODUCT</button>
                     <div id=error></div>
                 </div>
                 <div class="informationCard">
@@ -101,23 +101,37 @@ class productDashboard extends View{
                         <h1>BEST SELLER</h1>
                         <?php
                             $best = $this->model->getBestSeller();
-                        ?>
-                        <i class="fa-solid fa-ranking-star"></i>
+                            if(isset($best['productName'])){
+                                ?>
+                                    <i class="fa-solid fa-ranking-star"></i>
                         
-                        <h4><?php echo strtoupper($best['productName']); ?></h4>
-                        <p>With <strong><?php echo $best['quantity'];?></strong> taken from stock, <strong><?php echo $best['productName']; ?></strong> is the best seller among the products.</p>
+                                    <h4><?php echo  $best['productName']; ?></h4>
+                                    <p>With <strong><?php echo $best['quantity'];?></strong> taken from stock, <strong><?php echo $best['productName']; ?></strong> is the best seller among the products.</p>
+                                <?php
+                            }
+                            else{
+                                echo "<h4>No Products Available</h4>";
+                            }
+                        ?>
+                        
 
                         </div>
                         <div class="overviewChild zero">
-                        <h1>ZERO SELLER</h1>
+                        <h1>LEAST SELLER</h1>
                         <?php
                             $zero = $this->model->getZeroSeller();
-                        ?>
-                        <i class="fa-solid fa-heart-crack"></i>
+                            if(isset($zero['productName'])){
+                                ?>
+                                    <i class="fa-solid fa-heart-crack"></i>
                         
-                        <h4><?php echo strtoupper($zero['productName']); ?></h4>
-                        <p>Unfortunately, the product <strong><?php echo $zero['productName']; ?></strong> is the least selling product. Moreover, its Manifacture Cost is the highest among the least selling with a value of <strong><?php echo $zero['manifactureCost']; ?> EGP</strong></p>
-
+                                    <h4><?php echo  $zero['productName']; ?></h4>
+                                    <p>Unfortunately, the product <strong><?php echo $zero['productName']; ?></strong> is the least selling product. Moreover, its Manifacture Cost is the highest among the least selling with a value of <strong><?php echo $zero['manifactureCost']; ?> EGP</strong></p>
+                                <?php
+                            }
+                            else{
+                                echo "<h4>No Products Available</h4>";
+                            }
+                        ?>
                         </div>
                         <div class="overviewChild">
                             <?php $this->checkStock(); ?>
@@ -153,13 +167,21 @@ class productDashboard extends View{
             </div>
             <div id="editCard">
                 <div id="editForm"></div>
+                <div id="editInfo" >
+                    <h1><i class="fa-solid fa-exclamation"></i> &nbsp;DISCLAIMER</h1>
+                    <p>For the retail price and manifacture cost, please enter a numerical value to avoid any issues.</p>
+                    <p>Please check that all fields are not empty.</p>
+                    <p>Want to edit the stocks? <a class=navStock href='stocks'>Click here</a></p>
+                </div>
             </div>
-            <div id="productTable">
-                <?php 
-                $this->model->databaseProducts();
-                $this->model->getProducts(); 
-                ?>
-            </div>
+            
+                <div id="productTable">
+                    <?php 
+                    $this->model->databaseProducts();
+                    $this->model->getProducts(); 
+                    ?>
+                </div>
+            
             <script>
                 const file = document.querySelector('#file');
                 file.addEventListener('change', (e) => {
@@ -172,6 +194,19 @@ class productDashboard extends View{
                 // Set the text content
                 const fileNameAndSize = `${fileName} - ${fileSize}KB`;
                 $('#file-name').html(fileNameAndSize)
+                // document.querySelector('.file-name').textContent = fileNameAndSize;
+                });
+                const file2 = document.querySelector('#file2');
+                file.addEventListener('change', (e) => {
+                // Get the selected file
+                const [file2] = e.target.files;
+                // Get the file name and size
+                const { name: fileName, size } = file;
+                // Convert size in bytes to kilo bytes
+                const fileSize2 = (size / 1000).toFixed(2);
+                // Set the text content
+                const fileNameAndSize2 = `${fileName} - ${fileSize2}KB`;
+                $('#file-name2').html(fileNameAndSize2)
                 // document.querySelector('.file-name').textContent = fileNameAndSize;
                 });
                 $("#type").change(() => {
@@ -211,17 +246,19 @@ class productDashboard extends View{
                     })
                 }
                 function submitEdit() {
+                    
                     pname = $("#productName").val()
                     rcost = $("#retailCost").val()
                     mcost = $("#manifactureCost").val()
                     productImage = $("#file2")[0].files[0]
                     submit = $("#submitEdit").val()
-
+                    description = $("#description").val()
                     error = false;
                     if(pname == "" || rcost == "" || mcost == "")
                         error = true
                     if(!productImage){
-                        productImage = $("#file2").val()
+                        alert(productImage)
+                        productImage = $("#imageName").val()
                     }
                     
                     // else{
@@ -235,12 +272,22 @@ class productDashboard extends View{
                     //     }
                     // }
                     if(!error){
+                        form = new FormData()
+                        form.append("productImage",productImage)
+                        form.append("retailCost",rcost)
+                        form.append("manifactureCost",mcost)
+                        form.append("description",description)
+                        form.append("productName",pname)
+                        form.append("submitEdit",submit)
                         $.ajax({
                             type: 'POST',
                             url: 'productDashboard',
-                            data: {productName: pname, retailCost: rcost,manifactureCost: mcost,productImage:productImage,submitEdit:submit},
+                            data: form,
+                            contentType: false,
+                            processData: false,
                             success: (result)=>{
-                                $(".productGrid").html(result)
+                                $("#productTable").html(result)
+                                // console.log(result)
                             }
                         })
                     }
@@ -249,7 +296,9 @@ class productDashboard extends View{
                     }
                 }
                 function deleteProduct(value) {
-                    $.ajax({
+                    $("#deleteButton").html("ARE YOU SURE?")
+                    $("#deleteButton").click(() => {
+                        $.ajax({
                         type: 'POST',
                         url: 'productDashboard',
                         data: {delete:value},
@@ -257,9 +306,11 @@ class productDashboard extends View{
                             $("#productTable").html(result)
                         }
                     })
+                    })
+                    
                 }
                 function editProduct(value) {
-                    $("#editCard").css('display','block');
+                    $("#editCard").css('display','grid');
                     $.ajax({
                         type: 'POST',
                         url: 'productDashboard',
@@ -281,6 +332,7 @@ class productDashboard extends View{
                     productStock = $("#stock").val()
                     productImage = $("#file")[0].files[0]
                     description = $("#description").val()
+                    submit = $("#addProdoct").val()
                     error = false
 
                     if(productName == "" || retailCost == "" || manifactureCost == "" || productStock == "" || description == "")
@@ -291,13 +343,12 @@ class productDashboard extends View{
                     }
                     else{
                         type = productImage['type']
-                        size = productImage['size']
                         if(!type.includes("image/")){
                             error = true
                         }
-                        if(size <= 0){
-                            error = true
-                        }
+                        // if(size <= 0){
+                        //     error = true
+                        // }
                     }
                     if(!error){
                         fd.append("productImage",productImage)
@@ -306,6 +357,7 @@ class productDashboard extends View{
                         fd.append("productStock",productStock)
                         fd.append("description",description)
                         fd.append("productName",productName)
+                        fd.append("addProduct",submit)
                         $.ajax({
                             type: 'POST',
                             url: 'productDashboard',
@@ -313,8 +365,13 @@ class productDashboard extends View{
                             contentType: false,
                             processData: false,
                             success: (result)=>{
-                                $(".productGrid").html(result)
-                                // alert(result)
+                                $("#productTable").html(result)
+                                $("#name").val("")
+                                $("#retail").val("")
+                                $("#manifacture").val("")
+                                $("#stock").val("")
+                                $("#description").val("")
+                                $("#file").val("")
                             }
                         })
                     }

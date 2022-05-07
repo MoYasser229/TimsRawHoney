@@ -79,27 +79,30 @@ class productDashboardModel extends Model{
         $this->database->query("DELETE FROM products WHERE id = $id");
     }
     public function editProduct($id,$name,$rcost,$mcost,$image){
-        $this->database->query("UPDATE products SET productName = '$name',retailCost = '$rcost',manifactureCost = '$mcost', productImage = '$image' WHERE id = $id");
+        $this->database->query("UPDATE products SET productName = '$name',retailCost = '$rcost',manifactureCost = '$mcost', productImage = '{$image}' WHERE id = $id");
     }
     public function getEditInfo($ID){
         $edit = $this->database->query("SELECT * FROM products WHERE id = $ID")->fetch_assoc();
+        
         echo "<br>
-        <button class = closeForm onclick='dismiss()'>go back</button>
+        <button class = closeForm onclick='dismiss()'>CANCEL</button>
 
-        <h1>EDITING PRODUCT <br>" . strtoupper($edit["productName"]). " </h1> 
-        <input type=text name=productName id=productName value={$edit["productName"]}>
-        <input type=text name=retailCost id=retailCost value={$edit["retailCost"]}>
-        <input type=text name=manifactureCost id=manifactureCost value={$edit["manifactureCost"]}>
-
+        <h1>EDITING PRODUCT " . strtoupper($edit["productName"]). " </h1> 
+        <hr>
+        <span>Product Name:</span> <input type=text name=productName id=productName value='".$edit["productName"]."'><br>
+        <span>Retail Cost:</span> <input type=text name=retailCost id=retailCost value={$edit["retailCost"]}><br>
+        <span>Manifacture Cost:</span> <input type=text name=manifactureCost id=manifactureCost value={$edit["manifactureCost"]}><br>
+        <br><br>
         <div class='file-input2'>
                     <input name=productImage type='file' id='file2' class='file2' value={$edit["productImage"]} accept='image/*'>
+                    <input id=imageName type=hidden name=existingImage value={$edit['productImage']}>
                     <label for='file2'>
                     <i class='fa-solid fa-upload'></i>&nbsp; Upload Image
                         
                     </label>
                     <p id='file-name2'></p>
                     </div>
-                    
+        Description: <textarea name=description id=description value={$edit["productDescription"]}>{$edit["productDescription"]}</textarea>
         <button id = submitEdit name = submitEdit onclick='submitEdit()' value='{$edit['ID']}'>EDIT PRODUCT</button>
         <div id=errorMessage></div>
         ";
@@ -113,10 +116,8 @@ class productDashboardModel extends Model{
             
         }
         else{
-            echo "
-            
-            <div class='productGrid'>";
             $check = false;
+            echo "<div class='gridProduct'>";
             foreach($this->products as $product){
                 $profit = ceil((($product['retailCost'] - $product['manifactureCost'])/$product['manifactureCost'])*100);
                 $text = "profit";
@@ -130,13 +131,12 @@ class productDashboardModel extends Model{
                 
                 $stockRatio = ceil(($availableStock / $product['productStock'])*100);
                 echo "
-                
                 <div class='productCard' id=edit{$product['ID']}>
-                <button onclick='deleteProduct(this.value)' class ='deleteProduct' value = '{$product['ID']}'>DELETE PRODUCT</button>
+                            <button id=deleteButton onclick='deleteProduct(this.value)' class ='deleteProduct' value = '{$product['ID']}'>DELETE PRODUCT</button>
                             <div class='smallGrid2'>
-                            
-                                <img src='".IMAGEROOT."{$product['productImage']}'>  
                                 
+                                <img src='".IMAGEROOT."product/".$product['productImage']."'> 
+                                 
                                 <div class='smallGridChild2'>
                                         <h2>".strtoUpper($product['productName'])."</h2>
                                         <hr>
@@ -156,6 +156,8 @@ class productDashboardModel extends Model{
                                 </div>
                             </div>
                             <br>
+                            <h1>PRODUCT DESCRIPTION</h1>
+                            <h4 class = descProduct>{$product['productDescription']}</h4>
                             <button onclick='editProduct(this.value)' value='{$product['ID']}'  class ='productButtons2'>EDIT PRODUCT</button>
                             
                         </div>

@@ -46,10 +46,11 @@
                         <li class="menu-item"><a href="<?php echo URLROOT . "dashboard/customer" ;?>">Customer List</a></li>
                         <li class="menu-item"><a href="<?php echo URLROOT . "dashboard/delivery" ;?>">Customer Delivery</a></li>
                         <li class="menu-item"><a href="<?php echo URLROOT . "dashboard/survey" ;?>">Customer Survey</a></li>
-                        <li class="menu-item"><a href="<?php echo URLROOT . "pages/logout";?>">Sign Out</a></li>
+                        
                     </ol>
                     </li>
                     <li class="menu-item"><a href="<?php echo URLROOT . "dashboard/order" ;?>">Orders</a></li>
+                    <li class="menu-item"><a href="<?php echo URLROOT . "pages/logout";?>">Sign Out</a></li>
                     
                 </ol>
             </nav>
