@@ -2,10 +2,10 @@
 class Cart extends View{
     public function output(){
         $title = $this->model->title;
-        $id=$_GET['id'];
-        $name=$this->model->getName($id);
-        $Image=$this->model->getimage($id);
-     $cost=$this->model->getCost($id);
+    //     $id=$_GET['id'];
+    //     $name=$this->model->getName($id);
+    //     $Image=$this->model->getimage($id);
+    //  $cost=$this->model->getCost($id);
     // $offer =$this->model->getOffer($id);
     // $material= $this->model->getMaterial($id);
     // $size=$this->model->getSize();
@@ -152,6 +152,9 @@ class Cart extends View{
             <li class="totalRow final"><span class="label">Total</span><span class="value">$44.00</span></li>
       <li class="totalRow"><a href="#" class="btn continue">Checkout</a></li>
     </ul>
+    <?php
+    echo $_COOKIE["cart".$_SESSION['ID']];
+    ?>
   </div>
 </div>
 <script>// Remove Items From Cart

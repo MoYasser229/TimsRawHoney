@@ -34,7 +34,7 @@ class Pages extends Controller{
             //     $product->setID($_POST['CardID']);
             //     echo($product->button());
             // }
-            if(isset($_POST['submit'])){
+            if(isset($_POST['productid'])){
               
                 
                 $productname = $_POST['productname'];
@@ -46,9 +46,13 @@ class Pages extends Controller{
       
 
                $this->addtocart($_SESSION['ID'],$productID,$productname,$productimage,$productprice,1,$productMaterial,$productsize);
-               if(isset($_COOKIE["cart".$_SESSION['ID']])){
-               }
-               echo $_COOKIE["cart".$_SESSION['ID']];
+               echo '
+               <div class="alert alert-success alert-dismissible">
+                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                  Item Added into Cart
+               </div>
+               ';
+              
 
             }
             
