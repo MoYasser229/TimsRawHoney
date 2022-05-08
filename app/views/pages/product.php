@@ -35,17 +35,21 @@ public function output(){
   ?> 
   <div id="wrap">
     <div id="product_layout_1">
-      <form method="post" action="">
+      <form method="post" action="<?php echo URLROOT.'Pages/product'?>">
       <div class="top">
       <div class="product_images">
         <div class="product_image_1">
+        <input type="hidden" name="productid" value="<?php echo $ID ?>"></input>
         <img name="productimage" src = "<?php echo IMAGEROOT."product/".$Image ; ?>" /> 
+        <input type="hidden" name="productimage" value="<?php echo IMAGEROOT."product/".$Image ; ?>"></input>
         </div>
         </div>
         <div class="product_info">
           <h1 name="productname"><?php echo $productname ?></h1>
+          <input type="hidden" name="productname" value="<?php echo $productname ?>"></input>
           <div class="price">
           <h2 name="productprice" class="original_price"><?php echo $cost?></h2>
+          <input type="hidden" name="productprice" value="<?php echo $cost ?>"></input>
           <h2 class="sale_price"><?php echo $offer?></h2>
           </div>
           <div class="rating">
@@ -89,6 +93,7 @@ Propolis is a natural compount that bees produce from the sap on needle-leaved t
                    <?php if(isset($_SESSION['ID'])){
       ?>
                 <a href="<?php echo URLROOT.'pages/Cart'?>?id=<?php echo $row['ID']; ?>" name="addtocart" class="add" id=>Add to Cart <i class="fa fa-shopping-cart fa-lg"></i> </a>
+                <input  type="submit" name="submit" ></input>
                 <?php
                 }
                 else{
