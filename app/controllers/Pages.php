@@ -243,12 +243,7 @@ class Pages extends Controller{
         $testView = new signup($this->getModel(), $this);
         $testView->output();
     }
-    public function Cart(){
-        $viewPath = VIEWSPATH . 'pages/Cart.php';
-        require_once $viewPath;
-        $testView = new Cart($this->getModel(), $this);
-        $testView->output();
-    }
+
     public function logout()
     {
         echo 'logout called';
@@ -345,14 +340,29 @@ class Pages extends Controller{
     }
 
     //habd
-//     public function cart(){
+    public function Cart(){
    
-//         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-//             $model = $this->getModel();
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+         
+ 
+            if (isset($_POST['productid'])){
+                $this->deletefromcart($_SESSION['ID'],$_POST['productid']);
+    
+            }
+            else{
+                echo "ay7aga";
+            }
+            
             
            
-//     }
-// }
+    }
+    else{
+        $viewPath = VIEWSPATH . 'pages/Cart.php';
+        require_once $viewPath;
+        $testView = new Cart($this->getModel(), $this);
+        $testView->output();
+    }
+}
 
 // public function shop(){
 
@@ -422,5 +432,18 @@ class Pages extends Controller{
         $item_data = json_encode($cart_data);
         setcookie("cart$customerID", $item_data, time() + 2678400);
            }
+
+           public function deletefromcart($customerID,$productID){
+            $cookie_data = stripslashes($_COOKIE['cart'.$customerID]);
+  $cart_data = json_decode($cookie_data, true);
+  foreach($cart_data as $keys => $values)
+  {
+   if($cart_data[$keys]['productID'] == $productID)
+   {
+    unset($cart_data[$keys]);
+    $item_data = json_encode($cart_data);
+    setcookie("cart$customerID", $item_data, time() + 2678400);
     }
-    
+}
+           }
+        }

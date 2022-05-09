@@ -250,6 +250,7 @@ $(document).ready(function(){
     material=$('#material').val();
     size=$('#size').val();
 
+
     $.ajax({
         type: 'POST',
         url: 'product',
