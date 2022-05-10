@@ -46,15 +46,23 @@ public function output(){
         </div>
         <div class="product_info">
           <h1 name="productname"><?php echo $productname ?></h1>
-          <input type="hidden" id="productname" name="productname" value="<?php echo $productname ?>"></input>
+          
           <div class="price">
-          <h2 name="productprice" class="original_price"><?php echo $cost?></h2>
-          <input type="hidden" id="productprice" name="productprice" value="<?php echo $cost ?>"></input>
-          <h2 class="sale_price"><?php echo $offer?></h2>
+         
+         
+          <h2 class="sale_price"><?php echo "Price: ".$cost?></h2>
           </div>
-          <div class="rating">
+          <!-- <div class="rating">
             <i class="fa fa-star fa-3x"></i><i class="fa fa-star fa-3x"></i><i class="fa fa-star fa-3x"></i><i class="fa fa-star-half-o fa-3x"></i><i class="fa fa-star-o fa-3x"></i>
-          </div>
+          </div> -->
+          <div class="col-sm-4 text-center">
+                        <h1 class="text-warning mt-4 mb-4">
+                            <b><span id="average_rating">0.0</span> / 5</b>
+                        </h1>
+                        <div class="mb-3">
+                        <i class="fa fa-star fa-3x"></i><i class="fa fa-star fa-3x"></i><i class="fa fa-star fa-3x"></i><i class="fa fa-star-half-o fa-3x"></i><i class="fa fa-star-o fa-3x"></i>
+                        </div>
+                    </div>
           <div class="product_description">
           <p>An immunity booster formula.
 Delicious natural and healthy.
@@ -261,6 +269,33 @@ $(document).ready(function(){
     })
     });
 
+    function load_rating_data()
+    {
+         var product_id = 
+
+        $.ajax({
+            url:"submit_rating.php",
+            method:"POST",
+            data:{action:'load_data',product_id:product_id},
+            dataType:"JSON",
+            success:function(data)
+            {
+                $('#average_rating').text(data.average_rating);
+                $('#total_review').text(data.total_review);
+
+                var count_star = 0;
+
+                $('.main_star').each(function(){
+                    count_star++;
+                    if(Math.ceil(data.average_rating) >= count_star)
+                    {
+                        $(this).addClass('text-warning');
+                        $(this).addClass('star-light');
+                    }
+                });
+              }
+            }
+          }
 
     // $('#save_review').click(function(){
 
