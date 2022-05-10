@@ -30,9 +30,19 @@ public function output(){
     <title>Tim Raw Honey</title>
 </head>
 <body>
-  <?php
-    
-  ?> 
+
+<div class="example">
+  <div class="hexagon -big"><span class="text"></span></div>
+  <div class="hexagon -big"><span class="text"></span></div>
+  <div class="hexagon -normal"><span class="text"></span></div>
+  <div class="hexagon -normal"><span class="text"></span></div>
+  <div class="hexagon -normal"><span class="text"></span></div>
+  <div class="hexagon -small"></div>
+  <div class="hexagon -small"></div>
+  <div class="hexagon -small"></div>
+  <div class="hexagon -small"></div>
+</div>
+
   <div id="wrap">
     <div id="product_layout_1">
 
@@ -46,9 +56,9 @@ public function output(){
         </div>
         <div class="product_info">
           <h1 name="productname"><?php echo $productname ?></h1>
-          
+          <input type="hidden" id="productname" name="productname" value="<?php echo $productname ?>"></input>
           <div class="price">
-         
+          <input type="hidden" id="productprice" name="productprice" value="<?php echo $cost ?>"></input>
          
           <h2 class="sale_price"><?php echo "Price: ".$cost?></h2>
           </div>
@@ -269,33 +279,7 @@ $(document).ready(function(){
     })
     });
 
-    function load_rating_data()
-    {
-         var product_id = 
 
-        $.ajax({
-            url:"submit_rating.php",
-            method:"POST",
-            data:{action:'load_data',product_id:product_id},
-            dataType:"JSON",
-            success:function(data)
-            {
-                $('#average_rating').text(data.average_rating);
-                $('#total_review').text(data.total_review);
-
-                var count_star = 0;
-
-                $('.main_star').each(function(){
-                    count_star++;
-                    if(Math.ceil(data.average_rating) >= count_star)
-                    {
-                        $(this).addClass('text-warning');
-                        $(this).addClass('star-light');
-                    }
-                });
-              }
-            }
-          }
 
     // $('#save_review').click(function(){
 
