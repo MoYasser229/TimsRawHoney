@@ -345,24 +345,134 @@ class Pages extends Controller{
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
          
  
-            if (isset($_POST['productid'])){
+            if (isset($_POST['remove'])){
                 $this->deletefromcart($_SESSION['ID'],$_POST['productid']);
+                
+            }
+            if($_POST['quantity']){
+            
+                $this->updatequantity($_SESSION['ID'],$_POST['productid'],$_POST['quantity']);
+                ?>
+
+<ul class="cartWrap" >
+    <?php
+    if(isset($_COOKIE["cart".$_SESSION["ID"]]))
+    {
+     
+     $total = 0;
+     $cookie_data = stripslashes($_COOKIE["cart".$_SESSION["ID"]]);
+     $cart_data = json_decode($cookie_data, true);
+     foreach($cart_data as $keys => $values)
+     {
+        if($_POST['productid']==$values['productID']){
+            $quantity=$_POST["quantity"];
+        }
+        else{
+            $quantity=$values["quantity"];
+        }
+        $total = $total + ($quantity * $values["productPrice"]); 
+
+       ?>
+ 
+      <li class="items odd"  id="productsection<?php echo $values["productID"];?>">
+  
+    <div class="infoWrap" > 
+        <div class="cartSection">
+
+        <img src="<?php echo $values["productImage"]; ?>" alt="" class="itemImg" />
+        <input type="hidden" id="productimage<?php echo $values["productID"];?>" name="productimage<?php echo $values["productID"];?>" value="<?php echo $values["productImage"]; ?>"></input>
+          <p class="itemNumber">#QUE-007544-002</p>
+          <h3><?php echo $values["productName"]; ?></h3>
+          <input type="hidden" id="productname<?php echo $values["productID"];?>"name="productname<?php echo $values["productID"];?>" value="<?php echo $values["productName"]; ?>"></input>
+       
+           <p> <input type="text" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" class="qty" value="<?php echo $quantity?>" onchange="updatecart(<?php echo $values["productID"];?>)"></input> x <?php echo $values["productPrice"];?></p>
+          
+           <input type="hidden" id="productprice<?php echo $values["productID"];?>"name="productprice<?php echo $values["productID"];?>" value="<?php echo $values["productPrice"];?>"></input>
+          <p class="stockStatus"> In Stock</p>
+        </div>  
     
-            }
-            else{
-                echo "ay7aga";
-            }
-            
-            
-           
+        
+        <div class="prodTotal cartSection">
+          <p>$ <?php echo number_format($quantity * $values["productPrice"], 2);?></p>
+        </div>
+              <div class="cartSection removeWrap">
+              <a  class="remove" id="remove<?php echo $values["productID"];?>" value="remove" >x</a>
+           <input  type="hidden" id="productid<?php echo $values["productID"];?>" type="submit" name="productid" value="<?php echo $values["productID"];?>" ></input>
+        </div>
+      </div>
+ 
+      </li>
+      <script>// Remove Items From Cart
+
+$(document).ready(function(){
+$('#remove'+<?php echo $values["productID"];?>).click(()=>{
+
+  productid=$('#productid'+<?php echo $values["productID"];?>).val();
+  remove=$('#remove'+<?php echo $values["productID"];?>).val();
+
+  $.ajax({
+        type: 'POST',
+        url: 'Cart',
+        data:{"productid":productid,"remove":remove},
+        success: (result)=>{
+          $('#productsection'+<?php echo $values["productID"];?>).remove();
+          
+        }
+    })
+  event.preventDefault();
+  $( this ).parent().parent().parent().hide( 400 );
+ 
+});
+
+
+});
+function updatecart(id){
+  productid=$('#productid'+id).val();
+  quantity=$('#quantity'+id).val();
+  $.ajax({
+    type: 'POST',
+      url: 'Cart',
+      data:{"productid":productid,"quantity":quantity},
+      success: function(result){
+          $('#cartdata').html(result);
+          
+        }
+  })
+}
+</script>
+      <?php
+      
+     }
     }
+     ?>
+     
+    </ul>
+    <div class="promoCode"><label for="promo">Have A Promo Code?</label><input type="text" name="promo" placholder="Enter Code" />
+  <a href="#" class="btn"></a></div>
+  
+  <div class="subtotal cf">
+    <ul>
+            <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
+      <li class="totalRow"><a href="#" class="btn continue">Checkout</a></li>
+    </ul>
+  </div>
+</div>
+    </div>
+  
+</div>
+                <?php
+            }
+        }
+            
+       
     else{
         $viewPath = VIEWSPATH . 'pages/Cart.php';
         require_once $viewPath;
         $testView = new Cart($this->getModel(), $this);
         $testView->output();
     }
-}
+
+    }
 
 // public function shop(){
 
@@ -441,6 +551,21 @@ class Pages extends Controller{
    if($cart_data[$keys]['productID'] == $productID)
    {
     unset($cart_data[$keys]);
+    $item_data = json_encode($cart_data);
+    setcookie("cart$customerID", $item_data, time() + 2678400);
+    }
+}
+           }
+           public function updatequantity($customerID,$productID,$quantity){
+            $cookie_data = stripslashes($_COOKIE['cart'.$customerID]);
+  $cart_data = json_decode($cookie_data, true);
+  foreach($cart_data as $keys => $values)
+  {
+   if($cart_data[$keys]['productID'] == $productID)
+   {
+   
+        $cart_data[$keys]["quantity"] = $quantity;
+           
     $item_data = json_encode($cart_data);
     setcookie("cart$customerID", $item_data, time() + 2678400);
     }

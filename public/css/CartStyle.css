@@ -283,6 +283,12 @@ a.remove {
 }
 a.remove:hover {
   background: #f30;
+  cursor: pointer;
+  margin: 15px 0;
+}
+
+.modify{
+  margin-left: 14%;
 }
 
 .promoCode {
