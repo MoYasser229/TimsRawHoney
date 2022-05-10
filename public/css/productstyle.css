@@ -176,7 +176,18 @@ img{
   float:left;
   margin-bottom:20px;
 }
-#product_layout_1 .product_info .buying .cart a.add{
+
+#product_layout_1 .product_info .buying .cart a.add {
+  font-size:2em;
+  color:#FFF;
+  background:#00a900;
+  text-decoration:none;
+  padding:10px 20px;
+  height:40px;
+  border-radius:3px;
+  margin-left:10px;
+}
+input[type="submit"]{
   font-size:2em;
   color:#FFF;
   background:#00a900;

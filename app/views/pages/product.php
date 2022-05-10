@@ -61,7 +61,7 @@ Delicious natural and healthy.
 Propolis is a natural compount that bees produce from the sap on needle-leaved trees, trees and/or evergreens. Bees mix Sap mixed with their secreations and beeswax forming a sticky, greenish-brown product used as a coating and blocking cracks in the hive and many more in-hive usage.</p>
           </div>
          <div class="related_info">
-           <span class="sku">SKU:1234567</span><span class="quantity">QTY:85</span>
+          <span class="quantity">QTY: 85</span>
          </div>
          <div class="options">
          <div class="buying_options">
@@ -93,8 +93,7 @@ Propolis is a natural compount that bees produce from the sap on needle-leaved t
                    <?php if(isset($_SESSION['ID'])){
       ?>
       <div class="message">
-                <a href="<?php echo URLROOT.'pages/Cart'?>?id=<?php echo $row['ID']; ?>" name="addtocart" class="add" id=>Add to Cart <i class="fa fa-shopping-cart fa-lg"></i> </a>
-                <input  class="fa fa-shopping-cart fa-lg" id="addtocart" type="submit" name="submit" ></input>
+                <input  class="fa fa-shopping-cart fa-lg" id="addtocart" type="submit" name="submit" value="Add to Cart"></input>
                 </div>
                 <?php
                 }
