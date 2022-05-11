@@ -6,7 +6,7 @@ class Shop{
     private $ID;
     private $stock;
     private $size;
-}
+
 public function __construct($name, $description, $cost, $ID, $stock, $size){
     $this->name = $name;
     $this->description = $description;

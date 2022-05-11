@@ -142,12 +142,11 @@ Propolis is a natural compount that bees produce from the sap on needle-leaved t
           if (isset($_SESSION['ID']))
           ?>
           <button id="add_review" class="writeReview">Write your Own Review</button>
-            <div class="content">
-              <span class="name">Marty McFly</span><span class="stars"><i class="fa fa-star fa-2x"></i><i class="fa fa-star fa-2x"></i><i class="fa fa-star fa-2x"></i><i class="fa fa-star-half-o fa-2x"></i><i class="fa fa-star-o fa-2x"></i></span>
-              <p class="review_text">"Check out that four by four. That is hot. Someday, Jennifer, someday. Wouldn't it be great to take that truck up to the lake. Throw a couple of sleeping bags in the back. Whoa, wait, Doc. Here you go, lady. There's a quarter. Well, it will just happen. Like the way I met your father..."</p>
-              <!-- <p class="fullReview"><a href="#">View Full Review</a></p> -->
-              
-            </div>
+           <div id="ayhaga">
+           <?php
+           echo $this->model->displayReview($ID);
+           ?>
+           </div>
           </div>
       
 </body>
@@ -175,6 +174,7 @@ Propolis is a natural compount that bees produce from the sap on needle-leaved t
                     <input type="text" name="user_name" id="user_name" class="form-control" placeholder="Enter Your Name" />
                 </div> -->
                 <div class="form-group">
+                    <input type="hidden" id="productID" name="productID" value="<?php echo $ID?>">
                     <textarea name="user_review" id="user_review" class="form-control" placeholder="Type Review Here"></textarea>
                 </div>
                 <div class="form-group text-center mt-4">
@@ -247,13 +247,13 @@ $(document).ready(function(){
 
    $('#save_review').click(()=>{
     review=$('#user_review').val();
-
+    productID=$('#productID').val();
     $.ajax({
         type: 'POST',
         url: 'product',
-        data:{"rating":rating_data,"review":review},
+        data:{"rating":rating_data,"review":review,"productID":productID},
         success: (result)=>{
-             $(".reviews").append(result)
+             $("#ayhaga").html(result)
             // alert(result);
         }
     })

@@ -43,7 +43,7 @@ class Pages extends Controller{
                 $productID = $_POST['productid'];
                 $productMaterial= $_POST['material'];
                 $productsize=$_POST['size'];
-      
+                
 
                $this->addtocart($_SESSION['ID'],$productID,$productname,$productimage,$productprice,1,$productMaterial,$productsize);
                echo '
@@ -58,11 +58,19 @@ class Pages extends Controller{
             
            
                  if(isset($_POST['review'])){
-                    echo " <div class='content'>
-                       <span class='name'>{$this->model->getName($_SESSION['ID'])}</span><span class='stars'><i class='fa fa-star fa-2x'></i><i class='fa fa-star fa-2x'></i><i class='fa fa-star fa-2x'></i><i class='fa fa-star-half-o fa-2x'></i><i class='fa fa-star-o fa-2x'></i></span>
-                       <p class='review_text'>{$_POST['review']}</p>
-                       <!-- <p class='fullReview'><a href='#'>View Full Review</a></p> -->
-                    </div><br>" ;
+                    
+                    // echo " <div class='content'>
+                    //    <span class='name'>{$this->model->getName($_SESSION['ID'])}</span><span class='stars'><i class='fa fa-star fa-2x'></i><i class='fa fa-star fa-2x'></i><i class='fa fa-star fa-2x'></i><i class='fa fa-star-half-o fa-2x'></i><i class='fa fa-star-o fa-2x'></i></span>
+                    //    <p class='review_text'>{$_POST['review']}</p>
+                    //    <!-- <p class='fullReview'><a href='#'>View Full Review</a></p> -->
+                    // </div><br>" ;
+
+                    $productmodel = $this->getModel();
+                    $reviewText = $_POST['review'];
+                    $productID= $_POST['productID'];
+                    $productmodel->writereview($_SESSION['ID'],$productID,$reviewText);
+                    $productmodel->displayReview($productID);
+                    
                  }
                 
 
