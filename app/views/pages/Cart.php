@@ -35,10 +35,11 @@ class Cart extends View{
   <div class="heading cf" >
     <h1>My Cart</h1>
     <a href="<?php echo URLROOT.'pages/Shop' ?>" class="continue">Continue Shopping</a>
-    <a href="" class="clear" id="clear" value="clear">Clear cart</a>
+    
   </div>
   
   <div class="cart" role="document" id="cartdata">
+    <a href="" class="clear" id="clear" value="clear">Clear cart</a>
 <!--    <ul class="tableHead">
       <li class="prodHeader">Product</li>
       <li>Quantity</li>
@@ -124,8 +125,8 @@ $.ajax({
         
       }
   })
-event.preventDefault();
-$( this ).parent().parent().parent().hide( 400 );
+  event.preventDefault();
+  $( this ).parent().parent().parent().hide( 400 );
 
 });
 
@@ -147,7 +148,7 @@ function updatecart(id){
 }
 </script>
       <?php
-      
+       
      }
      ?>
      

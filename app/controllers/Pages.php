@@ -460,6 +460,7 @@ class Pages extends Controller{
     $item_data = json_encode($cart_data);
     setcookie("cart$customerID", $item_data, time() + 2678400);
     ?>
+    <a href="" class="clear" id="clear" value="clear">Clear cart</a>
     <ul class="cartWrap" >
     <?php
     if(isset($_COOKIE["cart".$_SESSION["ID"]]))
@@ -529,7 +530,25 @@ $('#remove'+<?php echo $values["productID"];?>).click(()=>{
  
 });
 
+$('#clear').click(()=>{
 
+clear=$('#clear').val();
+
+
+$.ajax({
+      type: 'POST',
+      url: 'Cart',
+      data:{"clear":clear},
+      success: (result)=>{
+        $('#cartdata').html(result);
+     
+        
+      }
+  })
+
+  event.preventDefault();
+  $( this ).parent().parent().parent().hide( 400 );
+});
 });
 function updatecart(id){
   productid=$('#productid'+id).val();
@@ -570,6 +589,10 @@ function updatecart(id){
 }
            }
            public function updatequantity($customerID,$productID,$quantity){
+            ?>
+            <a href="" class="clear" id="clear" value="clear">Clear cart</a>
+            <ul class="cartWrap" >
+                <?php
             $cookie_data = stripslashes($_COOKIE['cart'.$customerID]);
   $cart_data = json_decode($cookie_data, true);
   foreach($cart_data as $keys => $values)
@@ -583,10 +606,7 @@ function updatecart(id){
     setcookie("cart$customerID", $item_data, time() + 2678400);
     }
 }
-?>
 
-<ul class="cartWrap" >
-    <?php
     if(isset($_COOKIE["cart".$_SESSION["ID"]]))
     {
      
@@ -654,6 +674,25 @@ $('#remove'+<?php echo $values["productID"];?>).click(()=>{
   $( this ).parent().parent().parent().hide( 400 );
  
 });
+$('#clear').click(()=>{
+
+clear=$('#clear').val();
+
+
+$.ajax({
+      type: 'POST',
+      url: 'Cart',
+      data:{"clear":clear},
+      success: (result)=>{
+        $('#cartdata').html(result);
+     
+        
+      }
+  })
+  event.preventDefault();
+  $( this ).parent().parent().parent().hide( 400 );
+
+});
 
 
 });
@@ -694,7 +733,55 @@ function updatecart(id){
                 <?php
            }
            public function clearcart($customerID){
-            setcookie("cart".$customerID, "");
-        }
-    }
+            setcookie("cart".$customerID, "", time() - 3600);
+            if(isset($_COOKIE["cart".$_SESSION["ID"]]))
+            {
+          
+                
+              ?>
+     <a href="" class="clear" id="clear" value="clear">Clear cart</a>
+              <ul class="cartWrap" >
+            
+                   
+                <script>// Remove Items From Cart
+          
+          $(document).ready(function(){
+          
+          
+          $('#clear').click(()=>{
+          
+          clear=$('#clear').val();
+          
+          
+          $.ajax({
+                type: 'POST',
+                url: 'Cart',
+                data:{"clear":clear},
+                success: (result)=>{
+                  $('#cartdata').html(result);
+               
+                  
+                }
+            })
+          
+            event.preventDefault();
+  $( this ).parent().parent().parent().hide( 400 );
+          });
+          
+          });
+          
+          </script>
+                <?php
+                 
+       
+              
+               ?>
+               
+              </ul>
+       
+          
+                          <?php
+            }
+          }
 
+        }

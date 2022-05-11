@@ -148,7 +148,7 @@ img {
   -o-transition: all 0.15s linear;
   transition: all 0.15s linear;
 }
-.heading a.clear:link, .heading a.clear:visited {
+a.clear:link,  a.clear:visited {
   text-decoration: none;
   font-family: "Montserrat", sans-serif;
   letter-spacing: -.015em;
@@ -168,7 +168,7 @@ img {
   margin-top: 4%;
   margin-left: 80%;
 }
-.heading a.clear:after {
+ a.clear:after {
 
   padding: .5em;
   position: relative;
@@ -179,7 +179,7 @@ img {
   -o-transition: all 0.15s linear;
   transition: all 0.15s linear;
 }
-.heading a.clear:hover, .heading a.clear:focus, .heading a.clear:active {
+ a.clear:hover,  a.clear:focus,  a.clear:active {
   background: #f69679;
 }
 
