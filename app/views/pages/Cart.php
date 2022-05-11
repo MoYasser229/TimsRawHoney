@@ -35,7 +35,9 @@ class Cart extends View{
   <div class="heading cf" >
     <h1>My Cart</h1>
     <a href="<?php echo URLROOT.'pages/Shop' ?>" class="continue">Continue Shopping</a>
+    <a href="" class="clear" id="clear" value="clear">Clear cart</a>
   </div>
+  
   <div class="cart" role="document" id="cartdata">
 <!--    <ul class="tableHead">
       <li class="prodHeader">Product</li>
@@ -91,12 +93,14 @@ $('#remove'+<?php echo $values["productID"];?>).click(()=>{
   productid=$('#productid'+<?php echo $values["productID"];?>).val();
   remove=$('#remove'+<?php echo $values["productID"];?>).val();
 
+
   $.ajax({
         type: 'POST',
         url: 'Cart',
         data:{"productid":productid,"remove":remove},
         success: (result)=>{
-          $('#productsection'+<?php echo $values["productID"];?>).remove();
+          $('#cartdata').html(result);
+       
           
         }
     })
@@ -104,6 +108,27 @@ $('#remove'+<?php echo $values["productID"];?>).click(()=>{
   $( this ).parent().parent().parent().hide( 400 );
  
 });
+
+$('#clear').click(()=>{
+
+clear=$('#clear').val();
+
+
+$.ajax({
+      type: 'POST',
+      url: 'Cart',
+      data:{"clear":clear},
+      success: (result)=>{
+        $('#cartdata').html(result);
+     
+        
+      }
+  })
+event.preventDefault();
+$( this ).parent().parent().parent().hide( 400 );
+
+});
+
 
 
 });
@@ -130,7 +155,7 @@ function updatecart(id){
     <div class="promoCode"><label for="promo">Have A Promo Code?</label><input type="text" name="promo" placholder="Enter Code" />
   <a href="#" class="btn"></a></div>
   
-  <div class="subtotal cf">
+  <div class="subtotal cf" id="total">
     <ul>
 
             <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
@@ -152,7 +177,7 @@ function updatecart(id){
             <?php
 }
 else{
-  echo "No data";
+  echo "";
 }
 }
 }
