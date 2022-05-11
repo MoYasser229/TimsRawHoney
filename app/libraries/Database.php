@@ -106,6 +106,12 @@ class Database{
         $this->statement = "CREATE TABLE IF NOT EXISTS survey(
             surveyID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
             customerID INT(6) NOT NULL,
+            questionOne INT(6) NOT NULL,
+            questionTwo INT(6) NOT NULL,
+            questionThree INT(6) NOT NULL,
+            questionFour INT(6) NOT NULL,
+            questionFive INT(6) NOT NULL,
+            `description` VARCHAR(255),
             FOREIGN KEY (customerID) REFERENCES users(ID) ON DELETE CASCADE
         )";
         $this->execute(0);

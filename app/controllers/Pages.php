@@ -340,11 +340,25 @@ class Pages extends Controller{
                 session_destroy();
                 redirect('pages/index');
             }
+            if(isset($_POST['q1'])){
+                $q1 = $_POST['q1'];
+                $q2 = $_POST['q2'];
+                $q3 = $_POST['q3'];
+                $q4 = $_POST['q4'];
+                $q5 = $_POST['q5'];
+                $description =isset($_POST['description'])?$_POST['description']:"";
+                require_once 'survey.php';
+                $surveyEntry = new Survey($_SESSION['ID'],$q1,$q2,$q3,$q4,$q5,$description);
+                $model->insertSurvey($surveyEntry);
+                echo "Successfully added!";
+            }
         }
-        $profilePath = VIEWSPATH . 'pages/profile.php';
-        require_once $profilePath;
-        $profile = new Profile($this->getModel(), $this);
-        $profile->output();
+        else{
+            $profilePath = VIEWSPATH . 'pages/profile.php';
+            require_once $profilePath;
+            $profile = new Profile($this->getModel(), $this);
+            $profile->output();
+        }
     }
 
     //habd

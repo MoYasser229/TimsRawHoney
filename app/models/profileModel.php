@@ -57,4 +57,7 @@ class profileModel extends Model{
         $result = $this->database->query("UPDATE users SET homeAddress1 = '$address1', homeAddress2 = '$address2' WHERE ID = '$ID'");
         return ($result)?true:false;
     }
+    public function insertSurvey($survey){
+        $this->database->query("INSERT INTO survey(customerID,questionOne,questionTwo,questionThree,questionFour,questionFive,`description`) VALUES('{$survey->customerID}','{$survey->q1}','{$survey->q2}','{$survey->q3}','{$survey->q4}','{$survey->q5}','{$survey->description}')");
+    }
 }

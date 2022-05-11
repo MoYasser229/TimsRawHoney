@@ -152,10 +152,25 @@ class dashboard extends Controller{
         $stocksView->output();
     }
     public function survey(){
-        $surveyPath = VIEWSPATH . 'dashboard/survey.php';
-        require_once $surveyPath;
-        $surveyView = new Survey($this->getModel(), $this);
-        $surveyView->output();  
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            if(isset($_POST['search'])){
+                $search = $_POST['search'];
+                $this->model->searchSurvey($search);
+                $this->model->display();
+            }
+            if(isset($_POST['type'])){
+                $type = $_POST['type'];
+                $filter = $_POST['filter'];
+                $this->model->filterSurveys($type, $filter);
+                $this->model->display();
+            }
+        }
+        else{
+            $surveyPath = VIEWSPATH . 'dashboard/survey.php';
+            require_once $surveyPath;
+            $surveyView = new Survey($this->getModel(), $this);
+            $surveyView->output();  
+        }
     }
     public function ajax(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){

@@ -27,6 +27,7 @@ class profile extends View{
                     <button id = "orders" class = "myButton margin-bottom"><i class="fas fa-receipt"></i><br>My Orders</button><br>
                     <button id = "address" class = "myButton margin-bottom"><i class="fas fa-address-card"></i><br>My Address Book</button><br>
                     <button id = "promo" class = "myButton margin-bottom"><i class="fa-solid fa-percent"></i><br>My Promo Codes</button><br>
+                    <button id = "survey" class = "myButton margin-bottom"><i class="fa-solid fa-file-pen"></i><br>Survey</button><br>
                     <button id = "delete" class = "myButton"><i class="fas fa-trash"></i><br>Delete Account</button>
                 </div>
                 <div class="mainChild">
@@ -156,6 +157,79 @@ class profile extends View{
                         
 
                     </div>
+                    <div class="survey">
+                    <h2 class="title">
+                        <span>Your Opinion</span>
+                        <span class="title-word title-word-3">Matters</span>
+                    </h2>
+                    
+        <!-- <h3><b>Overall experience with our service</b></h3> -->
+            <br>
+            <div class="radio-group">
+            <h6>How would you rate your overall experience with our service?</h6>
+            <button onclick="toggle(this.value,'one')" value=1 id=onea1><i class="fa-solid fa-face-frown"></i><br>Very Poor</button>
+            <button onclick="toggle(this.value,'one')" value=2 id=onea2><i class="fa-solid fa-face-frown-open"></i><br>Poor</button>
+            <button onclick="toggle(this.value,'one')" value=3 id=onea3><i class="fa-solid fa-face-meh"></i><br>Fair</button>
+            <button onclick="toggle(this.value,'one')" value=4 id=onea4><i class="fa-solid fa-face-smile-beam"></i><br>Good</button>
+            <button onclick="toggle(this.value,'one')" value=5 id=onea5><i class="fa-solid fa-face-grin-beam"></i><br>Very Good</button>
+            <input type=hidden name=questionOne id=one>
+            </div><!-- </tr> -->
+          <br>
+          <!-- <tr> -->
+              <!-- <hr> -->
+              <!-- <br> -->
+            <div class="radio-group">
+            <h6>How satisfied are you with the comprehensiveness of our offer?</h6>
+            <button onclick="toggle(this.value,'two')" value=1 id=twoa1><i class="fa-solid fa-face-frown"></i><br>Very Poor</button>
+            <button onclick="toggle(this.value,'two')" value=2 id=twoa2><i class="fa-solid fa-face-frown-open"></i><br>Poor</button>
+            <button onclick="toggle(this.value,'two')" value=3 id=twoa3><i class="fa-solid fa-face-meh"></i><br>Fair</button>
+            <button onclick="toggle(this.value,'two')" value=4 id=twoa4><i class="fa-solid fa-face-smile-beam"></i><br>Good</button>
+            <button onclick="toggle(this.value,'two')" value=5 id=twoa5><i class="fa-solid fa-face-grin-beam"></i><br>Very Good</button>
+            <input type=hidden name=questionTwo id=two>
+            </div>
+            <br>
+          <!-- </tr> -->
+          <!-- <tr> -->
+            <div class="radio-group">
+            <h6>How would you rate our prices?</h6>
+            <button onclick="toggle(this.value,'three')" value=1 id=threea1><i class="fa-solid fa-face-frown"></i><br>Very Poor</button>
+            <button onclick="toggle(this.value,'three')" value=2 id=threea2><i class="fa-solid fa-face-frown-open"></i><br>Poor</button>
+            <button onclick="toggle(this.value,'three')" value=3 id=threea3><i class="fa-solid fa-face-meh"></i><br>Fair</button>
+            <button onclick="toggle(this.value,'three')" value=4 id=threea4><i class="fa-solid fa-face-smile-beam"></i><br>Good</button>
+            <button onclick="toggle(this.value,'three')" value=5 id=threea5><i class="fa-solid fa-face-grin-beam"></i><br>Very Good</button>
+            <input type=hidden name=questionThree id=three>
+            </div>
+            <br>
+          <!-- </tr> -->
+          <!-- <tr> -->
+            <div class="radio-group">
+            <h6>How satisfied are you with the customer support?</h6>
+            <button onclick="toggle(this.value,'four')" value=1 id=foura1><i class="fa-solid fa-face-frown"></i><br>Very Poor</button>
+            <button onclick="toggle(this.value,'four')" value=2 id=foura2><i class="fa-solid fa-face-frown-open"></i><br>Poor</button>
+            <button onclick="toggle(this.value,'four')" value=3 id=foura3><i class="fa-solid fa-face-meh"></i><br>Fair</button>
+            <button onclick="toggle(this.value,'four')" value=4 id=foura4><i class="fa-solid fa-face-smile-beam"></i><br>Good</button>
+            <button onclick="toggle(this.value,'four')" value=5 id=foura5><i class="fa-solid fa-face-grin-beam"></i><br>Very Good</button>
+            <input type=hidden name=questionFour id=four>
+            </div>
+            <br>
+          <!-- </tr> -->
+          <div class="radio-group">
+            <h6>Would you recommend our product / service to other people?</h6>
+            <button onclick="toggle(this.value,'five')" value=1 id=fivea1><i class="fa-solid fa-face-frown"></i><br>Very Poor</button>
+            <button onclick="toggle(this.value,'five')" value=2 id=fivea2><i class="fa-solid fa-face-frown-open"></i><br>Poor</button>
+            <button onclick="toggle(this.value,'five')" value=3 id=fivea3><i class="fa-solid fa-face-meh"></i><br>Fair</button>
+            <button onclick="toggle(this.value,'five')" value=4 id=fivea4><i class="fa-solid fa-face-smile-beam"></i><br>Good</button>
+            <button onclick="toggle(this.value,'five')" value=5 id=fivea5><i class="fa-solid fa-face-grin-beam"></i><br>Very Good</button>
+            <input type=hidden name=questionFive id=five>
+            </div>
+            <br>
+        <!-- </table> -->
+        <h6><b>What should we change in order to live up to your expectations?</b></h6>
+        <textarea id = surveyDescription name=surveyText class=textStyle style="resize: none;"></textarea>
+        <span id=success style="color: green"></span>
+        <span class=error id=surveyError></span>
+          <button style="color: white;background-color: #FBAB7E;" onclick="survey()">Send Feedback</button>
+                    </div>
                     <div class="delete">
                         <h1 class = "header">Delete Account</h1>
                         <hr class = "headerSeparator">
@@ -177,6 +251,8 @@ class profile extends View{
                     $(".delete").css("display", "none");
                     $(".personal").css("display", "block");
                     $(".promo").css("display", "none");
+                    $(".survey").css("display", "none");
+                    $("#survey").removeClass("selected");
                     $("#promo").removeClass("selected");
                     $("#security").removeClass("selected");
                     $("#address").removeClass("selected");
@@ -192,6 +268,8 @@ class profile extends View{
                     $(".delete").css("display", "none");
                     $(".security").css("display", "block");
                     $(".promo").css("display", "none");
+                    $(".survey").css("display", "none");
+                    $("#survey").removeClass("selected");
                     $("#promo").removeClass("selected");
                     $("#security").addClass("selected");
                     $("#address").removeClass("selected");
@@ -206,6 +284,8 @@ class profile extends View{
                     $(".security").css("display", "none");
                     $(".orders").css("display", "block");
                     $(".promo").css("display", "none");
+                    $(".survey").css("display", "none");
+                    $("#survey").removeClass("selected");
                     $("#promo").removeClass("selected");
                     $("#security").removeClass("selected");
                     $("#address").removeClass("selected");
@@ -220,6 +300,8 @@ class profile extends View{
                     $(".orders").css("display", "none");
                     $(".address").css("display", "block");
                     $(".promo").css("display", "none");
+                    $(".survey").css("display", "none");
+                    $("#survey").removeClass("selected");
                     $("#promo").removeClass("selected");
                     $("#security").removeClass("selected");
                     $("#address").addClass("selected");
@@ -234,6 +316,8 @@ class profile extends View{
                     $(".address").css("display", "none");
                     $(".delete").css("display", "block");
                     $(".promo").css("display", "none");
+                    $(".survey").css("display", "none");
+                    $("#survey").removeClass("selected");
                     $("#promo").removeClass("selected");
                     $("#security").removeClass("selected");
                     $("#address").removeClass("selected");
@@ -248,6 +332,8 @@ class profile extends View{
                     $(".address").css("display", "none");
                     $(".delete").css("display", "none");
                     $(".promo").css("display", "block");
+                    $(".survey").css("display", "none");
+                    $("#survey").removeClass("selected");
                     $("#promo").addClass("selected");
                     $("#security").removeClass("selected");
                     $("#address").removeClass("selected");
@@ -255,9 +341,73 @@ class profile extends View{
                     $("#orders").removeClass("selected");
                     $("#personal").removeClass("selected");
                 })
-                
+                $("#survey").click(function(){
+                    $(".personal").css("display", "none");
+                    $(".security").css("display", "none");
+                    $(".orders").css("display", "none");
+                    $(".address").css("display", "none");
+                    $(".delete").css("display", "none");
+                    $(".promo").css("display", "none");
+                    $(".survey").css("display", "block");
+                    $("#survey").addClass("selected");
+                    $("#promo").removeClass("selected");
+                    $("#security").removeClass("selected");
+                    $("#address").removeClass("selected");
+                    $("#delete").removeClass("selected");
+                    $("#orders").removeClass("selected");
+                    $("#personal").removeClass("selected");
+                })
                     
                 });
+                function toggle(value,id){
+                    if(value == 1) {
+                        $("#"+id+"a1").addClass("selectedAns");
+                        $("#"+id+"a2,#"+id+"a3,#"+id+"a4,#"+id+"a5").removeClass("selectedAns")
+                    }
+                    if(value == 2) {
+                        $("#"+id+"a2").addClass("selectedAns");
+                        $("#"+id+"a1,#"+id+"a3,#"+id+"a4,#"+id+"a5").removeClass("selectedAns")
+                    }
+                    if(value == 3) {
+                        $("#"+id+"a3").addClass("selectedAns");
+                        $("#"+id+"a2,#"+id+"a1,#"+id+"a4,#"+id+"a5").removeClass("selectedAns")
+                    }
+                    if(value == 4) {
+                        $("#"+id+"a4").addClass("selectedAns");
+                        $("#"+id+"a2,#"+id+"a3,#"+id+"a1,#"+id+"a5").removeClass("selectedAns")
+                    }
+                    if(value == 5) {
+                        $("#"+id+"a5").addClass("selectedAns");
+                        $("#"+id+"a2,#"+id+"a3,#"+id+"a4,#"+id+"a1").removeClass("selectedAns")
+                    }
+                    $("#"+id).val(value)
+                    // alert($("#one").val());
+                }
+                function survey(){
+                    questionOne = $('#one').val();
+                    questionTwo = $('#two').val();
+                    questionThree = $('#three').val();
+                    questionFour = $('#four').val()
+                    questionFive = $('#five').val()
+                    description = $('#description').val()
+                    error = false
+                    if(questionOne == "" || questionTwo == "" || questionThree == "" || questionFour == "" || questionFive == ""){
+                        error = true
+                        $("#surveyError").html("Please fill all questions in the form")
+                    }
+                    else{
+                        $("#surveyError").html("")
+                        $.ajax({
+                            type: 'POST',
+                            url: 'profile',
+                            data: {q1: questionOne, q2:questionTwo, q3:questionThree, q4:questionFour, q5:questionFive, description: description},
+                            success: (result) => {
+                                $("#success").html(result)
+                            } 
+                        })
+                    }
+                    // alert(questionFour)
+                }
             </script>
         <?php
     }
