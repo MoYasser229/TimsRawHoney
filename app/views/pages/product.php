@@ -70,7 +70,11 @@ public function output(){
                             <b><span id="average_rating">0.0</span> / 5</b>
                         </h1>
                         <div class="mb-3">
-                        <i class="fa fa-star fa-3x"></i><i class="fa fa-star fa-3x"></i><i class="fa fa-star fa-3x"></i><i class="fa fa-star-half-o fa-3x"></i><i class="fa fa-star-o fa-3x"></i>
+                        <i class="fa fa-star fa-3x"></i>
+                        <i class="fa fa-star fa-3x"></i>
+                        <i class="fa fa-star fa-3x"></i>
+                        <i class="fa fa-star-half-o fa-3x"></i>
+                        <i class="fa fa-star-o fa-3x"></i>
                         </div>
                     </div>
           <div class="product_description">
@@ -78,9 +82,7 @@ public function output(){
 Delicious natural and healthy.
 Propolis is a natural compount that bees produce from the sap on needle-leaved trees, trees and/or evergreens. Bees mix Sap mixed with their secreations and beeswax forming a sticky, greenish-brown product used as a coating and blocking cracks in the hive and many more in-hive usage.</p>
           </div>
-         <div class="related_info">
-          <span class="quantity">QTY: 85</span>
-         </div>
+        
          <div class="options">
          <div class="buying_options">
          
@@ -101,10 +103,7 @@ Propolis is a natural compount that bees produce from the sap on needle-leaved t
                  </div>
           </div>
           <div class="buying">
-                 <div class="quantity">
-                   <label for="quantity">QTY:</label>
-                   <input type="text">
-                 </div>
+                
                  <div class="cart">
                    <!-- <a href="#" class="add">Add to Cart <i class="fa fa-shopping-cart fa-lg"></i></a> -->
                    <!-- <button class="add" name="addtocart"> Add to Cart <i class="fa fa-shopping-cart fa-lg"></i></button> -->
@@ -126,7 +125,8 @@ Propolis is a natural compount that bees produce from the sap on needle-leaved t
           </div>
           </div>
                  <div class="social">
-                   <span class="share">Share This:</span><span class="buttons"><img src="https://i.imgur.com/M8D8rr8.jpg"/></span>
+                   <span class="share">Share This:</span>
+                   <span class="buttons"><img src="https://i.imgur.com/M8D8rr8.jpg"/></span>
            </div>
           </div>
         </div>

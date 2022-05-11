@@ -393,9 +393,10 @@ input[type="submit"]{
   margin:15px 0px;
 }
 #product_layout_1 .product_info .social .share{
-  margin-top:-5px;
+ margin-left: 80px;
   margin-bottom:15px;
 }
+
 #product_layout_1 .product_info .buttons{
   margin-top:20px;
   margin-left:10px;
