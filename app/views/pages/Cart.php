@@ -70,7 +70,7 @@ class Cart extends View{
           <h3><?php echo $values["productName"]; ?></h3>
           <input type="hidden" id="productname<?php echo $values["productID"];?>"name="productname<?php echo $values["productID"];?>" value="<?php echo $values["productName"]; ?>"></input>
         
-           <p> <input type="text" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" class="qty" value="<?php echo $values["quantity"];?>" onchange="updatecart(<?php echo $values["productID"];?>)"></input> x <?php echo $values["productPrice"];?></p>
+           <p> <input type="text" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" class="qty" value="<?php echo $values["quantity"];?>" onchange='updatecart(<?php echo $values["productID"];?>)'> x <?php echo $values["productPrice"];?></p>
            <input type="hidden" id="productprice<?php echo $values["productID"];?>"name="productprice<?php echo $values["productID"];?>" value="<?php echo $values["productPrice"];?>"></input>
           <p class="stockStatus"> In Stock</p>
         </div>  
@@ -130,9 +130,6 @@ $.ajax({
 
 });
 
-
-
-});
 function updatecart(id){
   productid=$('#productid'+id).val();
   quantity=$('#quantity'+id).val();
@@ -145,6 +142,29 @@ function updatecart(id){
           
         }
   })
+}
+});
+function checkout(){
+
+
+checkout=$('#checkout').val();
+
+
+$.ajax({
+      type: 'POST',
+      url: 'Cart',
+      data:{"checkout":checkout},
+      success: (result)=>{
+        
+        $('#cartdata').html(result);
+        $('#exampleModal').modal('show');
+     
+        
+      }
+  })
+  event.preventDefault();
+  $( this ).parent().parent().parent().hide( 400 );
+
 }
 </script>
       <?php
@@ -160,7 +180,7 @@ function updatecart(id){
     <ul>
 
             <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
-      <li class="totalRow"><a href="#" class="btn continue">Checkout</a></li>
+      <li class="totalRow"><a href="" class="btn continue" name="checkout" onclick="checkout()" id="checkout" value=checkout>Checkout</a></li>
     </ul>
   </div>
 </div>

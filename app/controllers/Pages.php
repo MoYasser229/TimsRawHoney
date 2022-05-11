@@ -381,6 +381,10 @@ class Pages extends Controller{
                 $this->clearcart($_SESSION['ID']);
             
             }
+            if (isset($_POST['checkout'])){
+                $this->checkout($_SESSION['ID']);
+            
+            }
         }
             
        
@@ -505,7 +509,7 @@ class Pages extends Controller{
           <h3><?php echo $values["productName"]; ?></h3>
           <input type="hidden" id="productname<?php echo $values["productID"];?>"name="productname<?php echo $values["productID"];?>" value="<?php echo $values["productName"]; ?>"></input>
        
-           <p> <input type="text" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" class="qty" value="<?php echo $quantity?>" onchange="updatecart(<?php echo $values["productID"];?>)"></input> x <?php echo $values["productPrice"];?></p>
+           <p> <input type="text" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" class="qty" value="<?php echo $quantity?>" onchange='updatecart(<?php echo $values["productID"];?>)'></input> x <?php echo $values["productPrice"];?></p>
           
            <input type="hidden" id="productprice<?php echo $values["productID"];?>"name="productprice<?php echo $values["productID"];?>" value="<?php echo $values["productPrice"];?>"></input>
           <p class="stockStatus"> In Stock</p>
@@ -577,6 +581,26 @@ function updatecart(id){
         }
   })
 }
+function checkout(){
+
+
+checkout=$('#checkout').val();
+
+
+$.ajax({
+      type: 'POST',
+      url: 'Cart',
+      data:{"checkout":checkout},
+      success: (result)=>{
+        $('#cartdata').html(result);
+     
+        
+      }
+  })
+  event.preventDefault();
+  $( this ).parent().parent().parent().hide( 400 );
+
+}
 </script>
       <?php
         }
@@ -591,7 +615,7 @@ function updatecart(id){
   <div class="subtotal cf">
     <ul>
             <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
-      <li class="totalRow"><a href="#" class="btn continue">Checkout</a></li>
+            <li class="totalRow"><a href="" class="btn continue" name="checkout" onclick="checkout()" id="checkout" value=checkout>Checkout</a></li>
     </ul>
   </div>
 </div>
@@ -650,7 +674,7 @@ function updatecart(id){
           <h3><?php echo $values["productName"]; ?></h3>
           <input type="hidden" id="productname<?php echo $values["productID"];?>"name="productname<?php echo $values["productID"];?>" value="<?php echo $values["productName"]; ?>"></input>
        
-           <p> <input type="text" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" class="qty" value="<?php echo $quantity?>" onchange="updatecart(<?php echo $values["productID"];?>)"></input> x <?php echo $values["productPrice"];?></p>
+           <p> <input type="text" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" class="qty" value="<?php echo $quantity?>" onchange='updatecart(<?php echo $values["productID"];?>)'></input> x <?php echo $values["productPrice"];?></p>
           
            <input type="hidden" id="productprice<?php echo $values["productID"];?>"name="productprice<?php echo $values["productID"];?>" value="<?php echo $values["productPrice"];?>"></input>
           <p class="stockStatus"> In Stock</p>
@@ -723,6 +747,25 @@ function updatecart(id){
         }
   })
 }
+function checkout(){
+
+checkout=$('#checkout').val();
+
+
+$.ajax({
+      type: 'POST',
+      url: 'Cart',
+      data:{"checkout":checkout},
+      success: (result)=>{
+        $('#cartdata').html(result);
+     
+        
+      }
+  })
+  event.preventDefault();
+  $( this ).parent().parent().parent().hide( 400 );
+
+}
 </script>
       <?php
       
@@ -737,7 +780,7 @@ function updatecart(id){
   <div class="subtotal cf">
     <ul>
             <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
-      <li class="totalRow"><a href="#" class="btn continue">Checkout</a></li>
+            <li class="totalRow"><a href="" class="btn continue" name="checkout" onclick="checkout()" id="checkout" value=checkout>Checkout</a></li>
     </ul>
   </div>
 </div>
@@ -750,7 +793,7 @@ function updatecart(id){
             setcookie("cart".$customerID, "", time() - 3600);
             if(isset($_COOKIE["cart".$_SESSION["ID"]]))
             {
-          
+                
                 
               ?>
      <a href="" class="clear" id="clear" value="clear">Clear cart</a>
@@ -796,6 +839,117 @@ function updatecart(id){
           
                           <?php
             }
+          }
+          public function checkout($customerID){
+            
+            if(isset($_COOKIE["cart".$_SESSION["ID"]]))
+            {
+                $cartmodel = $this->getModel();
+                $profileData = $cartmodel->getUserData($_SESSION['ID']);
+                foreach($profileData as $profile){
+                    $profileData = $profile;
+                    break;
+                }
+
+                $cookie_data = stripslashes($_COOKIE["cart".$_SESSION["ID"]]); //to decode data before using it 
+                $cart_data = json_decode($cookie_data, true);
+                $total = 0;
+                $str="";
+                foreach($cart_data as $keys => $values)
+                  {
+                    if(isset($_POST['productid'])){
+                        $quantity=$_POST["quantity"];
+                    }
+                    else{
+                        $quantity=$values["quantity"];
+                    }
+                    ?>
+                    <!-- Modal -->
+      
+        <?php
+                    $total = $total + ($quantity * $values["productPrice"]); 
+                      $productname=$values["productName"];
+
+                      $quantity=$values["quantity"];
+                      $productprice=$values["productPrice"];
+                      $str.=$productname." (".$quantity.") ,";
+             
+                      
+                   
+                    
+              
+                  }
+                  $finaltotal=number_format($total, 2);
+                  ?>
+                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header border-bottom-0">
+                       
+                      </div>
+                      <div class="modal-body text-start text-black p-4">
+                        <h5 class="modal-title text-uppercase mb-5" id="exampleModalLabel"><?php echo $profileData['fullName']; ?></h5>
+                        <h4 class="mb-5" style="color: #35558a;">Thanks for your order</h4>
+                        <p class="mb-0" style="color: #35558a;">Payment summary</p>
+                        <hr class="mt-2 mb-4"
+                          style="height: 0; background-color: transparent; opacity: .75; border-top: 2px dashed #9e9e9e;">
+        
+                        <div class="d-flex justify-content-between">
+                          <p class="fw-bold mb-0"><?php echo $str?></p>
+                          <p class="text-muted mb-0">$<?php echo $finaltotal?></p>
+                        </div>
+        
+                        <!-- <div class="d-flex justify-content-between">
+                          <p class="small mb-0">Shipping</p>
+                          <p class="small mb-0">$175.00</p>
+                        </div>
+        
+                        <div class="d-flex justify-content-between pb-1">
+                          <p class="small">Tax</p>
+                          <p class="small">$200.00</p>
+                        </div> -->
+        
+                        <div class="d-flex justify-content-between">
+                          <p class="fw-bold">Total</p>
+                          <p class="fw-bold" style="color: #35558a;">$<?php echo $finaltotal?></p>
+                        </div>
+        
+                      </div>
+                      <div class="modal-footer d-flex justify-content-center border-top-0 py-4">
+                        <button type="button" class="btn btn-primary btn-lg mb-1" style="background-color: #35558a;">
+                          Track your order
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <?php
+                  
+                      $cartmodel->order($_SESSION["ID"],$str,$total);
+                
+              ?>
+     <a href="" class="clear" id="clear" value="clear">Clear cart</a>
+              <ul class="cartWrap" >
+            
+                   
+   
+
+        
+
+    
+                <?php
+                 
+       
+              
+               ?>
+               
+              </ul>
+       
+          
+                          <?php
+            }
+            setcookie("cart".$customerID, "", time() - 3600);
           }
 
         }

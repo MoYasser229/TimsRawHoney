@@ -25,6 +25,14 @@ class CartModel extends model
       public function getSize(){
           return "Small";
       }
+      public function order($ID,$data,$total){
+        $this->database->query("INSERT INTO orders(customerID,quantity,orderTotalPrice) VALUES('$ID','$data','$total')");
+    }
+    public function getUserData($ID){
+        $result = $this->database->query("SELECT * FROM users WHERE ID = '$ID'");
+        return $result;
+
+    }
  
   
   }
