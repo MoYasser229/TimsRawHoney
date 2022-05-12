@@ -54,6 +54,7 @@ class Cart extends View{
      $total = 0;
      $cookie_data = stripslashes($_COOKIE["cart".$_SESSION["ID"]]);
      $cart_data = json_decode($cookie_data, true);
+     $str="";
      foreach($cart_data as $keys => $values)
      {
       $total = $total + ($values["quantity"] * $values["productPrice"]);
@@ -168,10 +169,62 @@ $.ajax({
 
 }
 </script>
+
       <?php
+      $quantity=$values["quantity"];
+      
+       $productname=$values["productName"];
+
+       
+       $productprice=$values["productPrice"];
+       $str.=$productname." (".$quantity.") ,";
        
      }
+     $finaltotal=number_format($total, 2);
      ?>
+     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header border-bottom-0">
+                       
+                      </div>
+                      <div class="modal-body text-start text-black p-4">
+                        <h5 class="modal-title text-uppercase mb-5" id="exampleModalLabel"><?php echo $profileData['fullName']; ?></h5>
+                        <h4 class="mb-5" style="color: #35558a;">Thanks for your order</h4>
+                        <p class="mb-0" style="color: #35558a;">Payment summary</p>
+                        <hr class="mt-2 mb-4"
+                          style="height: 0; background-color: transparent; opacity: .75; border-top: 2px dashed #9e9e9e;">
+        
+                        <div class="d-flex justify-content-between">
+                          <p class="fw-bold mb-0"><?php echo $str?></p>
+                          <p class="text-muted mb-0">$<?php echo $finaltotal?></p>
+                        </div>
+        
+                        <!-- <div class="d-flex justify-content-between">
+                          <p class="small mb-0">Shipping</p>
+                          <p class="small mb-0">$175.00</p>
+                        </div>
+        
+                        <div class="d-flex justify-content-between pb-1">
+                          <p class="small">Tax</p>
+                          <p class="small">$200.00</p>
+                        </div> -->
+        
+                        <div class="d-flex justify-content-between">
+                          <p class="fw-bold">Total</p>
+                          <p class="fw-bold" style="color: #35558a;">$<?php echo $finaltotal?></p>
+                        </div>
+        
+                      </div>
+                      <div class="modal-footer d-flex justify-content-center border-top-0 py-4">
+                        <button type="button" class="btn btn-primary btn-lg mb-1" style="background-color: #35558a;">
+                          Track your order
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
      
     </ul>
     <div class="promoCode"><label for="promo">Have A Promo Code?</label><input type="text" name="promo" placholder="Enter Code" />
