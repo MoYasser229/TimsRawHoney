@@ -509,7 +509,7 @@ class Pages extends Controller{
           <h3><?php echo $values["productName"]; ?></h3>
           <input type="hidden" id="productname<?php echo $values["productID"];?>"name="productname<?php echo $values["productID"];?>" value="<?php echo $values["productName"]; ?>"></input>
        
-           <p> <input type="text" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" class="qty" value="<?php echo $quantity?>" onchange='updatecart(<?php echo $values["productID"];?>)'></input> x <?php echo $values["productPrice"];?></p>
+           <p> <input type="text" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" class="qty" value="<?php echo $quantity?>" onchange="updatecart(<?php echo $values['productID'];?>)"></input> x <?php echo $values["productPrice"];?></p>
           
            <input type="hidden" id="productprice<?php echo $values["productID"];?>"name="productprice<?php echo $values["productID"];?>" value="<?php echo $values["productPrice"];?>"></input>
           <p class="stockStatus"> In Stock</p>
@@ -674,7 +674,7 @@ $.ajax({
           <h3><?php echo $values["productName"]; ?></h3>
           <input type="hidden" id="productname<?php echo $values["productID"];?>"name="productname<?php echo $values["productID"];?>" value="<?php echo $values["productName"]; ?>"></input>
        
-           <p> <input type="text" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" class="qty" value="<?php echo $quantity?>" onchange='updatecart(<?php echo $values["productID"];?>)'></input> x <?php echo $values["productPrice"];?></p>
+           <p> <input type="text" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" class="qty" value="<?php echo $quantity?>" onchange="updatecart(<?php echo $values['productID'];?>)"></input> x <?php echo $values["productPrice"];?></p>
           
            <input type="hidden" id="productprice<?php echo $values["productID"];?>"name="productprice<?php echo $values["productID"];?>" value="<?php echo $values["productPrice"];?>"></input>
           <p class="stockStatus"> In Stock</p>
@@ -864,6 +864,30 @@ $.ajax({
                         $quantity=$values["quantity"];
                     }
                     ?>
+                    <script>
+                    function checkout(){
+
+
+checkout=$('#checkout').val();
+
+
+$.ajax({
+      type: 'POST',
+      url: 'Cart',
+      data:{"checkout":checkout},
+      success: (result)=>{
+        
+        $('#cartdata').html(result);
+        $('#exampleModal').modal('show');
+     
+        
+      }
+  })
+  event.preventDefault();
+  $( this ).parent().parent().parent().hide( 400 );
+
+}
+</script>
                     <!-- Modal -->
       
         <?php
