@@ -495,6 +495,8 @@ class Pages extends Controller{
         else{
             $quantity=$values["quantity"];
         $total = $total + ($quantity * $values["productPrice"]); 
+        $cartmodel = $this->getModel();
+        $maxQuantity=$cartmodel->getQuantity($values["productID"]);
 
        ?>
  
@@ -580,11 +582,11 @@ function updatecart(id){
     alert("Number field cannot be empty");
     quantity=1;
   }
-  else if(quantity> maxQuantity){
+ if(quantity> <?php echo $maxQuantity?>){
     alert("Sorry the max quantity is <?php echo $maxQuantity?>");
     quantity=maxQuantity;
   }
-  else if(quantity<1){
+  if(quantity<1){
     alert("Sorry the min quantity is 1");
     quantity=1;
   }
@@ -817,11 +819,11 @@ function updatecart(id){
     alert("Number field cannot be empty");
     quantity=1;
   }
-  else if(quantity> maxQuantity){
+  if(quantity> <?php echo $maxQuantity?>){
     alert("Sorry the max quantity is <?php echo $maxQuantity?>");
     quantity=maxQuantity;
   }
-  else if(quantity<1){
+  if(quantity<1){
     alert("Sorry the min quantity is 1");
     quantity=1;
   }

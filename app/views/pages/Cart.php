@@ -142,16 +142,15 @@ function updatecart(id){
        echo "var maxQuantity ='$maxQuantity';";
    ?>
 
-  
   if(quantity==''){
     alert("Number field cannot be empty");
     quantity=1;
   }
-  else if(quantity> maxQuantity){
+  if(quantity > <?php echo $maxQuantity?>){
     alert("Sorry the max quantity is <?php echo $maxQuantity?>");
     quantity=maxQuantity;
   }
-  else if(quantity<1){
+  if(quantity<1){
     alert("Sorry the min quantity is 1");
     quantity=1;
   }
