@@ -33,6 +33,11 @@ class CartModel extends model
         return $result;
 
     }
+    public function getQuantity($ID){
+        // return 90;
+        $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
+        return $result -> fetch_assoc()['productStock'];
+    }
  
   
   }

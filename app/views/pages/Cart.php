@@ -2,6 +2,7 @@
 class Cart extends View{
     public function output(){
         $title = $this->model->title;
+        
     //     $id=$_GET['id'];
     //     $name=$this->model->getName($id);
     //     $Image=$this->model->getimage($id);
@@ -57,6 +58,7 @@ class Cart extends View{
      $str="";
      foreach($cart_data as $keys => $values)
      {
+      $maxQuantity=$this->model->getQuantity($values["productID"]);
       $total = $total + ($values["quantity"] * $values["productPrice"]);
        ?>
  
@@ -71,7 +73,7 @@ class Cart extends View{
           <h3><?php echo $values["productName"]; ?></h3>
           <input type="hidden" id="productname<?php echo $values["productID"];?>"name="productname<?php echo $values["productID"];?>" value="<?php echo $values["productName"]; ?>"></input>
         
-           <p> <input type="text" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" class="qty" value="<?php echo $values["quantity"];?>" onchange="updatecart(<?php echo $values['productID'];?>)"> x <?php echo $values["productPrice"];?></p>
+           <p> <input type="number" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" min="1" max="<?php echo  $maxQuantity?>" class="form-control" value="<?php echo $values["quantity"];?>" onchange="updatecart(<?php echo $values['productID'];?>)"> x <?php echo $values["productPrice"];?></p>
            <input type="hidden" id="productprice<?php echo $values["productID"];?>"name="productprice<?php echo $values["productID"];?>" value="<?php echo $values["productPrice"];?>"></input>
           <p class="stockStatus"> In Stock</p>
         </div>  
@@ -136,6 +138,27 @@ $.ajax({
 function updatecart(id){
   productid=$('#productid'+id).val();
   quantity=$('#quantity'+id).val();
+  <?php
+       echo "var maxQuantity ='$maxQuantity';";
+   ?>
+
+  
+  if(quantity==''){
+    alert("Number field cannot be empty");
+    quantity=1;
+  }
+  else if(quantity> maxQuantity){
+    alert("Sorry the max quantity is <?php echo $maxQuantity?>");
+    quantity=maxQuantity;
+  }
+  else if(quantity<1){
+    alert("Sorry the min quantity is 1");
+    quantity=1;
+  }
+
+
+
+ 
   $.ajax({
     type: 'POST',
       url: 'Cart',

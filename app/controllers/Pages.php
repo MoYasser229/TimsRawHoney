@@ -571,6 +571,23 @@ $.ajax({
 function updatecart(id){
   productid=$('#productid'+id).val();
   quantity=$('#quantity'+id).val();
+  <?php
+       echo "var maxQuantity ='$maxQuantity';";
+   ?>
+
+  
+  if(quantity==''){
+    alert("Number field cannot be empty");
+    quantity=1;
+  }
+  else if(quantity> maxQuantity){
+    alert("Sorry the max quantity is <?php echo $maxQuantity?>");
+    quantity=maxQuantity;
+  }
+  else if(quantity<1){
+    alert("Sorry the min quantity is 1");
+    quantity=1;
+  }
   $.ajax({
     type: 'POST',
       url: 'Cart',
@@ -709,6 +726,9 @@ $.ajax({
         else{
             $quantity=$values["quantity"];
         }
+        $cartmodel = $this->getModel();
+        $maxQuantity=$cartmodel->getQuantity($values["productID"]);
+
         $total = $total + ($quantity * $values["productPrice"]); 
 
        ?>
@@ -724,7 +744,7 @@ $.ajax({
           <h3><?php echo $values["productName"]; ?></h3>
           <input type="hidden" id="productname<?php echo $values["productID"];?>"name="productname<?php echo $values["productID"];?>" value="<?php echo $values["productName"]; ?>"></input>
        
-           <p> <input type="text" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" class="qty" value="<?php echo $quantity?>" onchange="updatecart(<?php echo $values['productID'];?>)"></input> x <?php echo $values["productPrice"];?></p>
+           <p> <input type="number" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>"min="1" max="<?php echo  $maxQuantity?>" class="form-control" value="<?php echo $quantity?>" onchange="updatecart(<?php echo $values['productID'];?>)"></input> x <?php echo $values["productPrice"];?></p>
           
            <input type="hidden" id="productprice<?php echo $values["productID"];?>"name="productprice<?php echo $values["productID"];?>" value="<?php echo $values["productPrice"];?>"></input>
           <p class="stockStatus"> In Stock</p>
@@ -787,6 +807,24 @@ $.ajax({
 function updatecart(id){
   productid=$('#productid'+id).val();
   quantity=$('#quantity'+id).val();
+  <?php
+       echo "var maxQuantity ='$maxQuantity';";
+   ?>
+
+
+  
+  if(quantity==''){
+    alert("Number field cannot be empty");
+    quantity=1;
+  }
+  else if(quantity> maxQuantity){
+    alert("Sorry the max quantity is <?php echo $maxQuantity?>");
+    quantity=maxQuantity;
+  }
+  else if(quantity<1){
+    alert("Sorry the min quantity is 1");
+    quantity=1;
+  }
   $.ajax({
     type: 'POST',
       url: 'Cart',
