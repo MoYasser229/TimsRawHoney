@@ -35,19 +35,36 @@ class productModel extends Model{
         $result = $this->database->query("SELECT * FROM users WHERE ID= $ID");
         return $result -> fetch_assoc()['fullName'];
     }
-    public function writereview($ID,$productID,$reviewText){
-        $this->database->query("INSERT INTO review(customerID,productID,reviewText) VALUES('$ID','$productID','$reviewText')");
+    public function writereview($ID,$productID,$stars,$reviewText){
+        $this->database->query("INSERT INTO review(customerID,productID,stars,reviewText) VALUES('$ID','$productID','$stars','$reviewText')");
     }
     public function displayReview($productID){
         $result=$this->database->query("SELECT * FROM review,users where productID = $productID AND review.customerID = users.ID ");
         foreach($result as $product){
-            echo " <div class='content'>
-            <span class='name'>{$product['fullName']}</span><span class='stars'><i class='fa fa-star fa-2x'></i><i class='fa fa-star fa-2x'></i><i class='fa fa-star fa-2x'></i><i class='fa fa-star-half-o fa-2x'></i><i class='fa fa-star-o fa-2x'></i></span>
-            <p class='review_text'>{$product['reviewText']}</p>
+            ?>
+            <div class='content'>
+            <span class='name'><?php echo $product['fullName'];?></span>
+            <span class='stars'>
+            <?php for($i=0;$i<$product['stars'];$i++){?>
+            <i class='fa fa-star fa-2x text-warning'></i>
+           
+            <?php 
+            }
+
+          for($i=0;$i<(5-$product['stars']);$i++){?>
+            <i class='fa fa-star fa-2x star-light'></i>
+        <?php  
+        }
+        echo $product['stars'];
+        ?>
+            </span>
+            <p class='review_text'><?php echo $product['reviewText'];?></p>
             <hr>
             <!-- <p class='fullReview'><a href='#'>View Full Review</a></p> -->
             
-          </div>";
+          </div>
+          <?php
+
         }
     }
 

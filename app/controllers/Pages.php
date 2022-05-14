@@ -67,8 +67,9 @@ class Pages extends Controller{
 
                     $productmodel = $this->getModel();
                     $reviewText = $_POST['review'];
+                    $stars=$_POST['rating_data'];
                     $productID= $_POST['productID'];
-                    $productmodel->writereview($_SESSION['ID'],$productID,$reviewText);
+                    $productmodel->writereview($_SESSION['ID'],$productID,$stars,$reviewText);
                     $productmodel->displayReview($productID);
                     
                  }
