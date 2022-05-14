@@ -38,6 +38,10 @@ class CartModel extends model
         $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
         return $result -> fetch_assoc()['productStock'];
     }
+    public function updateStock($ID,$quantity){
+        // return 90;
+        $result = $this->database->query("UPDATE products set productStock=productStock-$quantity  WHERE ID= $ID");
+    }
  
   
   }
