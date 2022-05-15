@@ -1033,7 +1033,7 @@ $.ajax({
                       $str.=$productname." (".$quantity.") ,";
              
                       
-                   
+                      $cartmodel->updateStock($values["productID"],$quantity);
                     
               
                   }
@@ -1085,6 +1085,8 @@ $.ajax({
                 <?php
                   
                       $cartmodel->order($_SESSION["ID"],$str,$total);
+                      
+                     
                 
               ?>
      <a href="" class="clear" id="clear" value="clear">Clear cart</a>
