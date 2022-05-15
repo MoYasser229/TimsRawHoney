@@ -458,87 +458,105 @@ class Pages extends Controller{
            }
 
            public function deletefromcart($customerID,$productID){
+             ?>
+             <a href="" class="clear" id="clear" value="clear">Clear cart</a>
+             <ul class="cartWrap" >
+             <?php
+
             $cookie_data = stripslashes($_COOKIE['cart'.$customerID]);
   $cart_data = json_decode($cookie_data, true);
+  $count=0;
   foreach($cart_data as $keys => $values)
   {
    if($cart_data[$keys]['productID'] == $productID)
    {
     unset($cart_data[$keys]);
-    
+   }
     $item_data = json_encode($cart_data);
     setcookie("cart$customerID", $item_data, time() + 2678400);
-    ?>
-    <a href="" class="clear" id="clear" value="clear">Clear cart</a>
-    <ul class="cartWrap" >
-    <?php
-    if(isset($_COOKIE["cart".$_SESSION["ID"]]))
-    {
-     $str="";
-     $total = 0;
-     $cookie_data = stripslashes($_COOKIE["cart".$_SESSION["ID"]]);
-     $cart_data = json_decode($cookie_data, true);
-     foreach($cart_data as $keys => $values)
-     {
-        if($_POST['productid']==$values['productID']){
-         
-        }
-        else{
-            $quantity=$values["quantity"];
-        $total = $total + ($quantity * $values["productPrice"]); 
-        $cartmodel = $this->getModel();
-        $maxQuantity=$cartmodel->getQuantity($values["productID"]);
+  $count++;
 
-       ?>
- 
-      <li class="items odd"  id="productsection<?php echo $values["productID"];?>">
-  
-    <div class="infoWrap" > 
-        <div class="cartSection">
-
-        <img src="<?php echo $values["productImage"]; ?>" alt="" class="itemImg" />
-        <input type="hidden" id="productimage<?php echo $values["productID"];?>" name="productimage<?php echo $values["productID"];?>" value="<?php echo $values["productImage"]; ?>"></input>
-          <p class="itemNumber">#QUE-007544-002</p>
-          <h3><?php echo $values["productName"]; ?></h3>
-          <input type="hidden" id="productname<?php echo $values["productID"];?>"name="productname<?php echo $values["productID"];?>" value="<?php echo $values["productName"]; ?>"></input>
-       
-           <p> <input type="text" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" class="qty" value="<?php echo $quantity?>" onchange="updatecart(<?php echo $values['productID'];?>)"></input> x <?php echo $values["productPrice"];?></p>
-          
-           <input type="hidden" id="productprice<?php echo $values["productID"];?>"name="productprice<?php echo $values["productID"];?>" value="<?php echo $values["productPrice"];?>"></input>
-          <p class="stockStatus"> In Stock</p>
-        </div>  
+     ?>
     
-        
-        <div class="prodTotal cartSection">
-          <p>$ <?php echo number_format($quantity * $values["productPrice"], 2);?></p>
-        </div>
-              <div class="cartSection removeWrap">
-              <a  class="remove" id="remove<?php echo $values["productID"];?>" value="remove" >x</a>
-           <input  type="hidden" id="productid<?php echo $values["productID"];?>" type="submit" name="productid" value="<?php echo $values["productID"];?>" ></input>
-        </div>
-      </div>
- 
-      </li>
-      <script>// Remove Items From Cart
+                <?php
+    
+} 
+
+$cookie_data = stripslashes($_COOKIE['cart'.$customerID]);
+$cart_data = json_decode($cookie_data, true);
+if($count==1){
+  setcookie("cart".$customerID, "", time() - 2678400);
+}
+
+
+else
+{
+
+ $str="";
+ $total = 0;
+ $cookie_data = stripslashes($_COOKIE["cart".$_SESSION["ID"]]);
+ $cart_data = json_decode($cookie_data, true);
+ foreach($cart_data as $keys => $values)
+ {
+    if($_POST['productid']==$values['productID']){
+     
+    }
+    else{
+        $quantity=$values["quantity"];
+    $total = $total + ($quantity * $values["productPrice"]); 
+    $cartmodel = $this->getModel();
+    $maxQuantity=$cartmodel->getQuantity($values["productID"]);
+
+   ?>
+
+  <li class="items odd"  id="productsection<?php echo $values["productID"];?>">
+
+<div class="infoWrap" > 
+    <div class="cartSection">
+
+    <img src="<?php echo $values["productImage"]; ?>" alt="" class="itemImg" />
+    <input type="hidden" id="productimage<?php echo $values["productID"];?>" name="productimage<?php echo $values["productID"];?>" value="<?php echo $values["productImage"]; ?>"></input>
+      <p class="itemNumber">#QUE-007544-002</p>
+      <h3><?php echo $values["productName"]; ?></h3>
+      <input type="hidden" id="productname<?php echo $values["productID"];?>"name="productname<?php echo $values["productID"];?>" value="<?php echo $values["productName"]; ?>"></input>
+   
+       <p> <input type="text" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" class="form-control" value="<?php echo $quantity?>" onchange="updatecart(<?php echo $values['productID'];?>)"></input> x <?php echo $values["productPrice"];?></p>
+      
+       <input type="hidden" id="productprice<?php echo $values["productID"];?>"name="productprice<?php echo $values["productID"];?>" value="<?php echo $values["productPrice"];?>"></input>
+      <p class="stockStatus"> In Stock</p>
+    </div>  
+
+    
+    <div class="prodTotal cartSection">
+      <p>$ <?php echo number_format($quantity * $values["productPrice"], 2);?></p>
+    </div>
+          <div class="cartSection removeWrap">
+          <a  class="remove" id="remove<?php echo $values["productID"];?>" value="remove" >x</a>
+       <input  type="hidden" id="productid<?php echo $values["productID"];?>" type="submit" name="productid" value="<?php echo $values["productID"];?>" ></input>
+    </div>
+  </div>
+
+  </li>
+  <script>// Remove Items From Cart
 
 $(document).ready(function(){
 $('#remove'+<?php echo $values["productID"];?>).click(()=>{
 
-  productid=$('#productid'+<?php echo $values["productID"];?>).val();
-  remove=$('#remove'+<?php echo $values["productID"];?>).val();
-  qty=$('#quantity'+<?php echo $values["productID"];?>).val();
-  $.ajax({
-        type: 'POST',
-        url: 'Cart',
-        data:{"productid":productid,"remove":remove,"qty":qty},
-        success: (result)=>{
-            $('#cartdata').html(result);
-          
-        }
-    })
-  event.preventDefault();
-  $( this ).parent().parent().parent().hide( 400 );
- 
+productid=$('#productid'+<?php echo $values["productID"];?>).val();
+remove=$('#remove'+<?php echo $values["productID"];?>).val();
+qty=$('#quantity'+<?php echo $values["productID"];?>).val();
+$.ajax({
+    type: 'POST',
+    url: 'Cart',
+    data:{"productid":productid,"remove":remove,"qty":qty},
+    success: (result)=>{
+        $('#cartdata').html(result);
+      
+    }
+})
+event.preventDefault();
+$( this ).parent().parent().parent().hide( 400 );
+
 });
 
 $('#clear').click(()=>{
@@ -547,49 +565,49 @@ clear=$('#clear').val();
 
 
 $.ajax({
-      type: 'POST',
-      url: 'Cart',
-      data:{"clear":clear},
-      success: (result)=>{
-        $('#cartdata').html(result);
-     
-        
-      }
-  })
+  type: 'POST',
+  url: 'Cart',
+  data:{"clear":clear},
+  success: (result)=>{
+    $('#cartdata').html(result);
+ 
+    
+  }
+})
+event.preventDefault();
+$( this ).parent().parent().parent().hide( 400 );
 
-  event.preventDefault();
-  $( this ).parent().parent().parent().hide( 400 );
 });
 });
 function updatecart(id){
-  productid=$('#productid'+id).val();
-  quantity=$('#quantity'+id).val();
-  <?php
-       echo "var maxQuantity ='$maxQuantity';";
-   ?>
+productid=$('#productid'+id).val();
+quantity=$('#quantity'+id).val();
+<?php
+   echo "var maxQuantity ='$maxQuantity';";
+?>
 
-  
-  if(quantity==''){
-    alert("Number field cannot be empty");
-    quantity=1;
-  }
- if(quantity> <?php echo $maxQuantity?>){
-    alert("Sorry the max quantity is <?php echo $maxQuantity?>");
-    quantity=maxQuantity;
-  }
-  if(quantity<1){
-    alert("Sorry the min quantity is 1");
-    quantity=1;
-  }
-  $.ajax({
-    type: 'POST',
-      url: 'Cart',
-      data:{"productid":productid,"quantity":quantity},
-      success: function(result){
-          $('#cartdata').html(result);
-          
-        }
-  })
+
+if(quantity==''){
+alert("Number field cannot be empty");
+quantity=1;
+}
+if(quantity> <?php echo $maxQuantity?>){
+alert("Sorry the max quantity is <?php echo $maxQuantity?>");
+quantity=maxQuantity;
+}
+if(quantity<1){
+alert("Sorry the min quantity is 1");
+quantity=1;
+}
+$.ajax({
+type: 'POST',
+  url: 'Cart',
+  data:{"productid":productid,"quantity":quantity},
+  success: function(result){
+      $('#cartdata').html(result);
+      
+    }
+})
 }
 function checkout(){
 
@@ -598,33 +616,32 @@ checkout=$('#checkout').val();
 
 
 $.ajax({
-      type: 'POST',
-      url: 'Cart',
-      data:{"checkout":checkout},
-      success: (result)=>{
-        $('#cartdata').html(result);
-        $('#exampleModal').modal('show');
-        
-      }
-  })
-  event.preventDefault();
-  $( this ).parent().parent().parent().hide( 400 );
+  type: 'POST',
+  url: 'Cart',
+  data:{"checkout":checkout},
+  success: (result)=>{
+    $('#cartdata').html(result);
+    $('#exampleModal').modal('show');
+    
+  }
+})
+event.preventDefault();
+$( this ).parent().parent().parent().hide( 400 );
 
 }
 </script>
-      <?php
-      $quantity=$values["quantity"];
-      
-      $productname=$values["productName"];
+  <?php
+  $quantity=$values["quantity"];
+  
+  $productname=$values["productName"];
 
-      
-      $productprice=$values["productPrice"];
-      $str.=$productname." (".$quantity.") ,";
-        }
-        $finaltotal=number_format($total, 2);
-     }
+  
+  $productprice=$values["productPrice"];
+  $str.=$productname." (".$quantity.") ,";
     }
-     ?>
+    $finaltotal=number_format($total, 2);
+  }
+    ?>
      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                   aria-hidden="true">
                   <div class="modal-dialog">
@@ -682,9 +699,10 @@ $.ajax({
     </div>
   
 </div>
-                <?php
-    }
+    <?php
+ 
 }
+
            }
            public function updatequantity($customerID,$productID,$quantity){
             ?>
@@ -925,8 +943,7 @@ $.ajax({
            }
            public function clearcart($customerID){
             setcookie("cart".$customerID, "", time() - 3600);
-            if(isset($_COOKIE["cart".$_SESSION["ID"]]))
-            {
+          
                 
                 
               ?>
@@ -972,7 +989,7 @@ $.ajax({
        
           
                           <?php
-            }
+            
           }
           public function checkout($customerID){
             
@@ -1109,7 +1126,7 @@ $.ajax({
           
                           <?php
             }
-            setcookie("cart".$customerID, "", time() - 3600);
+            setcookie("cart".$customerID, "", time() - 2678400);
           }
 
         }

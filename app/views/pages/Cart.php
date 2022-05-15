@@ -170,7 +170,7 @@ function updatecart(id){
 }
 function checkout(){
 
-console.log("Ghourab");
+
 checkout=$('#checkout').val();
 
 
