@@ -40,6 +40,9 @@ class productModel extends Model{
     }
     public function displayReview($productID){
         $result=$this->database->query("SELECT * FROM review,users where productID = $productID AND review.customerID = users.ID ");
+        $average_rating = 0;
+        $total_user_rating = 0;
+        $total_review = 0;
         foreach($result as $product){
             ?>
             <div class='content'>
@@ -64,8 +67,16 @@ class productModel extends Model{
             
           </div>
           <?php
-
+        $total_review++;
+        $total_user_rating = $total_user_rating + $product["stars"];
+        
         }
+        $average_rating = $total_user_rating / $total_review;
+        $output = array(
+            'average_rating'    =>  number_format($average_rating, 1)
+        );
+        echo json_encode($output);
+
     }
 
 }

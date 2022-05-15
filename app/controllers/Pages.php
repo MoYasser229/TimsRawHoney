@@ -58,13 +58,7 @@ class Pages extends Controller{
             
            
                  if(isset($_POST['review'])){
-                    
-                    // echo " <div class='content'>
-                    //    <span class='name'>{$this->model->getName($_SESSION['ID'])}</span><span class='stars'><i class='fa fa-star fa-2x'></i><i class='fa fa-star fa-2x'></i><i class='fa fa-star fa-2x'></i><i class='fa fa-star-half-o fa-2x'></i><i class='fa fa-star-o fa-2x'></i></span>
-                    //    <p class='review_text'>{$_POST['review']}</p>
-                    //    <!-- <p class='fullReview'><a href='#'>View Full Review</a></p> -->
-                    // </div><br>" ;
-
+                   
                     $productmodel = $this->getModel();
                     $reviewText = $_POST['review'];
                     $stars=$_POST['rating_data'];
@@ -81,11 +75,7 @@ class Pages extends Controller{
             $testView = new product($this->getModel(), $this);
             $testView->output();
         }
-        // habd
-        // $viewPath = VIEWSPATH . 'pages/product.php';
-        // require_once $viewPath;
-        // $testView = new product($this->getModel(), $this);
-        // $testView->output();
+       
     }
     public function signin(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){

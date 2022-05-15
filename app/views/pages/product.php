@@ -65,7 +65,7 @@ public function output(){
           <!-- <div class="rating">
             <i class="fa fa-star fa-3x"></i><i class="fa fa-star fa-3x"></i><i class="fa fa-star fa-3x"></i><i class="fa fa-star-half-o fa-3x"></i><i class="fa fa-star-o fa-3x"></i>
           </div> -->
-          <div class="col-sm-4 text-center">
+          <div id="haga" class="col-sm-4 text-center">
                         <h1 class="text-warning mt-4 mb-4">
                             <b><span id="average_rating">0.0</span> / 5</b>
                         </h1>
@@ -272,7 +272,17 @@ $(document).ready(function(){
             dataType:"JSON",
             success:function(data)
             {
-               
+                $('#average_rating').text(data.average_rating);
+                var count_star = 0;
+                $('.main_star').each(function(){
+                    count_star++;
+                    if(Math.ceil(data.average_rating) >= count_star)
+                    {
+                        $(this).addClass('text-warning');
+                        $(this).addClass('star-light');
+                    }
+                });
+
                 if(data.review_data.length > 0)
                 {
                     var html = '';
