@@ -29,11 +29,6 @@ class Pages extends Controller{
         // habd
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-            // if(isset($_POST['ShowButton'])){
-            //     $product->setButtonShow($_POST['ShowButton']);
-            //     $product->setID($_POST['CardID']);
-            //     echo($product->button());
-            // }
             if(isset($_POST['productid'])){
               
                 
@@ -44,7 +39,7 @@ class Pages extends Controller{
                 $productMaterial= $_POST['material'];
                 $productsize=$_POST['size'];
                 
-
+              
                $this->addtocart($_SESSION['ID'],$productID,$productname,$productimage,$productprice,1,$productMaterial,$productsize);
                echo '
                <div class="alert alert-success alert-dismissible">

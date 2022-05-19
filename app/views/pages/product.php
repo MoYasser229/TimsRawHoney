@@ -10,6 +10,8 @@ public function output(){
     $offer =$this->model->getOffer();
     $material= $this->model->getMaterial();
     $size=$this->model->getSize();
+    $stock= $this->model->getStock($ID);
+    $description=$this->model->getProductDescription($ID);
     // $productid=$this->model->getProductId();
     $productname=$this->model->getProductName($ID);
 ?>
@@ -55,6 +57,20 @@ public function output(){
         </div>
         </div>
         <div class="product_info">
+        <?php
+        if($stock>0)
+        {
+            ?>
+            <b>in stock</b>
+        <?php
+        }
+        else
+        {
+        ?>
+        <b>out of stock</b>
+        <?php
+        }
+        ?>
           <h1 name="productname"><?php echo $productname ?></h1>
           <input type="hidden" id="productname" name="productname" value="<?php echo $productname ?>"></input>
           <div class="price">
@@ -80,17 +96,11 @@ public function output(){
                                 echo ' <i class="fa fa-star fa-3x"></i>';
                             }
                             ?>
-                        <!-- <i class="fa fa-star fa-3x"></i>
-                        <i class="fa fa-star fa-3x"></i>
-                        <i class="fa fa-star fa-3x"></i>
-                        <i class="fa fa-star fa-3x"></i>
-                        <i class="fa fa-star fa-3x"></i> -->
+                      
                         </div>
                     </div>
           <div class="product_description">
-          <p>An immunity booster formula.
-Delicious natural and healthy.
-Propolis is a natural compount that bees produce from the sap on needle-leaved trees, trees and/or evergreens. Bees mix Sap mixed with their secreations and beeswax forming a sticky, greenish-brown product used as a coating and blocking cracks in the hive and many more in-hive usage.</p>
+          <p><?php echo $description;?></p>
           </div>
         
          <div class="options">
@@ -118,17 +128,23 @@ Propolis is a natural compount that bees produce from the sap on needle-leaved t
                    <!-- <a href="#" class="add">Add to Cart <i class="fa fa-shopping-cart fa-lg"></i></a> -->
                    <!-- <button class="add" name="addtocart"> Add to Cart <i class="fa fa-shopping-cart fa-lg"></i></button> -->
                    <?php if(isset($_SESSION['ID'])){
+                       if($stock>0){
       ?>
-      <div class="message">
+                <div class="message">
                 <input  class="fa fa-shopping-cart fa-lg" id="addtocart" type="submit" name="submit" value="Add to Cart"></input>
                 </div>
                 <?php
                 }
                 else{
+                    echo "<b>out of stock</b>" ;
+                }
+            }
+                else{
                 ?>
                <a href="<?php echo URLROOT.'pages/signup'?>" class="add"  id=>Add to Cart <i class="fa fa-shopping-cart fa-lg"></i> </a>
                 <?php
                 }
+               
                 ?>
                   
                  </div>

@@ -11,6 +11,10 @@ class productModel extends Model{
         $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
         return $result -> fetch_assoc()['productName'];
     }
+    public function getProductDescription($ID){
+        $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
+        return $result -> fetch_assoc()['productDescription'];
+    }
     public function getimage($ID){
         // return IMAGEROOT . 'jarr3.png' ;
         $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
@@ -20,6 +24,10 @@ class productModel extends Model{
         // return 90;
         $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
         return $result -> fetch_assoc()['retailCost'];
+    }
+    public function getStock($ID){
+        $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
+        return $result -> fetch_assoc()['productStock'];
     }
     public function getOffer(){
         return 75;
