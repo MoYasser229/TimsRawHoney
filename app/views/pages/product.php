@@ -67,14 +67,24 @@ public function output(){
           </div> -->
           <div id="haga" class="col-sm-4 text-center">
                         <h1 class="text-warning mt-4 mb-4">
-                            <b><span id="average_rating">0.0</span> / 5</b>
+                            <b><span id="average_rating"><?php echo $this->model->getAvgRat(); ?></span> / 5</b>
                         </h1>
                         <div class="mb-3">
+                            <?php 
+                            // star-light
+                            for( $i = 0; $i <=4;$i++){
+                                if( $i <ceil($this->model->getAvgRat())){
+                                   echo ' <i class="fa fa-star fa-3x text-warning"></i>';
+                                   continue;
+                                }
+                                echo ' <i class="fa fa-star fa-3x"></i>';
+                            }
+                            ?>
+                        <!-- <i class="fa fa-star fa-3x"></i>
                         <i class="fa fa-star fa-3x"></i>
                         <i class="fa fa-star fa-3x"></i>
                         <i class="fa fa-star fa-3x"></i>
-                        <i class="fa fa-star fa-3x"></i>
-                        <i class="fa fa-star fa-3x"></i>
+                        <i class="fa fa-star fa-3x"></i> -->
                         </div>
                     </div>
           <div class="product_description">
@@ -139,7 +149,7 @@ Propolis is a natural compount that bees produce from the sap on needle-leaved t
             <h2>Reviews</h2>
           </div>
           <?php
-          if (isset($_SESSION['ID']))
+          if (isset($_SESSION['ID'])){
           ?>
           <button id="add_review" class="writeReview">Write your Own Review</button>
           <div class="mt-5" id="review_content"></div>
@@ -147,7 +157,16 @@ Propolis is a natural compount that bees produce from the sap on needle-leaved t
            <?php
            echo $this->model->displayReview($ID);
            ?>
+           
            </div>
+           <?php
+                }
+                else{
+                ?>
+               <a href="<?php echo URLROOT.'pages/signup'?>" class="add"  > <button id="add_review" class="writeReview">Write your Own Review</button></a>
+                <?php
+                }
+                ?>
           </div>
       
 </body>

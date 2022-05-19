@@ -36,13 +36,22 @@ class productModel extends Model{
         return $result -> fetch_assoc()['fullName'];
     }
     public function writereview($ID,$productID,$stars,$reviewText){
+        $result=$this->database->query("SELECT * FROM review WHERE customerID = $ID");
+
+        if(mysqli_num_rows($result)<1){
         $this->database->query("INSERT INTO review(customerID,productID,stars,reviewText) VALUES('$ID','$productID','$stars','$reviewText')");
     }
+    else{
+        echo '<script>alert("error, You already reviewed this product")</script>';
+   }
+
+}
     public function displayReview($productID){
         $result=$this->database->query("SELECT * FROM review,users where productID = $productID AND review.customerID = users.ID ");
         $average_rating = 0;
         $total_user_rating = 0;
         $total_review = 0;
+       
         foreach($result as $product){
             ?>
             <div class='content'>
@@ -71,11 +80,20 @@ class productModel extends Model{
         $total_user_rating = $total_user_rating + $product["stars"];
         
         }
-        $average_rating = $total_user_rating / $total_review;
-        $output = array(
-            'average_rating'    =>  number_format($average_rating, 1)
-        );
-        echo json_encode($output);
+    
+    
+        // if($total_review>0)
+        // $average_rating = $total_user_rating / $total_review;
+        // $output = array(
+        //     'average_rating'    =>  number_format($average_rating, 1)
+        // );
+        // echo json_encode($output);
+
+    }
+    public function getAvgRat(){
+        $result = $this->database->query("SELECT AVG(stars) as averageStars FROM `review` LIMIT 1")->fetch_assoc();
+        
+        return number_format($result['averageStars'], 1);
 
     }
 
