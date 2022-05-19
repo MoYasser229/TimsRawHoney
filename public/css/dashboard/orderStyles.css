@@ -72,6 +72,29 @@
     height: 2px;
     background-color: #fab637;
 }
+.orderGrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    text-align: center;
+}
+.orderChild{
+    border: 1px solid #fab637;
+}
+.customerChild{
+    border: 1px solid #fab637;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+.emptyContainer{
+    background-color: white;
+    text-align: center;
+    font-size: 30px;
+    color: gray;
+    padding: 10px;
+    /* width: 100%; */
+}
 @media screen and (max-width: 1024px){
     .gridCards{
         grid-template-columns: 1fr;

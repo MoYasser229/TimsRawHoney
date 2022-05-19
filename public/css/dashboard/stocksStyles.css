@@ -64,3 +64,22 @@
     background-color: #fab637;
     color: white;
 }
+.infoGrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+}
+.infoGrid .infoChild{
+    text-align: center;
+    border: 5px solid #FBAB7E;
+}
+.infoChild h2{
+    color: #FBAB7E;
+    font-size: 40px;
+    font-weight: 800;
+}
+.infoChild h3{
+    color: #FBAB7E;
+    font-size: 30px;
+    
+}

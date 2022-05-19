@@ -140,10 +140,22 @@ class dashboard extends Controller{
 
     }
     public function order(){
-        $orderPath = VIEWSPATH . 'dashboard/order.php';
-        require_once $orderPath;
-        $orderView = new order($this->getModel(), $this);
-        $orderView->output();
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            if(isset($_POST['search'])){
+                require_once APPROOT."\models\sort.php";
+                $sort = new Sort('orders,users,orderItems',array('fullName','orders.ID'));
+                $sort->setSearch($_POST['search']);
+                // print_r($sort->search("GROUP BY orders.customerID"));
+                $this->model->setOrders($sort->search("GROUP BY orders.customerID"));
+                $this->model->display();
+            }
+        }
+        else{
+            $orderPath = VIEWSPATH . 'dashboard/order.php';
+            require_once $orderPath;
+            $orderView = new order($this->getModel(), $this);
+            $orderView->output();
+        }
     }
     public function stocks(){
         $stocksPath = VIEWSPATH . 'dashboard/stocks.php';
