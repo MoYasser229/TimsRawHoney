@@ -29,6 +29,7 @@
     transition: background-color 1s ease-out 2ms;
     transition: color 1s ease-out 0.25ms;
 }
+
 .bgBody a i:hover{
     background-color: white;
     color: black;

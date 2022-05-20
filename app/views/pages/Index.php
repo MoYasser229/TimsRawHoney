@@ -31,7 +31,7 @@ class Index extends View{
                 <!--Griglia alternata testo e immagine, resposive con flexbox.-->
 <section>
   <div class="grid-flex">
-    <div class="col col-image" style="background-image: url(https://scontent.fcai22-2.fna.fbcdn.net/v/t1.6435-9/117899897_2708271302760225_8116209010189839187_n.jpg?stp=dst-jpg_p960x960&_nc_cat=109&ccb=1-5&_nc_sid=e3f864&_nc_ohc=dcfNTd_p12cAX_sClnD&_nc_ht=scontent.fcai22-2.fna&oh=00_AT8MyK6q0O9mU_IN9BVL1-PY16rUwqmTseujkK84I_C3wA&oe=626B5190);">
+    <div class="col col-image" style="background-image: url(https://scontent.faly3-1.fna.fbcdn.net/v/t1.6435-9/117899897_2708271302760225_8116209010189839187_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=e3f864&_nc_ohc=w99LW7gz9J0AX8M6uJy&_nc_ht=scontent.faly3-1.fna&oh=00_AT-Duy5tGvB1K9TRmDG3q1BwflpB_fu_LjgxmXcXcXXlKg&oe=62AE8E10);">
     </div>
     <div class="col col-text">
       <div class="Aligner-item">
@@ -44,7 +44,7 @@ Try & Enjoy</p>
   </div>
   
   <div class="grid-flex">
-    <div class="col col-image" style="background-image: url(https://scontent.fcai22-1.fna.fbcdn.net/v/t1.6435-9/196510016_2939905546263465_2451703053349340914_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=8bfeb9&_nc_ohc=CYOjo5MDNNYAX8HmcXY&_nc_oc=AQlNP7Q1pal89-h9I_j5v1Bb7xIRaQRWUjT2_uQWHXR-n49ZqOrysaehVkWeN8Ea69w&_nc_ht=scontent.fcai22-1.fna&oh=00_AT-kqi4iS348IhKBBNAri_XgtQKGFOzkFcwRjVc_k5gtnQ&oe=626895EC);">
+    <div class="col col-image" style="background-image: url(https://scontent.faly3-1.fna.fbcdn.net/v/t1.6435-9/196510016_2939905546263465_2451703053349340914_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=Y6JyPCM2vKkAX_mlIrO&_nc_oc=AQkvk4XKsi9GcHmQvDxVC8iDq69pgm1QvXs8RBcQW14QWPd_WoTieziQvw6T1XLuPtk&_nc_ht=scontent.faly3-1.fna&oh=00_AT84SlxV_TSzDbLbQDOj92IgKVUi2DcGj8FR4bqLXITiWQ&oe=62ABD26C);">
       &nbsp;
     </div>
     <div class="col col-text col-left">
@@ -52,7 +52,7 @@ Try & Enjoy</p>
       <h2>Start shopping<br></h2>
                     <p >Pure natural domestic Premium Raw Honey From the best fields right to our customers' who value the real natural taste and aroma.</p>
                     <div class="fa-3x">
-                    <a href = "#"><i class="fa-solid fa-shop fa-bounce"></i></a>
+                    <a href = "<?php echo URLROOT.'pages/Shop' ?>"><i class="fa-solid fa-shop fa-bounce" style="color:#EBA937"></i></a>
                     </div>
       </div>
     </div>
