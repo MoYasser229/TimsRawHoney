@@ -108,17 +108,17 @@ public function output(){
          
                  <div class="select">
                  <select id="material" name="material">
-                   <option value = "1" id="glass"><?php echo $material[0][0] ?></option>
-                   <option value = "2"id="plastic"><?php echo $material[0][1] ?></option>
+                   <option value = "glass" id="glass"><?php echo $material[0][0] ?></option>
+                   <option value = "plastic"id="plastic"><?php echo $material[0][1] ?></option>
                    
                  </select>
                  </div>
                  <div class="select">
                  <select id="size" name="size">
-                   <option value = "1" id="small"><?php echo $size[0][0]?></option>
-                   <option value = "2" id="medium"><?php echo $size[0][1]?></option>
-                   <option value = "3" id="large"><?php echo $size[0][2]?></option>
-                   <option value = "4" id="xlarge"><?php echo $size[0][3]?></option>
+                   <option value = "small" id="small"><?php echo $size[0][0]?></option>
+                   <option value = "medium" id="medium"><?php echo $size[0][1]?></option>
+                   <option value = "large" id="large"><?php echo $size[0][2]?></option>
+                   <option value = "xlarge" id="xlarge"><?php echo $size[0][3]?></option>
                  </select>
                  </div>
           </div>
