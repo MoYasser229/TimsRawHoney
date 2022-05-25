@@ -33,16 +33,16 @@ public function output(){
 </head>
 <body>
 
-<div class="example">
-  <div class="hexagon -big"><span class="text"></span></div>
-  <div class="hexagon -big"><span class="text"></span></div>
-  <div class="hexagon -normal"><span class="text"></span></div>
-  <div class="hexagon -normal"><span class="text"></span></div>
-  <div class="hexagon -normal"><span class="text"></span></div>
-  <div class="hexagon -small"></div>
-  <div class="hexagon -small"></div>
-  <div class="hexagon -small"></div>
-  <div class="hexagon -small"></div>
+<div class="example" >
+  <div class="hexagon -big" style="margin-left:50%"><span class="text"></span></div>
+  <div class="hexagon -big" style="margin-left:50%"><span class="text"></span></div>
+  <div class="hexagon -normal" style="margin-left:50%"><span class="text"></span></div>
+  <div class="hexagon -normal" style="margin-left:50%"><span class="text"></span></div>
+  <div class="hexagon -normal" style="margin-left:50%"><span class="text"></span></div>
+  <div class="hexagon -small" style="margin-left:50%"></div>
+  <div class="hexagon -small" style="margin-left:50%"></div>
+  <div class="hexagon -small" style="margin-left:50%"></div>
+  <div class="hexagon -small" style="margin-left:50%"></div>
 </div>
 
   <div id="wrap">

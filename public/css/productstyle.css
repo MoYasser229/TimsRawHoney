@@ -519,10 +519,14 @@ input[type="submit"]{
 }
 .writeReview {
   display:block;
+  margin-top: 10px;
+  outline:none;
+  border: none;
   font-size:1.4em;
   text-align:center;
   margin-left: 507px;
-  color:#f2f4f7;
-  background-color:#006bff;
+  padding: 10px;
+  color:#000000;
+  background-color:#fab637;
   text-decoration:none;
  }
