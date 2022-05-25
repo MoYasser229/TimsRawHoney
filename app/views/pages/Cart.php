@@ -138,6 +138,33 @@ $.ajax({
 
 
 });
+function PromoCode(){
+  promoCode=$('#promo').val();
+  total=$('#totalPrice').val();
+  $.ajax({
+    type: 'POST',
+      url: 'Cart',
+      data:{"promoCode":promoCode},
+      success: function(result){
+          // $('#cartdata').html(result);
+          if(result=='false'){
+            $('#error').css('display', 'block');
+            $('#success').css('display', 'none');
+          }
+          else{
+            $('#success').css('display', 'block');
+            $('#error').css('display', 'none');
+            $('#success').html("You have a "+result+"% discount <a href=Cart>Cancel</a>");
+            discountPrice=(parseInt(result)/100)*total;
+            afterDiscount=total-discountPrice;
+            $('#discount').html("<li class='totalRow final'><span class=label>Discount</span><span class=value> -"+discountPrice+"</span></li><li class='totalRow final'><span class=label>Final price</span><span class=value>"+afterDiscount+"</span></li><input type=hidden name=newTotal id=newTotal value="+afterDiscount+"><input type=hidden name=promoID id=promoID value="+promoCode+">");
+            
+            
+          }
+          
+        }
+  })
+}
 function updatecart(id){
   productid=$('#productid'+id).val();
   quantity=$('#quantity'+id).val();
@@ -175,12 +202,22 @@ function checkout(){
 
 
 checkout=$('#checkout').val();
+newTotal="";
+if($('#newTotal').val()){
+newTotal= $('#newTotal').val(); 
+
+}
+promoCode1="";
+if($('#promoID').val()){
+promoCode1= $('#promoID').val(); 
+
+}
 
 
 $.ajax({
       type: 'POST',
       url: 'Cart',
-      data:{"checkout":checkout},
+      data:{"checkout":checkout,"newTotal":newTotal,"promoCode1":promoCode1},
       success: (result)=>{
         
         $('#cartdata').html(result);
@@ -210,13 +247,19 @@ $.ajax({
     
      
     </ul>
-    <div class="promoCode"><label for="promo">Have A Promo Code?</label><input type="text" name="promo" placholder="Enter Code" />
-  <a href="#" class="btn"></a></div>
-  
+    <div class="promoCode"><label for="promo">Have A Promo Code?   <div id="result"><div class=errorclass id=error style="display:none"> the promo code is either expired or inactive</div>
+  <div class=successclass id=success style="display:none"> </div>
+    </div></label><input type="text" id="promo" name="promo" placholder="Enter Code" />
+  <a onclick="PromoCode()" class="btn"></a></div>
+  <input type="hidden" id="totalPrice" value=<?php echo $total?> >
+
   <div class="subtotal cf" id="total">
     <ul>
 
             <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
+            <div id=discount>
+
+    </div>
       <li class="totalRow"><a href="" class="btn continue" name="checkout" onclick="checkout()" id="checkout" value=checkout>Checkout</a></li>
     </ul>
   </div>

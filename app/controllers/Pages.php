@@ -371,6 +371,18 @@ class Pages extends Controller{
                 $this->checkout($_SESSION['ID']);
             
             }
+            if (isset($_POST['promoCode'])){
+              
+             $promo=$this->model->promoCode($_POST['promoCode']);
+             if($promo===false){  
+            echo "false";
+             }
+             
+             echo $promo;
+             
+          
+          }
+
         }
             
        
@@ -1068,6 +1080,7 @@ $.ajax({
                         <div class="d-flex justify-content-between">
                           <p class="fw-bold mb-0"><?php echo $str?></p>
                           <p class="text-muted mb-0">$<?php echo $finaltotal?></p>
+                        
                         </div>
         
                         <!-- <div class="d-flex justify-content-between">
@@ -1084,6 +1097,16 @@ $.ajax({
                           <p class="fw-bold">Total</p>
                           <p class="fw-bold" style="color: #35558a;">$<?php echo $finaltotal?></p>
                         </div>
+                        <?php
+                        if(!empty($_POST['newTotal'])){
+                        ?>
+                        <div class="d-flex justify-content-between">
+                          <p class="fw-bold">Final Price</p>
+                          <p class="fw-bold" style="color: #35558a;">$<?php echo number_format($_POST['newTotal'], 2)?></p>
+                        </div>
+                        <?php
+                        }
+                        ?>
         
                       </div>
                       <div class="modal-footer d-flex justify-content-center border-top-0 py-4">
@@ -1095,9 +1118,18 @@ $.ajax({
                   </div>
                 </div>
                 <?php
-                  
-                      $cartmodel->order($_SESSION["ID"],$str,$total);
+                // if(!empty($_POST['newTotal'])){
+                //   $cartmodel->order($_SESSION["ID"],$str,$_POST['newTotal']);
+                // }
+                 
+                      $cartmodel->order($_SESSION["ID"],$str,$_POST['newTotal'],$_POST['promoCode1']);
+                      $orderID=$cartmodel->getOrderID();
+
+                      foreach($cart_data as $keys => $values)
+                  {
+                      $cartmodel->orderItems($orderID,$_SESSION["ID"],$values['productID'],$values['quantity']);
                       
+                  } 
                      
                 
               ?>

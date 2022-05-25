@@ -25,12 +25,26 @@ class CartModel extends model
       public function getSize(){
           return "Small";
       }
-      public function order($ID,$data,$total){
-        $this->database->query("INSERT INTO orders(customerID,quantity,orderTotalPrice) VALUES('$ID','$data','$total')");
+      public function order($ID,$data,$total,$promo){
+          if(empty($promo)){
+              $promo=NULL;
+          }
+        $this->database->query("INSERT INTO orders(customerID,orderDetails,orderTotalPrice,promocodeid) VALUES('$ID','$data','$total',(SELECT promoID FROM promocodes WHERE promoCode='$promo'))");
+    }
+    public function orderItems($orderID,$ID,$productID,$quantity){
+        $this->database->query("INSERT INTO orderitems(orderID,customerID,productID,quantity) VALUES('$orderID','$ID','$productID','$quantity')");
     }
     public function getUserData($ID){
         $result = $this->database->query("SELECT * FROM users WHERE ID = '$ID'");
         return $result;
+
+    }
+    public function getOrderID(){
+
+        $result = $this->database->query("SELECT ID FROM orders ORDER BY ID desc limit 1");
+        if($row= $result-> fetch_assoc()){
+        return $row['ID'];
+        }
 
     }
     public function getQuantity($ID){
@@ -42,6 +56,13 @@ class CartModel extends model
         // return 90;
         $result = $this->database->query("UPDATE products set productStock=productStock-$quantity  WHERE ID= $ID");
     }
- 
+    public function promoCode($promo){
+        $result = $this->database->query("SELECT * FROM promocodes WHERE promoCode= '$promo' AND active='1' AND TIMESTAMPDIFF(DAY,createdAt,CURRENT_TIMESTAMP)<=promoLength");
+        if(mysqli_num_rows($result) == 0){
+            return false;
+        }
+        return $result->fetch_assoc()['promoValue'];
+    }
+    
   
   }
