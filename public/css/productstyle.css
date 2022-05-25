@@ -509,3 +509,20 @@ input[type="submit"]{
 .message{
   color:red;
 }
+.red{
+  font-size: 20px;
+  color:#b30000;
+}
+.green{
+  font-size: 20px;
+  color:green;
+}
+.writeReview {
+  display:block;
+  font-size:1.4em;
+  text-align:center;
+  margin-left: 507px;
+  color:#f2f4f7;
+  background-color:#006bff;
+  text-decoration:none;
+ }

@@ -61,13 +61,17 @@ public function output(){
         if($stock>0)
         {
             ?>
+            <div class="green">
             <b>in stock</b>
+            </div>
         <?php
         }
         else
         {
         ?>
+        <div class="red">
         <b>out of stock</b>
+        </div>
         <?php
         }
         ?>
@@ -150,10 +154,10 @@ public function output(){
                  </div>
           </div>
           </div>
-                 <div class="social">
+                 <!-- <div class="social">
                    <span class="share">Share This:</span>
                    <span class="buttons"><img src="https://i.imgur.com/M8D8rr8.jpg"/></span>
-           </div>
+           </div> -->
           </div>
         </div>
 
