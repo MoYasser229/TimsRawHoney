@@ -30,11 +30,21 @@ class Database{
         $this->createOrderTable();
         $this->createOrderItemsTable();
         $this->createDeliveryTable();
+        $this->createStockProductsTable();
     }
     //FUNCTIONS
     public function createDatabase(){
         $this->statement = "CREATE DATABASE IF NOT EXISTS timsrawhoney;";
         // $this->exec("CREATE DATABASE IF NOT EXISTS timsrawhoney;");
+        $this->execute(0);
+    }
+    public function createStockProductsTable(){
+        $this->statement = "CREATE TABLE IF NOT EXISTS stockProducts(
+            productID INT(6) NOT NULL,
+            quantity INT(10) NOT NULL,
+            createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (productID) REFERENCES products(ID) ON DELETE CASCADE
+        );";
         $this->execute(0);
     }
     public function createUserTable(){
@@ -69,7 +79,7 @@ class Database{
         $this->statement = "CREATE TABLE IF NOT EXISTS orders(
             ID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
             customerID INT(6) NOT NULL,
-            quantity INT(10) NOT NULL,
+            orderDetails VARCHAR(255) NOT NULL,
             promocodeid INT(10),
             orderTotalPrice INT(10) NOT NULL,
             createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -83,7 +93,7 @@ class Database{
             orderID INT(6) NOT NULL,
             customerID INT(6) NOT NULL,
             productID INT(10) NOT NULL,
-            productPrice INT(10) NOT NULL,
+            quantity INT(10) NOT NULL,
             createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (customerID) REFERENCES users(ID) ON DELETE CASCADE,
             FOREIGN KEY (orderID) REFERENCES orders(ID) ON DELETE CASCADE,

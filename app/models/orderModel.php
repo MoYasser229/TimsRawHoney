@@ -27,11 +27,11 @@ class orderModel extends Model{
         return $this->topCustomer()->getNumOrders();
     }
     public function numProducts(){
-        $result = $this->database->query("SELECT DISTINCT productID FROM orderitems");
-        return mysqli_num_rows($result);
+        $result = $this->database->query("SELECT SUM(quantity) as orderquantity FROM orderitems")->fetch_assoc();
+        return $result['orderquantity'];
     }
     public function databaseOrders(){
-        $result =  $this->database->query("SELECT * FROM orders,orderitems,users WHERE orders.ID = orderItems.orderID AND users.ID = orderItems.customerID GROUP BY orders.customerID");
+        $result =  $this->database->query("SELECT * FROM orders,orderitems,users WHERE orders.ID = orderItems.orderID AND users.ID = orderItems.customerID GROUP BY orderitems.orderID");
         $this->orders = $result;
     }
     public function display(){
@@ -64,10 +64,12 @@ class orderModel extends Model{
                     <h3>{$orderList->getCustomer()->getAddress1()}</h3>
                 </div>
                 
-
-                <button onclick='viewOrder(this.value)' class=viewButton value='".serialize($orderList->getProducts())."'>VIEW ORDERS DETAIL</button>
+                <button onclick='viewOrder(this.value,{$orderList->getCustomer()->getID()})' class=viewButton value='".$orderList->getID()."'>VIEW ORDERS DETAIL</button>
             </div>
             ";
         }
+    }
+    public function displayOrder($order){
+        
     }
 }

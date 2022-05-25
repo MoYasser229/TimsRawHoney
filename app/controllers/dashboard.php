@@ -141,13 +141,27 @@ class dashboard extends Controller{
     }
     public function order(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            require_once APPROOT."\models\sort.php";
+            $sort = new Sort('orders,users,orderItems',array('fullName','orders.ID'));
             if(isset($_POST['search'])){
-                require_once APPROOT."\models\sort.php";
-                $sort = new Sort('orders,users,orderItems',array('fullName','orders.ID'));
                 $sort->setSearch($_POST['search']);
                 // print_r($sort->search("GROUP BY orders.customerID"));
-                $this->model->setOrders($sort->search("GROUP BY orders.customerID"));
+                $this->model->setOrders($sort->search("GROUP BY orderitems.orderID"));
                 $this->model->display();
+            }
+            if(isset($_POST['filter'])){
+                $sort = new Sort('orders,users');
+                $sort->setSort($_POST['type'],$_POST['filter']);
+                $this->model->setOrders($sort->filter("*,orders.ID as orderID","GROUP BY orders.ID","WHERE orders.customerID = users.ID"));
+                $this->model->display();
+            }
+            if(isset($_POST['products'])){
+                require_once APPROOT . "\models\Order.php";
+                $orders = new Orders($_POST['products'],new Customer($_POST['customer']));
+                // echo "<button onclick='closeView()'>Close</button>
+                // <h1>Order</h1>" . $orders->getID();
+                $orders->viewOrder();
+
             }
         }
         else{

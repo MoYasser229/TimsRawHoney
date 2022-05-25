@@ -75,11 +75,114 @@
 }
 .infoChild h2{
     color: #FBAB7E;
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 800;
 }
 .infoChild h3{
     color: #FBAB7E;
-    font-size: 30px;
+    font-size: 20px;
     
+}
+.operationGrid{
+    margin-left: 10%;
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns:1fr 1fr 1fr;
+    width: 80%;
+    grid-gap: 10px;
+}
+.simulationCard{
+    background-color: white;
+    
+    padding: 10px;
+
+}
+.stockFinanceCard{
+    background-color: white;
+    padding: 10px;
+}
+.emptyClass{
+    color: gray;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* text-align: center; */
+    flex-direction: column;
+    height: 100%;
+}
+.stockRecieptsCard{
+    background-color: white;
+    padding: 10px
+}
+@media screen and (max-width: 780px){
+    .operationGrid{
+        grid-template-columns: 1fr;
+        width: 80%;
+    }
+    .productGrid{
+        grid-template-columns:1fr;
+    }
+    .infoGrid{
+        grid-template-columns: 1fr
+    }
+}
+.stockPrice{
+    color: #FBAB7E;
+    text-align: center;
+
+}
+.simulationCard h1{
+    color: #fab637;
+}
+.simulationCard h2{
+    color: #FBAB7E;
+    text-align: center;
+}
+.simulationCard hr{
+    outline: none;
+    border: none;
+    height: 2px;
+    background-color: #fab637;
+}
+.simulationCard p{
+    color: gray;
+}
+.simulationCard #decrease, .simulationCard #increase{
+    outline: none;
+    border: none;
+    color: #fab637;
+    background-color: white;
+    font-size: 20px;
+    padding: 10px;
+    border: 1px solid #fab637;
+}
+.simulationCard input[type="text"]{
+    outline: none;
+    border: none;
+    font-size: 20px;
+    padding: 10px;
+    text-align: center;
+    border-top: 1px solid #fab637;
+    border-bottom: 1px solid #fab637;
+}
+.simulationCard .valueProduct{
+    text-align: center;
+}
+.simulationCard #before{
+    margin-top: 10px;
+    outline: none;
+    border: none;
+    background-color: #FBAB7E;
+    color: white;
+    padding: 10px
+}
+.simulationCard #after{
+    margin-top: 10px;
+    float: right;
+    outline: none;
+    border: none;
+    background-color: #FBAB7E;
+    color: white;
+    padding: 10px
 }

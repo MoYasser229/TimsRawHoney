@@ -41,6 +41,9 @@ public function setCart($cart){
 public function getorder(){
     return $this->Order;
 }
+public function getID(){
+    return $this->ID;
+}
 // public function setOrder($order){
 //     $this->Order = $this->Order;
 // }

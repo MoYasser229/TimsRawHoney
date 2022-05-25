@@ -24,14 +24,17 @@ class order extends View{
                 <select id=type>
                     <option value = "orderID">ID</option>
                     <option value = "fullName">Customer Name</option>
-                    <option value = "orderTotalPrice">Purchase price</option>
-                    <option value = "quantity">Order Quantity</option>
-                    <option value = "createdAt">Date of Purchase</option>
+                    <option value = "orders.orderTotalPrice">Purchase price</option>
+                    <option value = "orders.quantity">Order Quantity</option>
+                    <option value = "orders.createdAt">Date of Purchase</option>
                 </select>
                 <select id="filter">
                     <option value="DESC">Descending</option>
                     <option value=ASC>Ascending</option>
                 </select>
+            </div>
+            <div class="viewOrder">
+                
             </div>
             <div class="gridCustomer">
                 <?php
@@ -51,6 +54,46 @@ class order extends View{
                                 // console.log(result);
                             }
                         })
+                    }
+                    $("#type").change(() => {
+                        type = $("#type").val()
+                        filter = $("#filter").val()
+                        $.ajax({
+                            type: "POST",
+                            url: "order",
+                            data: {type:type,filter:filter},
+                            success: (result) => {
+                                $(".gridCustomer").html(result);
+                            } 
+                        })
+                    })
+                    $("#filter").change(() => {
+                        type = $("#type").val()
+                        filter = $("#filter").val()
+                        $.ajax({
+                            type: "POST",
+                            url: "order",
+                            data: {type:type,filter:filter},
+                            success: (result) => {
+                                $(".gridCustomer").html(result)
+                            } 
+                        })
+                    })
+                    function viewOrder(ID,customer){
+                        products = ID;
+                        $.ajax({
+                            type: "POST",
+                            url: "order",
+                            data: {products:products,customer:customer},
+                            success: (result) => {
+                                $(".viewOrder").css("display","block");
+
+                                $(".viewOrder").html(result)
+                            }
+                        })
+                    }
+                    function closeView(){
+                        $(".viewOrder").css("display","none")
                     }
                 </script>
         <?php
