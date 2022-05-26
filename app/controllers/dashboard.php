@@ -172,10 +172,16 @@ class dashboard extends Controller{
         }
     }
     public function stocks(){
-        $stocksPath = VIEWSPATH . 'dashboard/stocks.php';
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            if(isset($_POST['recieptID'])){
+                $ID = $_POST['recieptID'];
+                $this->model->getReciept($ID);
+            }
+        }
+        else{$stocksPath = VIEWSPATH . 'dashboard/stocks.php';
         require_once $stocksPath;
         $stocksView = new stocks($this->getModel(), $this);
-        $stocksView->output();
+        $stocksView->output();}
     }
     public function survey(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){

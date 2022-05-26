@@ -15,9 +15,9 @@ class productDashboardModel extends Model{
         $this->setProducts($result);
     }
     public function getStock($product){
-        $result = $this->database->query("SELECT COUNT(*) as quantity,productID FROM orderitems,products WHERE products.ID = orderitems.productID AND products.ID = {$product['ID']}");
-        // if($row = $result)
-            return $result->fetch_assoc()['quantity'];
+        $result = $this->database->query("SELECT * FROM orderitems WHERE productID = {$product['ID']}");
+        if($row = $result->fetch_assoc())
+            return $row['quantity'];
     }
     public function insertProduct($name,$rcost,$mcost,$stock,$image,$desc){
         $this->database->query("INSERT INTO products(productName,retailCost,manifactureCost,productStock,productImage,productDescription) VALUES('$name','$rcost','$mcost','$stock','$image','$desc')");

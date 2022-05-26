@@ -69,7 +69,7 @@ class orderModel extends Model{
             ";
         }
     }
-    public function displayOrder($order){
+    // public function displayOrder($order){
         
-    }
+    // }
 }

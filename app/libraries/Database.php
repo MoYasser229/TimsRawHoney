@@ -30,6 +30,7 @@ class Database{
         $this->createOrderTable();
         $this->createOrderItemsTable();
         $this->createDeliveryTable();
+        $this->createRecieptTable();
         $this->createStockProductsTable();
     }
     //FUNCTIONS
@@ -40,10 +41,19 @@ class Database{
     }
     public function createStockProductsTable(){
         $this->statement = "CREATE TABLE IF NOT EXISTS stockProducts(
+            recieptID INT(6) NOT NULL,
             productID INT(6) NOT NULL,
             quantity INT(10) NOT NULL,
             createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (recieptID) REFERENCES reciept(ID) ON DELETE CASCADE,
             FOREIGN KEY (productID) REFERENCES products(ID) ON DELETE CASCADE
+        );";
+        $this->execute(0);
+    }
+    public function createRecieptTable(){
+        $this->statement = "CREATE TABLE IF NOT EXISTS reciept(
+            ID INT(6) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         );";
         $this->execute(0);
     }
@@ -227,6 +237,9 @@ class Database{
     public function triggerError($errorstmt){
         return $this->connection->error;
     }
+    // public function getError(){
+    //     return $this->connection->error;
+    // }
 }
 
 //NOTES

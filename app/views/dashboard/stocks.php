@@ -65,10 +65,12 @@ class stocks extends View{
             <?php $this->model->displayRecieptsPrices(); ?>
         </div>
         <div class="stockRecieptsCard">
-            Hello
+            <?php $this->model->getReciepts();?>
         </div>
         </div>
-       
+       <div class="recieptContainer">
+           
+       </div>
         <div class="searchContainer">
             <h1>SEARCH AND SORT</h1>
             <hr>
@@ -95,6 +97,14 @@ class stocks extends View{
                 stockCost = $('#stockCost'+i).val()
                 cost = stockCost * parseInt($("#products").val())
                 $("#viewStock" + i).html(myString + cost + "EGP")
+            }
+            stockRecieptCount = parseInt($("#stockRecieptCount").val())
+            for(i = 1; i < stockRecieptCount;i++){
+                $("#stock" + i).css("display","none")
+            }
+            recieptCount = parseInt($("#recieptCount").val())
+            for(i = 1;i < recieptCount;i++){
+                $("#reciept" + i).css("display","none")
             }
             
             function before(before,current){
@@ -136,6 +146,61 @@ class stocks extends View{
             function decreaseStock(ID) {
                 if(($("#productStock" + ID).val() - 1) >= $("#currentStock").val())
                     $("#productStock" + ID).val($("#productStock" + ID).val() - 1)
+            }
+            function recieptPrev(product){
+                if(product != 0){
+                    // product--;
+                    $("#stock" + product--).css("display","none")
+                    $("#stock" + product).css("display","block")
+                }
+            }
+            function recieptNext(product){
+                if(product+1 < stockRecieptCount){
+                    $("#stock" + product++).css("display","none")
+                    $("#stock" + product).css("display","block")
+                }
+            }
+            function recieptp(currReciept){
+                if(currReciept != 0){
+                    $("#reciept" + currReciept--).css("display","none")
+                    $("#reciept" + currReciept).css("display","block")
+                }
+            }
+            function recieptn(currReciept){
+                // alert(currReciept)
+                if(currReciept+1 < recieptCount){
+                    $("#reciept" + currReciept++).css("display","none")
+                    $("#reciept" + currReciept).css("display","block")
+                }
+            }
+            // $("#datesearch").change(() => {
+            //     searchDate($("#datesearch").val())
+            // })
+            function searchDate(value) {
+                // alert('hena')
+                for(i = 0; i < recieptCount; i++){
+                    if(i == value){
+                        $("#reciept" + i).css("display","block")
+                        $("option[value="+i+"]").prop("selected","selected")
+                        continue
+                    }
+                    $("#reciept" + i).css("display","none")
+                }
+            }
+            function viewReciept(ID){
+                $(".recieptContainer").css("display","block")
+                $.ajax({
+                    type: "POST",
+                    url: "stocks",
+                    data:{recieptID: ID},
+                    success: (result)=>{
+                        // alert(result)
+                        $(".recieptContainer").html("<span onclick='closeReciept()'><i class='fa fa-xmark'></i></span><br>" + result)
+                    }
+                })
+            }
+            function closeReciept(){
+                $(".recieptContainer").css("display","none")
             }
         </script>
         <?php

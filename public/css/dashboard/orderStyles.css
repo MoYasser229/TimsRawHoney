@@ -174,6 +174,7 @@
 .table {
   width: 100%;
   border: 1px solid #EEEEEE;
+
 }
 
 .table-header {
@@ -188,6 +189,7 @@
   display: flex;
   width: 100%;
   padding: 18px 0;
+  color: black
 }
 .table-row:nth-of-type(odd) {
   background: #EEEEEE;
@@ -203,7 +205,7 @@
 }
 
 .filter__link {
-  color: white;
+  color: black;
   text-decoration: none;
   position: relative;
   display: inline-block;
@@ -214,7 +216,7 @@
   content: "";
   position: absolute;
   right: -18px;
-  color: white;
+  color: black;
   font-size: 12px;
   top: 50%;
   transform: translateY(-50%);

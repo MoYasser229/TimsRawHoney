@@ -22,6 +22,7 @@ class Orders{
         $this->price = $tempOrder['orderTotalPrice'];
         $this->date = date("d/m/Y",strtotime($tempOrder['createdAt']));
         
+        
     }
     function addQuantity($prodID,$quantity){
         $this->productQuantities["$prodID"] =  $quantity;
