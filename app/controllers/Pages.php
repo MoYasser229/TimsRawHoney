@@ -135,18 +135,26 @@ class Pages extends Controller{
     public function signup(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $signUp = $this->getModel();
-            
+            require_once APPROOT."/models/address.php";
+            require_once APPROOT."/models/User.php";
             $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
             // $password = $_POST['password'];
             $confirmNewPassword = $_POST['confirmPassword'];
-            $homeAddress1 = $_POST['address1'];
-            $homeAddress2 = $_POST['address2'];
+            // $homeAddress1 = $_POST['address1'];
+            // $homeAddress2 = $_POST['address2'];
+            $street = $_POST['street'];
+            $region = $_POST['region'];
+            $district = $_POST['district'];
+            $landmark = $_POST['landmark'];
+            $building = $_POST['building'];
+            $appNumber = $_POST['appNumber'];
+            $address = new Address($street,$district,$region,$appNumber,$building,$landmark);
             $phoneNumber1 = $_POST['phone1'];
             $phoneNumber2 = $_POST['phone2'];
             $signUp->setConfirmPassword($confirmNewPassword);
             $signUp->setpassword($password);
-            $signUp->sethomeaddress1($homeAddress1);
-            $signUp->sethomeaddress2($homeAddress2);
+            // $signUp->sethomeaddress1($homeAddress1);
+            // $signUp->sethomeaddress2($homeAddress2);
             $signUp->setphonenumber1($phoneNumber1);
             $signUp->setphonenumber2($phoneNumber2);
             $error = false;
@@ -201,6 +209,10 @@ class Pages extends Controller{
                     $error = true;
                     $signUp->setErrorPassword('*Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.');
                 }
+                if($address->validate() === false){
+                  $error = true;
+                  $signUp->setErrorAddress1("*Some fields are empty in address fields");
+                }
                 if(empty($password)){
                     $error = true;
                     $signUp->setErrorPassword('*REQUIRED: Please enter your password');
@@ -217,12 +229,9 @@ class Pages extends Controller{
                     $error = true;
                     $signUp->setErrorPhone1('*REQUIRED: Please Enter at least one phone Number');
                 }
-                if(empty($homeAddress1) && empty($homeAddress2)){
-                    $error = true;
-                    $signUp->setErrorAddress1('*REQUIRED: Please enter at least one address');
-                }
                 if(!$error){
                     $result = $signUp->register();
+                    $address->insertDB();
                     if($result === true){
                         redirect("pages/signin");
                     }
@@ -312,12 +321,37 @@ class Pages extends Controller{
                     echo "<script>alert('Email/Password is invalid')</script>";
                 }
             }
+            if(isset($_POST['addressID'])){
+              $address = $_POST['addressID'];
+              $this->model->getAddress($address);
+            }
+            if(isset($_POST['editAddressID'])){
+              $street = $_POST['street'];
+              $region = $_POST['region'];
+              $landmark = $_POST['landmark'];
+              $building = $_POST['building'];
+              $district = $_POST['district'];
+              $appNumber = $_POST['appNumber'];
+              $this->model->updateAddressDB($_POST['editAddressID'],$street,$region,$landmark,$building,$district,$appNumber);
+              $this->model->getAddress($_POST['editAddressID']);
+            }
             if(isset($_POST['submitAddress'])){
                 $address1 = $_POST['address'];
                 $address2 = $_POST['address2'];
                 $result = $model->updateAddress($_SESSION['ID'],$address1,$address2);
                 if($result)
                     redirect('pages/profile');
+            }
+            if(isset($_POST['addID'])){
+              $street = $_POST['street'];
+              $region = $_POST['region'];
+              $landmark = $_POST['landmark'];
+              $building = $_POST['building'];
+              $district = $_POST['district'];
+              $appNumber = $_POST['appNumber'];
+              $this->model->addAddress($_SESSION['ID'],$street,$region,$landmark,$building,$district,$appNumber);
+              $addresses = $this->model->getAddresses($_SESSION['ID']);
+              $this->model->viewAddresses($addresses);
             }
             if(isset($_POST['submitDelete'])){
                 $model->deleteAccount($_SESSION['ID']);

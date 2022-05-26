@@ -7,7 +7,7 @@
     margin: 0;
     min-height: 100vh;
     padding: 0;
-    background-color: #FBAB7E;
+    background-color: #F7CE68;
   background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
   scroll-behavior: smooth;
   }
@@ -193,3 +193,93 @@
   .nav{
       padding-bottom: 5%;
   }
+
+  .navigation{
+    height: 100%;
+    width: 75px;
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: white; /* Black */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    text-align: center;
+    /* box-shadow: 10px 5px rgba(128, 128, 128, 0.288); */
+    
+  }
+  .responsiveNavbar{
+    display: none;
+  }
+  .navigation .max{
+    outline: none;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    color: white;
+    background-color: #FBAB7E;
+    cursor: pointer;
+    font-weight: 900;
+    font-size: 30px;
+    transition: all 0.2s ease-in-out;
+  }
+  .navButtons{
+    outline: none;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    color: #FBAB7E;
+    background-color: white;
+    cursor: pointer;
+    font-weight: 900;
+    font-size: 30px;
+    transition: all 0.2s ease-in-out;
+  }
+  .navButtons .navText{
+    font-weight: normal;
+    /* font-size: 20px */
+  }
+  
+  .responsiveNavbar i{
+    font-size: 40px;
+    cursor: pointer;
+  }
+  .magnified{
+    display: none;
+    font-size: 10px;
+  }
+  .magList hr{
+    width: 100%;
+    text-align: left;
+    outline: none;
+    border: none;
+    height: 2px;
+    background-color: white;
+  }
+  .magList li{
+    color: white;
+    font-size: 20px;
+    font-family: "Arial";
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  .magList li i{
+    margin-right: 50px;
+  }
+  .magList li:hover{
+    color: #FBAB7E;
+    background-color: white;
+  }
+  @media screen and (max-width: 767px) {
+    .navigation{
+      display: none;
+    }
+    .responsiveNavbar{
+      display: block;
+      position: fixed;
+      top: 10px;
+      left: 10px;
+    }
+
+  }
+  

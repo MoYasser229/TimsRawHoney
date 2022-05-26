@@ -40,7 +40,7 @@ class productDashboardModel extends Model{
         $check = false;
         $this->databaseProducts();
         foreach($this->products as $product){
-            $availableStock = $product['productStock'] - $this->getStock($product);
+            $availableStock = $product['productStock'];
             if($check == false){
                 if($availableStock == 0){
                     $check = true;
@@ -127,7 +127,7 @@ class productDashboardModel extends Model{
                     $profit = abs($profit);
                     $color = "red";
                 }
-                $availableStock = $product['productStock'] - $this->getStock($product);
+                $availableStock = $product['productStock'];
                 
                 $stockRatio = ceil(($availableStock / $product['productStock'])*100);
                 echo "

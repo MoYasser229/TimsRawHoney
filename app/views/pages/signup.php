@@ -10,9 +10,30 @@ class signup extends View{
          <head>
            <link rel="stylesheet" href="<?php echo $css;?>"/>
            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+           <script type="text/javascript" src="<?php echo URLROOT . "json/regions.json" ;?>"></script>
         </head>
         <body>
-        
+        <script>
+        function readTextFile(file,callback){
+          var rawFile = new XMLHttpRequest()
+          rawFile.overrideMimeType("application/json")
+          rawFile.open("GET",file,true)
+          rawFile.onreadystatechange = () => {
+            if(rawFile.readyState === 4 && rawFile.status == "200"){
+              callback(rawFile.responseText)
+            }
+          }
+          rawFile.send(null)
+        }
+        readTextFile("<?php echo URLROOT . "json/regions.json" ;?>",(text) => {
+          data = JSON.parse(text)
+          data.forEach(function(city){
+            console.log(city.city)
+            option = `<option value=${city.city}>${city.city}</option>`
+            $("#region").append(option)
+          })
+        })
+      </script>
         <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v13.0&appId=1921176278089033&autoLogAppEvents=1" nonce="g2XAyTi6"></script>
         <div class="container" id="container">
@@ -30,18 +51,25 @@ class signup extends View{
 			<input class = mainSignUp type="email" placeholder="Email" name = "email"/>
       <div id="email" class = "warning"><?php echo $this->model->getErrorEmail(); ?></div>
       
-			<input class = colSignUp type="password" placeholder="Password" name = "password"/>
+			<input class = colSignUp type="password" placeholder="Password" name = "password" autocomplete="off" onpaste="return false;" onCopy="return false" onCut="return false" onDrag="return false"/>
       
-      <input class = colSignUp type="password" placeholder="Confirm your password" name = "confirmPassword"/>
+      <input class = colSignUp type="password" placeholder="Confirm your password" name = "confirmPassword" autocomplete="off" onpaste="return false;" onCopy="return false" onCut="return false" onDrag="return false"/>
       <div id="email" class = "warning"><?php echo $this->model->getErrorPassword(); ?></div>
       <div id="email" class = "warning"><?php echo $this->model->getErrorConfirmPassword(); ?></div>
       <div id="email" class = warning"><?php echo $this->model->getErrorConfirmation(); ?></div>
       <input class = "colSignUp" type="text" placeholder="Phone Number" name = "phone1"/>
       <input class = "colSignUp" type="text" placeholder = "Alternative Phone Number" name = "phone2"/>
       <div id="email" class="warning"><?php echo $this->model->getErrorPhone1(); ?></div>
-      <input class = "colSignUp" type="text" placeholder = "Home Address" name = "address1"/>
-      <input class = "colSignUp" type="text" placeholder = "Alternative Home Address" name = "address2"/>
-      <div id="email" class="warning"><?php echo $this->model->getErrorAddress1(); ?></div>
+      <div id="viewAddressForm">
+        <input type="text" class="colSignUp" name="street" placeholder="Street Name"/>
+        <select id="region" name="region"></select><br>
+        <input type="text" class="colSignUp" name=district placeholder="District">
+        <input type="text" class="colSignUp" name=landmark placeholder="Landmark"><br>
+        <input type="text" class="colSignUp" name=building placeholder="Building Number">
+        <input type="text" class="colSignUp" name=appNumber placeholder="Appartment Number">
+        <div id="email" class="warning"><?php echo $this->model->getErrorAddress1(); ?></div>
+      </div>
+      
       <button type = submit name = regular>Register</button>
 		</form>
     <form id = "socialForm" class = "hidden" action="" method = "POST">
@@ -53,14 +81,18 @@ class signup extends View{
       <input class = "facebookData mainSignUp" type="hidden" name = "emailFacebook" id = "emailFacebook2" />
       <input class = "facebookData mainSignUp" type="hidden" name = "myNameFacebook" id = "name2" />
       <hr>
-      <input class = colSignUp type="password" placeholder = "Password" name = "password"/>
-      <input class = colSignUp type="password" placeholder = "Confirm Password" name = "confirmPassword"/>
+      <input class = colSignUp type="password" placeholder = "Password" name = "password" autocomplete="off" onpaste="return false;" onCopy="return false" onCut="return false" onDrag="return false"/>
+      <input class = colSignUp type="password" placeholder = "Confirm Password" name = "confirmPassword" autocomplete="off" onpaste="return false;" onCopy="return false" onCut="return false" onDrag="return false"/>
       <div id="email" class = "warning"><?php echo $this->model->getErrorPassword(); ?></div>
       <div id="email" class = "warning"><?php echo $this->model->getErrorConfirmPassword(); ?></div>
-      <div id="email" class = warning"><?php echo $this->model->getErrorConfirmation(); ?></div>
+      <div id="email" class = "warning"><?php echo $this->model->getErrorConfirmation(); ?></div>
       <input class = colSignUp type="text" placeholder="Phone Number" name = "phone1"/>
       <input class = colSignUp type="text" placeholder = "Alternative Phone Number" name = "phone2"/>
       <div id="email" class="warning"><?php echo $this->model->getErrorPhone1(); ?></div>
+      <!-- <button onclick="addAddress()">Add Address</button>
+      <input type="text" name="street" placeholder="Street Name"/>
+      <select id="region"></select> -->
+      
       <input class = colSignUp type="text" placeholder = "Home Address" name = "address1"/>
       <input class = colSignUp type="text" placeholder = "Alternative Home Address" name = "address2"/>
       <div id="email" class="warning"><?php echo $this->model->getErrorAddress1(); ?></div>
@@ -80,7 +112,6 @@ class signup extends View{
         </body>
         
 <script>
-  
     function statusChangeCallback(response) {
                 if (response.status === 'connected') {
                     FB.api('/me',{ locale: 'en_US', fields: 'name, email' }, function (response) {

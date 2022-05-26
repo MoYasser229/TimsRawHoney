@@ -85,6 +85,14 @@ form {
 	margin: 8px 0;
 	width: 49%;
 }
+#region{
+	background-color: #eee;
+	outline: none;
+	border: none;
+	padding: 10px;
+	color: gray;
+	width: 49%;
+}
 .mainSignUp {
 	background-color: #eee;
 	border: none;
@@ -105,14 +113,15 @@ form {
 	overflow: hidden;
 	width: 75%;
 	max-width: 100%;
-	min-height: 65%;
+	min-height: 75%;
 	margin-top: 5%;
 	
 }
+
 @media screen and (max-width: 1824px) {
 	.container{
-		height: 82%;
-		margin-top: 8%;
+		height: 85%;
+		margin-top: 7%;
 	}
 }
 .regHeader {

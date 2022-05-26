@@ -16,7 +16,7 @@
 }
 .searchContainer{
     background-color: white;
-    width: 30%;
+    width: 80%;
     margin-left: 10%;
     padding: 10px;
     margin-top: 10px;
@@ -51,6 +51,10 @@
     border: none;
     height: 2px;
     background-color: #fab637;
+}
+.stockInfo{
+    color: gray;
+    font-weight: 400;
 }
 .update{
     background-color: white;
@@ -151,6 +155,32 @@
     width: 80%;
     margin-left: 10%;
     margin-top: 10px;
+    padding: 10px
+}
+.recieptContainer p{
+    color: gray;
+    font-weight: normal;
+}
+.recieptContainer h1{
+    color: #fab637;
+}
+.recieptContainer hr{
+    outline: none;
+    border: none;
+    height: 2px;
+    background-color: #fab637;
+}
+.recieptContainer h2{
+    text-align: center;
+    color: #FBAB7E;
+}
+.recieptContainer #closeReciept{
+    cursor: pointer;
+    float: right;
+    padding: 10px;
+    font-size: 20px;
+    color: white;
+    background-color: red;
 }
 @media screen and (max-width: 780px){
     .operationGrid{
@@ -251,6 +281,7 @@
   .table-data, .header__item {
     flex: 1 1 20%;
     text-align: center;
+    font-weight: normal;
   }
   
   .header__item {
@@ -280,3 +311,147 @@
   .filter__link.asc::after {
     content: "(asc)";
   }
+  .recieptClass h1{
+    color: #fab637;
+}
+.recieptClass hr{
+    outline: none;
+    border: none;
+    height: 2px;
+    background-color: #fab637;
+
+}
+.recieptClass select{
+    width: 100%;
+    padding: 10px;
+    color: white;
+    background-color: #FBAB7E;
+    outline: none;
+    border: none;
+    font-weight: 600;
+    font-size: 15px;
+}
+.recieptClass p{
+    color: gray;
+}
+.recieptClass h3{
+    color: gray;
+    text-align: center;
+}
+.recieptClass .viewReciept{
+    width: 100%;
+    color: white;
+    background-color: #FBAB7E;
+    outline: none;
+    border: none;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+}
+.recieptClass .viewReciept:hover{
+    background-color: #F7CE68
+}
+#search{
+    width: 50%;
+    padding: 10px;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    border-bottom: 2px solid #fab637;
+    color: gray;
+    font-size: 25px;
+}
+#searchButton{
+    color: white;
+    background-color:#FBAB7E;
+    outline:none;
+    border: none;
+    padding: 10px;
+    font-size: 20px;
+    margin: 10px;
+}
+#type,#filter{
+    outline: none;
+    border: none;
+    padding: 10px;
+    font-size: 20px;
+    color: white;
+    background: #FBAB7E;
+    background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+}
+.stockUpdate{
+    outline: none;border: none;
+    padding: 10px;
+    color: white;
+    background-color: #FBAB7E;
+}
+.stockInput{
+    text-align: center;
+    padding: 10px;
+    color: gray;
+    outline: none;
+    border: none;
+    font-size: 15px
+}
+.stockChange{
+    text-align: center;
+}
+.saveContainer{
+    display: none;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    /* padding: 20px; */
+    background-color: green;
+    border-radius: 15px;
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+}
+.saveContainer span{
+    color: white;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+#saveButton{
+    outline: none;
+    /* border: none; */
+    padding: 10px;
+    border: 2px solid green;
+    background: white;
+    color: green;
+    transition: all 0.2s ease-in-out;
+    font-size: 15px;
+    height: 60px;
+    /* margin-right: 20px; */
+    cursor: pointer;
+}
+#saveButton:hover{
+    color: rgb(54, 112, 54);
+    background-color: white;
+    
+}
+#closeButton{
+    border: 2px solid green;
+    border-left: none;
+    outline: none;
+    /* border: none; */
+    padding: 20px;
+    font-size: 20px;
+    color: red;
+    background-color: white;
+    height: 60px;
+    border-radius: 0 15px 15px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.empty{
+    margin-top: 50px;
+}
+.error{
+    color: red;
+}

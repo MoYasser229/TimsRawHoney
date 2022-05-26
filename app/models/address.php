@@ -2,18 +2,30 @@
 
 class Address{
     //ATRIBUTES
-    private $street, $district, $region, $appNumber, $status, $buildingNumber, $floorNumber, $landMark;
-    public function __construct($street, $district, $region, $appNumber, $status, $buildingNumber, $floorNumber,$landMark){
+    private $street, $district, $region, $appNumber, $buildingNumber, $landMark,$userID;
+    protected $database;
+    public function __construct($street, $district, $region, $appNumber, $buildingNumber,$landMark){
         $this->setStreet($street);
         $this->setDistrict($district);
         $this->setRegion($region);
         $this->setAppNumber($appNumber);
-        $this->setStatus($status);
         $this->setBuildingNumber($buildingNumber);
-        $this->setFloorNumber($floorNumber);
         $this->setLandMark($landMark);
+        $this->database = new Database();
     }
-
+    public function validate(){
+        if(empty($this->street) || empty($this->district) || empty($this->region) || empty($this->buildingNumber) || empty($this->landMark) || empty($this->appNumber)){
+            return false;
+        }
+        return true;
+    }
+    public function insertDB(){
+        $this->userID = $this->database->query("SELECT ID from users ORDER BY ID DESC LIMIT 1")->fetch_assoc()['ID'];
+        $this->database->query("INSERT INTO user_address(customerID,street,district,appNumber,buildingNumber,landMark,region) VALUES ('{$this->userID}','{$this->street}','{$this->district}','{$this->appNumber}','{$this->buildingNumber}','{$this->landMark}','{$this->region}')");
+    }
+    public function setUserID($userID){
+        $this->userID = $userID;
+    }
     public function setStreet($street){
         $this->street = $street;
     }
@@ -28,12 +40,6 @@ class Address{
     }
     public function setLandMark($landMark){
         $this->landMark = $landMark;
-    }
-    public function setStatus($status){
-        $this->status = $status;
-    }
-    public function setFloorNumber($floorNumber){
-        $this->floorNumber = $floorNumber;
     }
     public function setRegion($region){
         $this->region = $region;
@@ -55,9 +61,6 @@ class Address{
     }
     public function getStatus(){
         return $this->status;
-    }
-    public function getFloorNumber(){
-        return $this->floorNumber;
     }
     public function getRegion(){
         return $this->region;

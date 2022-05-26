@@ -7,6 +7,7 @@ class stocks extends View{
         $headercss = $this->model->headercss;
         require_once APPROOT . "/views/inc/managerHeader.php";
         ?>
+        
         <div class="mainContainer">
             <h1>Stock</h1>
             <hr>
@@ -35,7 +36,7 @@ class stocks extends View{
             <hr>
             <p>The prices are given if adding: </p>
             <div class="valueProduct">
-            <button id=decrease> <i class="fa-solid fa-minus"></i> </button><input type="text" value=10 id=products><button id=increase> <i class="fa-solid fa-plus"></i> </button>
+                <button id=decrease> <i class="fa-solid fa-minus"></i></button><input type="text" value=10 id=productsSimulation><button id=increase> <i class="fa-solid fa-plus"></i> </button>
             </div>
             
             <?php
@@ -46,17 +47,17 @@ class stocks extends View{
             while($product = $products->fetch_assoc()){
                 $before = ($i != 1)? $i - 1: $i;
                 $after = ($i == $numProducts)?$i:$i + 1;
-                echo <<<EOS
+                echo <<<HTML
                     <input type='hidden' id=numProducts value = $numProducts>
                     <div class="stockInfo" id=product{$product['ID']}>
                         <input type='hidden' id=prodID$i value = {$product['ID']}>
                         <h2>{$product['productName']}</h2>
                         <input type='hidden' id='stockCost$i' value= '{$product['manifactureCost']}'>
                         <div class = stockPrice id=viewStock$i></div>
-                        <button id=before onclick='before(this.value,{$product['ID']})' value = $before><i class="fa-solid fa-angle-left"></i> PREVIOUS PRODUCT</button><button id=after onclick='after(this.value,{$product['ID']})' value = $after>NEXT PRODUCT <i class="fa-solid fa-angle-right "></i></button>
+                        
+                        <button id=before onclick="before(this.value,{$product['ID']})" value = $before><i class="fa-solid fa-angle-left"></i> PREVIOUS PRODUCT</button><button id=after onclick='after(this.value,{$product['ID']})' value = $after>NEXT PRODUCT <i class="fa-solid fa-angle-right "></i></button>
                     </div>
-                    
-                EOS;
+                HTML;
                 $i+=1;
             }
             ?>
@@ -74,6 +75,16 @@ class stocks extends View{
         <div class="searchContainer">
             <h1>SEARCH AND SORT</h1>
             <hr>
+            <input type="text" id="search" placeholder="Search Here">
+            <button id="searchButton" onclick="searchStock()"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <select id=type>
+                <option value = productName>Product Name</option>
+                <option value = productStock>Product Stock</option>
+            </select>
+            <select id=filter>
+                <option value=DESC>Descending</option>
+                <option value=ASC>Ascending</option>
+            </select>
         </div>
         <div class="productGrid">
             <?php
@@ -81,14 +92,44 @@ class stocks extends View{
                 $this->model->display();
             ?>
         </div>
+        <div class="saveContainer">
+            <span>Please enter save to accept the added stocks. Or click cancel to abort.</span>
+            <button class=saveButton id=saveButton>SAVE</button>
+            <button class=closeButton id=closeButton><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="empty"></div>
         <script>
+            
+            $("#type,#filter").change(() => {
+                type = $("#type").val();
+                filter = $("#filter").val();
+                $.ajax({
+                    type: 'POST',
+                    url: 'stocks',
+                    data: {type: type, filter: filter},
+                    success: (result) => {
+                        $(".productGrid").html(result)
+                    }
+                })
+            })
+            function searchStock(){
+                search = $("#search").val()
+                $.ajax({
+                    type: 'POST',
+                    url: 'stocks',
+                    data: {search:search},
+                    success: (result) => {
+                        $(".productGrid").html(result);
+                    }
+                })
+            }
             myString = "Price to fullfill the stocks: "
             numProducts = $("#numProducts").val()
             arrayProduct = []
             arrayProduct[0] = $('#prodID'+1).val()
             // alert($('#stockCost1').val())
             stockCost = $('#stockCost1').val()
-            cost = stockCost * parseInt($("#products").val())
+            cost = stockCost * parseInt($("#productsSimulation").val())
             currentProd = 1
             $("#viewStock" + 1).html(myString + cost + "EGP")
             for(i = 2; i <= numProducts;i++){
@@ -106,8 +147,28 @@ class stocks extends View{
             for(i = 1;i < recieptCount;i++){
                 $("#reciept" + i).css("display","none")
             }
-            
+            $("#saveButton").click(() => {
+                fd = new FormData();
+                for(i = 1;i<= numProducts;i++){
+                    console.log($("#productStock"+$("#prodID"+i).val()).val())
+                    if($("#productStock"+$("#prodID"+i).val()).val() != parseInt($("#curStock" + $("#prodID"+i).val()).val())){
+                        fd.append("productID[]",$("#prodID"+i).val())
+                        fd.append("quantities[]",($("#productStock"+$("#prodID"+i).val()).val()) - parseInt($("#curStock" + $("#prodID"+i).val()).val()))
+                    }
+                }
+                $.ajax({
+                    type: "POST",
+                    url:"stocks",
+                    data:fd,
+                    contentType: false,
+                    processData: false,
+                    success: (result)=>{
+                        window.location.reload();
+                    }
+                })
+            })
             function before(before,current){
+                // alert(before)
                 $("#product" + current).css("display","none")
                 $("#product"+arrayProduct[before-1]).css("display","block")
                 currentProd = before
@@ -122,9 +183,10 @@ class stocks extends View{
                 $("#viewStock" + currentProd).html(myString + cost + "EGP")
             }
             $("#decrease").click(() => {
-                if($("#products").val() > 0){
-                    $("#products").val($("#products").val() - 1);
-                    cost = $('#stockCost'+currentProd).val() * parseInt($("#products").val())
+                // alert($("#productsSimulation").val())
+                if($("#productsSimulation").val() > 0){
+                    $("#productsSimulation").val($("#productsSimulation").val() - 1);
+                    cost = $('#stockCost'+currentProd).val() * parseInt($("#productsSimulation").val())
                     $("#viewStock" + currentProd).html(myString + cost + "EGP")
                 }
             })
@@ -135,17 +197,39 @@ class stocks extends View{
                 }
             })
             $("#increase").click(() => {
-                $("#products").val(parseInt($("#products").val()) + 1);
-                cost = $('#stockCost'+currentProd).val() * parseInt($("#products").val())
+                $("#productsSimulation").val(parseInt($("#productsSimulation").val()) + 1);
+                cost = $('#stockCost'+currentProd).val() * parseInt($("#productsSimulation").val())
                 $("#viewStock" + currentProd).html(myString + cost + "EGP")
             })
             function increaseStock(ID) {
                 $("#productStock" + ID).val(parseInt($('#productStock' + ID).val()) + parseInt('1'))
-                // alert(ID)
+                currentCost = (parseInt($("#productStock" + ID).val()) - parseInt($("#curStock" + ID).val())) * parseInt($("#stockCost" + ID).val())
+                // alert($("#stockCost" + ID).val())
+                $("#scost" + ID).html(`Cost: <strong> ${currentCost} EGP</strong>`)
+                $(".saveContainer").css('display','flex')
             }
             function decreaseStock(ID) {
                 if(($("#productStock" + ID).val() - 1) >= $("#currentStock").val())
                     $("#productStock" + ID).val($("#productStock" + ID).val() - 1)
+                    // currentCost = (parseInt($("#productStock" + ID).val()) - parseInt($("#curStock" + ID).val())) * parseInt($("#stockCost" + ID).val())
+                    if(((parseInt($("#productStock" + ID).val()) - parseInt($("#curStock" + ID).val())) * parseInt($("#stockCost" + ID).val())) != 0)
+                        $("#scost" + ID).html(`Cost: <strong> ${(parseInt($("#productStock" + ID).val()) - parseInt($("#curStock" + ID).val())) * parseInt($("#stockCost" + ID).val())} EGP</strong>`)
+                    else{
+                        $("#scost" + ID).html("");
+                        $(".saveContainer").css('display','none')
+                    }
+            }
+            function stockChange(value,ID) {
+                // currentCost = parseInt($("#productStock" + ID).val()) - parseInt($("#curStock" + ID).val())
+                    // console.log(currentCost)
+                    if(value >= parseInt($("#curStock" + ID).val())){
+                        $("#scost" + ID).html(`Cost: <strong> ${value - parseInt($("#curStock" + ID).val())} EGP</strong>`)
+                        
+                        $(".saveContainer").css('display','flex')
+                    }
+                    else{
+                        $("#scost" + ID).html("<div class = error>Please Enter a number greater than the stock value available</div>")
+                    }
             }
             function recieptPrev(product){
                 if(product != 0){
@@ -195,7 +279,7 @@ class stocks extends View{
                     data:{recieptID: ID},
                     success: (result)=>{
                         // alert(result)
-                        $(".recieptContainer").html("<span onclick='closeReciept()'><i class='fa fa-xmark'></i></span><br>" + result)
+                        $(".recieptContainer").html("<span id=closeReciept onclick='closeReciept()'><i class='fa fa-xmark'></i></span><br>" + result)
                     }
                 })
             }

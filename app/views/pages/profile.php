@@ -119,19 +119,36 @@ class profile extends View{
                     <div class="address">
                         <h1 class = "header">My Address Book</h1>
                         <hr class = "headerSeparator">
-                        <form action="" method="post">
+                        <!-- <form action="" method="post">
                             <h5 class = "header">Main Address:</h5>
                             <p>
                             Address:&nbsp;&nbsp;&nbsp;
-                            <input type="text" name = "address" value = "<?php echo $profileData['homeAddress1']; ?>"><br><br>
+                            <input type="text" name = "address" value = "<?php //echo $profileData['homeAddress1']; ?>"><br><br>
                             </p>
                             <h5 class="header">Alternative Address:</h5>
                             <p>
                             Address:&nbsp;&nbsp;&nbsp;
-                            <input type="text" name = "address2" value = "<?php echo $profileData['homeAddress2']; ?>"><br><br>
+                            <input type="text" name = "address2" value = "<?php //echo $profileData['homeAddress2']; ?>"><br><br>
                             </p>
                             <button class = "submitButton" type="submit" name = "submitAddress">UPDATE</button>
-                        </form>
+                        </form> -->
+                        <div id="myAddresses">
+                            <?php
+                                $addresses = $this->model->getAddresses($_SESSION['ID']);
+                                $this->model->viewAddresses($addresses);
+                            ?>
+                        </div>
+                        
+                        <div id="addressbook"></div>
+                        <div id="addAddress">
+                        <input id = addstreet type="text" name="street" placeholder="Street Name"/>
+                        <select id="regions" name="region"></select><br>
+                        <input id=adddistrict type="text" name=district placeholder="District">
+                        <input id=landmark type="text" name=landmark placeholder="Landmark"><br>
+                        <input id=building type="text" name=building placeholder="Building Number">
+                        <input id=addappNumber type="text" name=appNumber placeholder="Appartment Number">
+                        <button onclick="ajaxAddress()">Submit</button>
+                                        </div>
                     </div>
                     <div class="promo">
                         <h1 class="header">PROMO CODES</h1>
@@ -241,6 +258,25 @@ class profile extends View{
                 </div>
             </div>
             <script>
+                function readTextFile(file,callback){
+                            var rawFile = new XMLHttpRequest()
+                            rawFile.overrideMimeType("application/json")
+                            rawFile.open("GET",file,true)
+                            rawFile.onreadystatechange = () => {
+                                if(rawFile.readyState === 4 && rawFile.status == "200"){
+                                callback(rawFile.responseText)
+                                }
+                            }
+                            rawFile.send(null)
+                        }
+                        readTextFile("<?php echo URLROOT . "json/regions.json" ;?>",(text) => {
+                            data = JSON.parse(text)
+                            data.forEach(function(city){
+                                console.log(city.city)
+                                option = "<option value='"+city.city+"'>"+city.city+"</option>"
+                                $("#regions").append(option)
+                            })
+                        })
                 $(document).ready(function(){
                     count = 0;
                 $("#personal").click(function(){
@@ -407,6 +443,71 @@ class profile extends View{
                         })
                     }
                     // alert(questionFour)
+                }
+                function viewAddress(ID){
+                    $.ajax({
+                        type: 'POST',
+                        url: 'profile',
+                        data: {addressID:ID},
+                        success: (result)=>{
+                            $("#addressbook").html(result)
+                        }
+                    })
+                }
+                function editAddress(ID){
+                    street = $("#street").val()
+                    region = $("#regions").val()
+                    landmark = $("#landmark").val()
+                    building = $("#building").val()
+                    district = $("#district").val()
+                    appNumber = $("#appNumber").val()
+                    if(street == '' || region =='' || landmark == '' || building == '' || district == '' || appNumber == ''){
+                        $("#addressError").html("Some fields are empty")
+                    }
+                    else
+                        $.ajax({
+                            type: 'POST',
+                            url: 'profile',
+                            data: {editAddressID:ID,street:street,region:region,landmark:landmark,building:building,district:district,appNumber:appNumber},
+                            success: (result) => {
+                                $("#addressbook").html(result)
+                            }
+                        })
+                }
+                function addAddress(){
+                    $("#addressbook").html($("#addAddress").html())
+                }
+                function ajaxAddress(){
+                    street =   $("#addstreet").val()
+                    region =   $("#addregions").val()
+                    landmark = $("#addlandmark").val()
+                    building = $("#addbuilding").val()
+                    district = $("#adddistrict").val()
+                    appNumber = $("#addappNumber").val()
+                    addID = "addID"
+                    fd = new FormData();
+                    fd.append("addID",addID)
+                    fd.append("street",street)
+                    fd.append("region",region)
+                    fd.append("landmark",landmark)
+                    fd.append("building",building)
+                    fd.append("district",district)
+                    fd.append("appNumber",appNumber)
+                    if(street == '' || region =='' || landmark == '' || building == '' || district == '' || appNumber == ''){
+                        $("#addressError").html("Some fields are empty")
+                    }
+                    else
+                        $.ajax({
+                            type: 'POST',
+                            url: 'profile',
+                            data: fd,
+                            contentType: false,
+                            processData: false,
+                            success: (result) => {
+                                $("#myAddresses").html(result)
+                                $("#addressbook").html("")
+                            }
+                        })
                 }
             </script>
         <?php

@@ -32,6 +32,7 @@ class Database{
         $this->createDeliveryTable();
         $this->createRecieptTable();
         $this->createStockProductsTable();
+        $this->createAddressTable();
     }
     //FUNCTIONS
     public function createDatabase(){
@@ -65,11 +66,23 @@ class Database{
             pswrd VARCHAR(64),
             phoneNumber1 VARCHAR(30),
             phoneNumber2 VARCHAR(30),
-            userRole VARCHAR(30),
-            homeAddress1 VARCHAR(255),
-            homeAddress2 VARCHAR(255)
+            userRole VARCHAR(30)
             )";
         $this->execute(0);
+    }
+    public function createAddressTable(){
+        $this->statement = "CREATE TABLE IF NOT EXISTS user_address(
+            AddressID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+            customerID INT(6) NOT NULL,
+            street VARCHAR(125),
+            region VARCHAR(125),
+            district VARCHAR(125),
+            landmark VARCHAR(125),
+            appNumber INT(10),
+            buildingNumber INT(10),
+            FOREIGN KEY (customerID) REFERENCES users(ID) ON DELETE CASCADE
+            );";
+            $this->execute(0);
     }
     public function createProductTable(){
         $this->statement = "CREATE TABLE IF NOT EXISTS products(

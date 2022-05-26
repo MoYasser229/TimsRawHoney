@@ -177,6 +177,20 @@ class dashboard extends Controller{
                 $ID = $_POST['recieptID'];
                 $this->model->getReciept($ID);
             }
+            if(isset($_POST['search'])){
+                $search = $_POST['search'];
+                $this->model->search($search);
+                $this->model->display();
+            }
+            if(isset($_POST['type'])){
+                $type = $_POST['type'];
+                $filter = $_POST['filter'];
+                $this->model->filter($type,$filter);
+                $this->model->display();
+            }
+            if(isset($_POST['productID'])){
+                $this->model->insertReciept($_POST['productID'],$_POST['quantities']);
+            }
         }
         else{$stocksPath = VIEWSPATH . 'dashboard/stocks.php';
         require_once $stocksPath;
@@ -196,6 +210,7 @@ class dashboard extends Controller{
                 $this->model->filterSurveys($type, $filter);
                 $this->model->display();
             }
+            
         }
         else{
             $surveyPath = VIEWSPATH . 'dashboard/survey.php';
