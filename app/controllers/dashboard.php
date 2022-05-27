@@ -77,10 +77,20 @@ class dashboard extends Controller{
         }
     }
     public function sales(){
-        $salesPath = VIEWSPATH . 'dashboard/sales.php';
-        require_once $salesPath;
-        $salesView  = new Sales($this->getModel(), $this);
-        $salesView->output();
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            if(isset($_POST['search'])){
+                $this->model->search($_POST['search']);
+            }
+            if(isset($_POST['filter'])){
+                $this->model->filter($_POST['filter'],$_POST['type']);
+            }
+        }
+        else{
+            $salesPath = VIEWSPATH . 'dashboard/sales.php';
+            require_once $salesPath;
+            $salesView  = new Sales($this->getModel(), $this);
+            $salesView->output();
+        }
     }
     public function customer(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){

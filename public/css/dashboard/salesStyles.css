@@ -24,7 +24,7 @@
 }
 .searchContainer{
     background-color: white;
-    width: 30%;margin-left: 10%;
+    width: 80%;margin-left: 10%;
     color: #fab637;
     padding: 10px;
     margin-top: 10px;
@@ -58,4 +58,32 @@
     border: none;
     height: 2px;
     background-color: #fab637;
+}
+#search{
+    width: 50%;
+    padding: 10px;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    border-bottom: 2px solid #fab637;
+    color: gray;
+    font-size: 25px;
+}
+#searchButton{
+    color: white;
+    background-color:#FBAB7E;
+    outline:none;
+    border: none;
+    padding: 10px;
+    font-size: 20px;
+    margin: 10px;
+}
+#type,#filter{
+    outline: none;
+    border: none;
+    padding: 10px;
+    font-size: 20px;
+    color: white;
+    background: #FBAB7E;
+    background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
 }
