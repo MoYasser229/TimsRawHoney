@@ -85,7 +85,7 @@ form {
 	margin: 8px 0;
 	width: 49%;
 }
-#region{
+#region,#region1{
 	background-color: #eee;
 	outline: none;
 	border: none;

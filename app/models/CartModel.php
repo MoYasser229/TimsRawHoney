@@ -2,7 +2,7 @@
 class CartModel extends model
 {
      public $title = "Tim's Raw Honey";
-     
+     private $total;
     public function getName($ID){
         $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
           return $result -> fetch_assoc()['productName'];
@@ -25,11 +25,11 @@ class CartModel extends model
       public function getSize(){
           return "Small";
       }
-      public function order($ID,$data,$total,$promo){
+      public function order($ID,$data,$total,$promo,$address){
           if(empty($promo)){
               $promo=NULL;
           }
-        $this->database->query("INSERT INTO orders(customerID,orderDetails,orderTotalPrice,promocodeid) VALUES('$ID','$data','$total',(SELECT promoID FROM promocodes WHERE promoCode='$promo'))");
+        $this->database->query("INSERT INTO orders(customerID,orderDetails,orderTotalPrice,promocodeid,addressID) VALUES('$ID','$data','$total',(SELECT promoID FROM promocodes WHERE promoCode='$promo'),'$address')");
     }
     public function orderItems($orderID,$ID,$productID,$quantity){
         $this->database->query("INSERT INTO orderitems(orderID,customerID,productID,quantity) VALUES('$orderID','$ID','$productID','$quantity')");
@@ -63,6 +63,23 @@ class CartModel extends model
         }
         return $result->fetch_assoc()['promoValue'];
     }
-    
-  
-  }
+    public function getAddresses($ID){
+        $result = $this->database->query("SELECT * FROM user_address WHERE customerID = $ID");
+        $i = 0;
+        foreach($result as $address){
+            echo <<<HTML
+                <!-- <input type="hidden" id="$i" value="<?php echo>" -->
+                <button id="addr$i" onclick="pickAddress({$address['AddressID']},$i)">{$address['street']}, {$address['district']}, {$address['landmark']}, {$address['region']}, {$address['buildingNumber']}, {$address['appNumber']}</button>
+            HTML;
+            $i++;
+        }
+
+    }
+
+    public function setTotal($total){
+        $this->total = $total;
+    }
+    public function getTotal(){
+        return $this->total;
+    }
+}

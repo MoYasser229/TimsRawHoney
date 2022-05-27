@@ -182,7 +182,18 @@ a.clear:link,  a.clear:visited {
  a.clear:hover,  a.clear:focus,  a.clear:active {
   background: #f69679;
 }
-
+.greenButton{
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: #82ca9c;
+  border-radius: 50px;
+  padding: 10px;
+  color: white
+}
+.greenButton:hover{
+  color: white;
+}
 .heading a.continue:hover, .heading a.continue:focus, .heading a.continue:active {
   background: #f69679;
 }
@@ -482,4 +493,19 @@ a.remove:hover {
     width: 100%;
     text-align: center;
   }
+}
+.addressPick button{
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: transparent;
+  color: gray;
+  font-family: arial;
+  border: 3px solid #82ca9c;
+  border-radius: 50px;
+  transition: all 0.2s ease-in-out;
+}
+.addressPick button:hover{
+  color: #82ca9c;
+  background-color: white;
 }

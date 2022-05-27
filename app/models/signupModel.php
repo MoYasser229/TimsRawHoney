@@ -22,6 +22,7 @@ class signupModel extends Model{
     private $errorConfirmation;
     private $errorPhone1;
     private $errorAddress1;
+    private $address = null;
     public function setErrorConfirmPassword($errorConfirmPassword){
         $this->errorConfirmPassword = $errorConfirmPassword;
     }
@@ -146,17 +147,22 @@ class signupModel extends Model{
     public function getSocialError(){
         return $this->socialError;
     }
+    public function setAddress($address){
+        $this->address = $address;
+    }
+    public function getAddress() {
+        return $this->address;
+    }
     public function register(){
         $fname = $this->fname;
         $lname = $this->lname;
         $email = $this->email;
         $password = $this->pswrd;
-        $homeAddress1 = $this->homeAddress1;
-        $homeAddress2 = $this->homeAddress2;
         $phoneNumber1 = $this->phoneNumber1;
         $phoneNumber2 = $this->phoneNumber2;
         $name = $this->name;
-        $result = $this->database->query("INSERT INTO users(fullName,email,pswrd,phoneNumber1,phoneNumber2,homeAddress1,homeAddress2,userRole) VALUES('$name','$email','$password','$phoneNumber1','$phoneNumber2','$homeAddress1','$homeAddress2','CUSTOMER')");
+        $result = $this->database->query("INSERT INTO users(fullName,email,pswrd,phoneNumber1,phoneNumber2,userRole) VALUES('$name','$email','$password','$phoneNumber1','$phoneNumber2','CUSTOMER')");
+        
         if(!$result){
             return false;
         }

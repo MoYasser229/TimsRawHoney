@@ -164,17 +164,19 @@ class Pages extends Controller{
                 $email = $_POST['emailFacebook'];
                 $signUp->setName($fullName);
                 $signUp->setemail($email);
+                $signUp->setAddress($address);
                 $error = false;
                 if(!$signUp->repeatEmail()){
                     $error = true;
                     redirect('pages/signin');
                 }
-                if(!$signUp->checkPassword() || empty($password) || empty($confirmNewPassword) || !password_verify($this->model->getConfirmPassword(),$password) || (empty($phoneNumber1) && empty($phoneNumber2)) || (empty($homeAddress1) && empty($homeAddress2))){
+                if(!$signUp->checkPassword() || empty($password) || empty($confirmNewPassword) || !password_verify($this->model->getConfirmPassword(),$password) || (empty($phoneNumber1) && empty($phoneNumber2)) || $address->validate() === false){
                     $error = true;
                     $signUp->setSocialError('*Something wrong with the data given. Please Sign Up Again and check you enter all data needed');
                 }
                 if(!$error){
                     $result = $signUp->register();
+                    $this->model->getAddress()->insertDB();
                     if($result === true){
                         redirect("pages/signin");
                     }
@@ -325,6 +327,12 @@ class Pages extends Controller{
               $address = $_POST['addressID'];
               $this->model->getAddress($address);
             }
+            if(isset($_POST['deleteAddressID'])){
+              $delete = $_POST['deleteAddressID'];
+              $this->model->deleteAddress($delete);
+              $addresses = $this->model->getAddresses($_SESSION['ID']);
+              $this->model->viewAddresses($addresses);
+            }
             if(isset($_POST['editAddressID'])){
               $street = $_POST['street'];
               $region = $_POST['region'];
@@ -389,9 +397,8 @@ class Pages extends Controller{
  
            
             if(isset($_POST['quantity'])){
-            
                 $this->updatequantity($_SESSION['ID'],$_POST['productid'],$_POST['quantity']);
-
+                // $this->viewCart();
             }
             if (isset($_POST['remove'])){
                 $this->deletefromcart($_SESSION['ID'],$_POST['productid']);
@@ -403,7 +410,6 @@ class Pages extends Controller{
             }
             if (isset($_POST['checkout'])){
                 $this->checkout($_SESSION['ID']);
-            
             }
             if (isset($_POST['promoCode'])){
               
@@ -418,8 +424,6 @@ class Pages extends Controller{
           }
 
         }
-            
-       
     else{
         $viewPath = VIEWSPATH . 'pages/Cart.php';
         require_once $viewPath;
@@ -429,10 +433,6 @@ class Pages extends Controller{
 
     }
 
-// public function shop(){
-
-// }
-    //habd
     public function ajax(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             //  print_r($_POST);
@@ -453,132 +453,132 @@ class Pages extends Controller{
     public function addtocart($customerID,$productID,$productname,$productimage,$productprice,$quantity,$material,$size){
       
 
-        if(isset($_COOKIE["cart$customerID"]))
+      if(isset($_COOKIE["cart$customerID"]))
+      {
+       $cookie_data = stripslashes($_COOKIE["cart$customerID"]);
+     
+       $cart_data = json_decode($cookie_data, true);
+      }
+      else
+      {
+       $cart_data = array();
+      }
+     
+      $item_id_list = array_column($cart_data, 'productID');
+     
+      if(in_array($productID, $item_id_list))
+      {
+       foreach($cart_data as $keys => $values)
+       {
+        if($cart_data[$keys]["productID"] == $productID)
         {
-         $cookie_data = stripslashes($_COOKIE["cart$customerID"]);
-       
-         $cart_data = json_decode($cookie_data, true);
+            if( $cart_data[$keys]["quantity"] + $quantity >0){
+         $cart_data[$keys]["quantity"] = $cart_data[$keys]["quantity"] + $quantity;
+            }
+            
         }
-        else
-        {
-         $cart_data = array();
-        }
-       
-        $item_id_list = array_column($cart_data, 'productID');
-       
-        if(in_array($productID, $item_id_list))
-        {
-         foreach($cart_data as $keys => $values)
-         {
-          if($cart_data[$keys]["productID"] == $productID)
-          {
-              if( $cart_data[$keys]["quantity"] + $quantity >0){
-           $cart_data[$keys]["quantity"] = $cart_data[$keys]["quantity"] + $quantity;
-              }
-              
-          }
+       }
+      }
+      else
+      {
+       $item_array = array(
+        'productID'   => $productID,
+        'productImage'=>$productimage,
+        'productName' => $productname,
+        'productPrice'=> $productprice,
+        'quantity'  => $quantity,
+        'material' => $material,
+        'size' => $size
+       );
+       $cart_data[] = $item_array;
+      }
+     
+      
+      $item_data = json_encode($cart_data);
+      setcookie("cart$customerID", $item_data, time() + 2678400);
          }
-        }
-        else
-        {
-         $item_array = array(
-          'productID'   => $productID,
-          'productImage'=>$productimage,
-          'productName' => $productname,
-          'productPrice'=> $productprice,
-          'quantity'  => $quantity,
-          'material' => $material,
-          'size' => $size
-         );
-         $cart_data[] = $item_array;
-        }
-       
-        
-        $item_data = json_encode($cart_data);
-        setcookie("cart$customerID", $item_data, time() + 2678400);
-           }
 
-           public function deletefromcart($customerID,$productID){
-             ?>
-             <a href="" class="clear" id="clear" value="clear">Clear cart</a>
-             <ul class="cartWrap" >
-             <?php
+         public function deletefromcart($customerID,$productID){
+           ?>
+           <a href="" class="clear" id="clear" value="clear">Clear cart</a>
+           <ul class="cartWrap" >
+           <?php
 
-            $cookie_data = stripslashes($_COOKIE['cart'.$customerID]);
-  $cart_data = json_decode($cookie_data, true);
-  $count=0;
-  foreach($cart_data as $keys => $values)
-  {
-   if($cart_data[$keys]['productID'] == $productID)
-   {
-    unset($cart_data[$keys]);
-   }
-    $item_data = json_encode($cart_data);
-    setcookie("cart$customerID", $item_data, time() + 2678400);
-  $count++;
+          $cookie_data = stripslashes($_COOKIE['cart'.$customerID]);
+$cart_data = json_decode($cookie_data, true);
+$count=0;
+foreach($cart_data as $keys => $values)
+{
+ if($cart_data[$keys]['productID'] == $productID)
+ {
+  unset($cart_data[$keys]);
+ }
+  $item_data = json_encode($cart_data);
+  setcookie("cart$customerID", $item_data, time() + 2678400);
+$count++;
 
-     ?>
-    
-                <?php
-    
+   ?>
+  
+              <?php
+  
 } 
 
 $cookie_data = stripslashes($_COOKIE['cart'.$customerID]);
 $cart_data = json_decode($cookie_data, true);
 if($count==1){
-  setcookie("cart".$customerID, "", time() - 2678400);
+setcookie("cart".$customerID, "", time() - 2678400);
 }
 
 
 else
 {
 
- $str="";
- $total = 0;
- $cookie_data = stripslashes($_COOKIE["cart".$_SESSION["ID"]]);
- $cart_data = json_decode($cookie_data, true);
- foreach($cart_data as $keys => $values)
- {
-    if($_POST['productid']==$values['productID']){
-     
-    }
-    else{
-        $quantity=$values["quantity"];
-    $total = $total + ($quantity * $values["productPrice"]); 
-    $cartmodel = $this->getModel();
-    $maxQuantity=$cartmodel->getQuantity($values["productID"]);
+$str="";
+$total = 0;
+$cookie_data = stripslashes($_COOKIE["cart".$_SESSION["ID"]]);
+$cart_data = json_decode($cookie_data, true);
+foreach($cart_data as $keys => $values)
+{
+  if($_POST['productid']==$values['productID']){
+   
+  }
+  else{
+      $quantity=$values["quantity"];
+  $total = $total + ($quantity * $values["productPrice"]); 
+  $cartmodel = $this->getModel();
+  $maxQuantity=$cartmodel->getQuantity($values["productID"]);
 
-   ?>
+ ?>
 
-  <li class="items odd"  id="productsection<?php echo $values["productID"];?>">
+<li class="items odd"  id="productsection<?php echo $values["productID"];?>">
 
 <div class="infoWrap" > 
-    <div class="cartSection">
+  <div class="cartSection">
 
-    <img src="<?php echo $values["productImage"]; ?>" alt="" class="itemImg" />
-    <input type="hidden" id="productimage<?php echo $values["productID"];?>" name="productimage<?php echo $values["productID"];?>" value="<?php echo $values["productImage"]; ?>"></input>
-      <p class="itemNumber">#QUE-007544-002</p>
-      <h3><?php echo $values["productName"]; ?></h3>
-      <input type="hidden" id="productname<?php echo $values["productID"];?>"name="productname<?php echo $values["productID"];?>" value="<?php echo $values["productName"]; ?>"></input>
-   
-       <p> <input type="text" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" class="form-control" value="<?php echo $quantity?>" onchange="updatecart(<?php echo $values['productID'];?>)"></input> x <?php echo $values["productPrice"];?></p>
-      
-       <input type="hidden" id="productprice<?php echo $values["productID"];?>"name="productprice<?php echo $values["productID"];?>" value="<?php echo $values["productPrice"];?>"></input>
-      <p class="stockStatus"> In Stock</p>
-    </div>  
-
+  <img src="<?php echo $values["productImage"]; ?>" alt="" class="itemImg" />
+  <input type="hidden" id="productimage<?php echo $values["productID"];?>" name="productimage<?php echo $values["productID"];?>" value="<?php echo $values["productImage"]; ?>"></input>
+    <p class="itemNumber">#QUE-007544-002</p>
+    <h3><?php echo $values["productName"]; ?></h3>
+    <input type="hidden" id="productname<?php echo $values["productID"];?>"name="productname<?php echo $values["productID"];?>" value="<?php echo $values["productName"]; ?>"></input>
+ 
+     <p> <input type="text" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" class="form-control" value="<?php echo $quantity?>" onchange="updatecart(<?php echo $values['productID'];?>)"></input> x <?php echo $values["productPrice"];?></p>
     
-    <div class="prodTotal cartSection">
-      <p>$ <?php echo number_format($quantity * $values["productPrice"], 2);?></p>
-    </div>
-          <div class="cartSection removeWrap">
-          <a  class="remove" id="remove<?php echo $values["productID"];?>" value="remove" >x</a>
-       <input  type="hidden" id="productid<?php echo $values["productID"];?>" type="submit" name="productid" value="<?php echo $values["productID"];?>" ></input>
-    </div>
-  </div>
+     <input type="hidden" id="productprice<?php echo $values["productID"];?>"name="productprice<?php echo $values["productID"];?>" value="<?php echo $values["productPrice"];?>"></input>
+    <p class="stockStatus"> In Stock</p>
+  </div>  
 
-  </li>
-  <script>// Remove Items From Cart
+  
+  <div class="prodTotal cartSection">
+    <p>$ <?php echo number_format($quantity * $values["productPrice"], 2);?></p>
+  </div>
+        <div class="cartSection removeWrap">
+        <a  class="remove" id="remove<?php echo $values["productID"];?>" value="remove" >x</a>
+     <input  type="hidden" id="productid<?php echo $values["productID"];?>" type="submit" name="productid" value="<?php echo $values["productID"];?>" ></input>
+  </div>
+</div>
+
+</li>
+<script>// Remove Items From Cart
 
 $(document).ready(function(){
 $('#remove'+<?php echo $values["productID"];?>).click(()=>{
@@ -587,13 +587,13 @@ productid=$('#productid'+<?php echo $values["productID"];?>).val();
 remove=$('#remove'+<?php echo $values["productID"];?>).val();
 qty=$('#quantity'+<?php echo $values["productID"];?>).val();
 $.ajax({
-    type: 'POST',
-    url: 'Cart',
-    data:{"productid":productid,"remove":remove,"qty":qty},
-    success: (result)=>{
-        $('#cartdata').html(result);
-      
-    }
+  type: 'POST',
+  url: 'Cart',
+  data:{"productid":productid,"remove":remove,"qty":qty},
+  success: (result)=>{
+      $('#cartdata').html(result);
+    
+  }
 })
 event.preventDefault();
 $( this ).parent().parent().parent().hide( 400 );
@@ -606,14 +606,14 @@ clear=$('#clear').val();
 
 
 $.ajax({
-  type: 'POST',
-  url: 'Cart',
-  data:{"clear":clear},
-  success: (result)=>{
-    $('#cartdata').html(result);
- 
-    
-  }
+type: 'POST',
+url: 'Cart',
+data:{"clear":clear},
+success: (result)=>{
+  $('#cartdata').html(result);
+
+  
+}
 })
 event.preventDefault();
 $( this ).parent().parent().parent().hide( 400 );
@@ -624,7 +624,7 @@ function updatecart(id){
 productid=$('#productid'+id).val();
 quantity=$('#quantity'+id).val();
 <?php
-   echo "var maxQuantity ='$maxQuantity';";
+ echo "var maxQuantity ='$maxQuantity';";
 ?>
 
 
@@ -642,12 +642,12 @@ quantity=1;
 }
 $.ajax({
 type: 'POST',
-  url: 'Cart',
-  data:{"productid":productid,"quantity":quantity},
-  success: function(result){
-      $('#cartdata').html(result);
-      
-    }
+url: 'Cart',
+data:{"productid":productid,"quantity":quantity},
+success: function(result){
+    $('#cartdata').html(result);
+    
+  }
 })
 }
 function checkout(){
@@ -657,182 +657,182 @@ checkout=$('#checkout').val();
 
 
 $.ajax({
-  type: 'POST',
-  url: 'Cart',
-  data:{"checkout":checkout},
-  success: (result)=>{
-    $('#cartdata').html(result);
-    $('#exampleModal').modal('show');
-    
-  }
+type: 'POST',
+url: 'Cart',
+data:{"checkout":checkout},
+success: (result)=>{
+  $('#cartdata').html(result);
+  $('#exampleModal').modal('show');
+  
+}
 })
 event.preventDefault();
 $( this ).parent().parent().parent().hide( 400 );
 
 }
 </script>
-  <?php
-  $quantity=$values["quantity"];
-  
-  $productname=$values["productName"];
+<?php
+$quantity=$values["quantity"];
 
-  
-  $productprice=$values["productPrice"];
-  $str.=$productname." (".$quantity.") ,";
-    }
-    $finaltotal=number_format($total, 2);
+$productname=$values["productName"];
+
+
+$productprice=$values["productPrice"];
+$str.=$productname." (".$quantity.") ,";
   }
-    ?>
-     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                  aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header border-bottom-0">
-                       
+  $finaltotal=number_format($total, 2);
+}
+  ?>
+   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                     
+                    </div>
+                    <div class="modal-body text-start text-black p-4">
+                      <h5 class="modal-title text-uppercase mb-5" id="exampleModalLabel"><?php echo $profileData['fullName']; ?></h5>
+                      <h4 class="mb-5" style="color: #35558a;">Thanks for your order</h4>
+                      <p class="mb-0" style="color: #35558a;">Payment summary</p>
+                      <hr class="mt-2 mb-4"
+                        style="height: 0; background-color: transparent; opacity: .75; border-top: 2px dashed #9e9e9e;">
+      
+                      <div class="d-flex justify-content-between">
+                        <p class="fw-bold mb-0"><?php echo $str?></p>
+                        <p class="text-muted mb-0">$<?php echo $finaltotal?></p>
                       </div>
-                      <div class="modal-body text-start text-black p-4">
-                        <h5 class="modal-title text-uppercase mb-5" id="exampleModalLabel"><?php echo $profileData['fullName']; ?></h5>
-                        <h4 class="mb-5" style="color: #35558a;">Thanks for your order</h4>
-                        <p class="mb-0" style="color: #35558a;">Payment summary</p>
-                        <hr class="mt-2 mb-4"
-                          style="height: 0; background-color: transparent; opacity: .75; border-top: 2px dashed #9e9e9e;">
-        
-                        <div class="d-flex justify-content-between">
-                          <p class="fw-bold mb-0"><?php echo $str?></p>
-                          <p class="text-muted mb-0">$<?php echo $finaltotal?></p>
-                        </div>
-        
-                        <!-- <div class="d-flex justify-content-between">
-                          <p class="small mb-0">Shipping</p>
-                          <p class="small mb-0">$175.00</p>
-                        </div>
-        
-                        <div class="d-flex justify-content-between pb-1">
-                          <p class="small">Tax</p>
-                          <p class="small">$200.00</p>
-                        </div> -->
-        
-                        <div class="d-flex justify-content-between">
-                          <p class="fw-bold">Total</p>
-                          <p class="fw-bold" style="color: #35558a;">$<?php echo $finaltotal?></p>
-                        </div>
-        
+      
+                      <!-- <div class="d-flex justify-content-between">
+                        <p class="small mb-0">Shipping</p>
+                        <p class="small mb-0">$175.00</p>
                       </div>
-                      <div class="modal-footer d-flex justify-content-center border-top-0 py-4">
-                        <button type="button" class="btn btn-primary btn-lg mb-1" style="background-color: #35558a;">
-                          Track your order
-                        </button>
+      
+                      <div class="d-flex justify-content-between pb-1">
+                        <p class="small">Tax</p>
+                        <p class="small">$200.00</p>
+                      </div> -->
+      
+                      <div class="d-flex justify-content-between">
+                        <p class="fw-bold">Total</p>
+                        <p class="fw-bold" style="color: #35558a;">$<?php echo $finaltotal?></p>
                       </div>
+      
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center border-top-0 py-4">
+                      <button type="button" class="btn btn-primary btn-lg mb-1" style="background-color: #35558a;">
+                        Track your order
+                      </button>
                     </div>
                   </div>
                 </div>
-    </ul>
-    <div class="promoCode"><label for="promo">Have A Promo Code?</label><input type="text" name="promo" placholder="Enter Code" />
-  <a href="#" class="btn"></a></div>
-  
-  <div class="subtotal cf">
-    <ul>
-            <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
-            <li class="totalRow"><a href="" class="btn continue" name="checkout" onclick="checkout()" id="checkout" value=checkout>Checkout</a></li>
-    </ul>
+              </div>
+  </ul>
+  <div class="promoCode"><label for="promo">Have A Promo Code?</label><input type="text" name="promo" placholder="Enter Code" />
+<a href="#" class="btn"></a></div>
+
+<div class="subtotal cf">
+  <ul>
+          <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
+          <li class="totalRow"><a href="" class="btn continue" name="checkout" onclick="checkout()" id="checkout" value=checkout>Checkout</a></li>
+  </ul>
+</div>
+</div>
   </div>
+
 </div>
-    </div>
-  
-</div>
-    <?php
- 
+  <?php
+
 }
 
-           }
-           public function updatequantity($customerID,$productID,$quantity){
-            ?>
-            <a href="" class="clear" id="clear" value="clear">Clear cart</a>
-            <ul class="cartWrap" >
-                <?php
-            $cookie_data = stripslashes($_COOKIE['cart'.$customerID]);
-  $cart_data = json_decode($cookie_data, true);
-  foreach($cart_data as $keys => $values)
+         }
+         public function updatequantity($customerID,$productID,$quantity){
+          ?>
+          <a href="" class="clear" id="clear" value="clear">Clear cart</a>
+          <ul class="cartWrap" >
+              <?php
+          $cookie_data = stripslashes($_COOKIE['cart'.$customerID]);
+$cart_data = json_decode($cookie_data, true);
+foreach($cart_data as $keys => $values)
+{
+ if($cart_data[$keys]['productID'] == $productID)
+ {
+ 
+      $cart_data[$keys]["quantity"] = $quantity;
+         
+  $item_data = json_encode($cart_data);
+  setcookie("cart$customerID", $item_data, time() + 2678400);
+  }
+}
+
+  if(isset($_COOKIE["cart".$_SESSION["ID"]]))
   {
-   if($cart_data[$keys]['productID'] == $productID)
+  $str="";
+   $total = 0;
+   $cookie_data = stripslashes($_COOKIE["cart".$_SESSION["ID"]]);
+   $cart_data = json_decode($cookie_data, true);
+   foreach($cart_data as $keys => $values)
    {
-   
-        $cart_data[$keys]["quantity"] = $quantity;
-           
-    $item_data = json_encode($cart_data);
-    setcookie("cart$customerID", $item_data, time() + 2678400);
-    }
-}
+      if($_POST['productid']==$values['productID']){
+          $quantity=$_POST["quantity"];
+      }
+      else{
+          $quantity=$values["quantity"];
+      }
+      $cartmodel = $this->getModel();
+      $maxQuantity=$cartmodel->getQuantity($values["productID"]);
 
-    if(isset($_COOKIE["cart".$_SESSION["ID"]]))
-    {
-    $str="";
-     $total = 0;
-     $cookie_data = stripslashes($_COOKIE["cart".$_SESSION["ID"]]);
-     $cart_data = json_decode($cookie_data, true);
-     foreach($cart_data as $keys => $values)
-     {
-        if($_POST['productid']==$values['productID']){
-            $quantity=$_POST["quantity"];
-        }
-        else{
-            $quantity=$values["quantity"];
-        }
-        $cartmodel = $this->getModel();
-        $maxQuantity=$cartmodel->getQuantity($values["productID"]);
+      $total = $total + ($quantity * $values["productPrice"]); 
 
-        $total = $total + ($quantity * $values["productPrice"]); 
+     ?>
 
-       ?>
- 
-      <li class="items odd"  id="productsection<?php echo $values["productID"];?>">
-  
-    <div class="infoWrap" > 
-        <div class="cartSection">
+    <li class="items odd"  id="productsection<?php echo $values["productID"];?>">
 
-        <img src="<?php echo $values["productImage"]; ?>" alt="" class="itemImg" />
-        <input type="hidden" id="productimage<?php echo $values["productID"];?>" name="productimage<?php echo $values["productID"];?>" value="<?php echo $values["productImage"]; ?>"></input>
-          <p class="itemNumber">#QUE-007544-002</p>
-          <h3><?php echo $values["productName"]; ?></h3>
-          <input type="hidden" id="productname<?php echo $values["productID"];?>"name="productname<?php echo $values["productID"];?>" value="<?php echo $values["productName"]; ?>"></input>
-       
-           <p> <input type="number" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>"min="1" max="<?php echo  $maxQuantity?>" class="form-control" value="<?php echo $quantity?>" onchange="updatecart(<?php echo $values['productID'];?>)"></input> x <?php echo $values["productPrice"];?></p>
-          
-           <input type="hidden" id="productprice<?php echo $values["productID"];?>"name="productprice<?php echo $values["productID"];?>" value="<?php echo $values["productPrice"];?>"></input>
-          <p class="stockStatus"> In Stock</p>
-        </div>  
-    
+  <div class="infoWrap" > 
+      <div class="cartSection">
+
+      <img src="<?php echo $values["productImage"]; ?>" alt="" class="itemImg" />
+      <input type="hidden" id="productimage<?php echo $values["productID"];?>" name="productimage<?php echo $values["productID"];?>" value="<?php echo $values["productImage"]; ?>"></input>
+        <p class="itemNumber">#QUE-007544-002</p>
+        <h3><?php echo $values["productName"]; ?></h3>
+        <input type="hidden" id="productname<?php echo $values["productID"];?>"name="productname<?php echo $values["productID"];?>" value="<?php echo $values["productName"]; ?>"></input>
+     
+         <p> <input type="number" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>"min="1" max="<?php echo  $maxQuantity?>" class="form-control" value="<?php echo $quantity?>" onchange="updatecart(<?php echo $values['productID'];?>)"></input> x <?php echo $values["productPrice"];?></p>
         
-        <div class="prodTotal cartSection">
-          <p>$ <?php echo number_format($quantity * $values["productPrice"], 2);?></p>
-        </div>
-              <div class="cartSection removeWrap">
-              <a  class="remove" id="remove<?php echo $values["productID"];?>" value="remove" >x</a>
-           <input  type="hidden" id="productid<?php echo $values["productID"];?>" type="submit" name="productid" value="<?php echo $values["productID"];?>" ></input>
-        </div>
+         <input type="hidden" id="productprice<?php echo $values["productID"];?>"name="productprice<?php echo $values["productID"];?>" value="<?php echo $values["productPrice"];?>"></input>
+        <p class="stockStatus"> In Stock</p>
+      </div>  
+  
+      
+      <div class="prodTotal cartSection">
+        <p>$ <?php echo number_format($quantity * $values["productPrice"], 2);?></p>
       </div>
- 
-      </li>
-      <script>// Remove Items From Cart
+            <div class="cartSection removeWrap">
+            <a  class="remove" id="remove<?php echo $values["productID"];?>" value="remove" >x</a>
+         <input  type="hidden" id="productid<?php echo $values["productID"];?>" type="submit" name="productid" value="<?php echo $values["productID"];?>" ></input>
+      </div>
+    </div>
+
+    </li>
+    <script>// Remove Items From Cart
 
 $(document).ready(function(){
 $('#remove'+<?php echo $values["productID"];?>).click(()=>{
 
-  productid=$('#productid'+<?php echo $values["productID"];?>).val();
-  remove=$('#remove'+<?php echo $values["productID"];?>).val();
+productid=$('#productid'+<?php echo $values["productID"];?>).val();
+remove=$('#remove'+<?php echo $values["productID"];?>).val();
 
-  $.ajax({
-        type: 'POST',
-        url: 'Cart',
-        data:{"productid":productid,"remove":remove},
-        success: (result)=>{
-            $('#cartdata').html(result);
-          
-        }
-    })
-  event.preventDefault();
-  $( this ).parent().parent().parent().hide( 400 );
- 
+$.ajax({
+      type: 'POST',
+      url: 'Cart',
+      data:{"productid":productid,"remove":remove},
+      success: (result)=>{
+          $('#cartdata').html(result);
+        
+      }
+  })
+event.preventDefault();
+$( this ).parent().parent().parent().hide( 400 );
+
 });
 $('#clear').click(()=>{
 
@@ -840,52 +840,52 @@ clear=$('#clear').val();
 
 
 $.ajax({
-      type: 'POST',
-      url: 'Cart',
-      data:{"clear":clear},
-      success: (result)=>{
-        $('#cartdata').html(result);
-     
-        
-      }
-  })
-  event.preventDefault();
-  $( this ).parent().parent().parent().hide( 400 );
+    type: 'POST',
+    url: 'Cart',
+    data:{"clear":clear},
+    success: (result)=>{
+      $('#cartdata').html(result);
+   
+      
+    }
+})
+event.preventDefault();
+$( this ).parent().parent().parent().hide( 400 );
 
 });
 
 
 });
 function updatecart(id){
-  productid=$('#productid'+id).val();
-  quantity=$('#quantity'+id).val();
-  <?php
-       echo "var maxQuantity ='$maxQuantity';";
-   ?>
+productid=$('#productid'+id).val();
+quantity=$('#quantity'+id).val();
+<?php
+     echo "var maxQuantity ='$maxQuantity';";
+ ?>
 
 
-  
-  if(quantity==''){
-    alert("Number field cannot be empty");
-    quantity=1;
-  }
-  if(quantity> <?php echo $maxQuantity?>){
-    alert("Sorry the max quantity is <?php echo $maxQuantity?>");
-    quantity=maxQuantity;
-  }
-  if(quantity<1){
-    alert("Sorry the min quantity is 1");
-    quantity=1;
-  }
-  $.ajax({
-    type: 'POST',
-      url: 'Cart',
-      data:{"productid":productid,"quantity":quantity},
-      success: function(result){
-          $('#cartdata').html(result);
-          
-        }
-  })
+
+if(quantity==''){
+  alert("Number field cannot be empty");
+  quantity=1;
+}
+if(quantity> <?php echo $maxQuantity?>){
+  alert("Sorry the max quantity is <?php echo $maxQuantity?>");
+  quantity=maxQuantity;
+}
+if(quantity<1){
+  alert("Sorry the min quantity is 1");
+  quantity=1;
+}
+$.ajax({
+  type: 'POST',
+    url: 'Cart',
+    data:{"productid":productid,"quantity":quantity},
+    success: function(result){
+        $('#cartdata').html(result);
+        
+      }
+})
 }
 function checkout(){
 
@@ -893,301 +893,300 @@ checkout=$('#checkout').val();
 
 
 $.ajax({
-      type: 'POST',
-      url: 'Cart',
-      data:{"checkout":checkout},
-      success: (result)=>{
-        $('#cartdata').html(result);
-        $('#exampleModal').modal('show');
-        
-      }
-  })
-  event.preventDefault();
-  $( this ).parent().parent().parent().hide( 400 );
+    type: 'POST',
+    url: 'Cart',
+    data:{"checkout":checkout},
+    success: (result)=>{
+      $('#cartdata').html(result);
+      $('#exampleModal').modal('show');
+      
+    }
+})
+event.preventDefault();
+$( this ).parent().parent().parent().hide( 400 );
 
 }
 </script>
-      <?php
-       $quantity=$values["quantity"];
-      
-       $productname=$values["productName"];
+    <?php
+     $quantity=$values["quantity"];
+    
+     $productname=$values["productName"];
 
-       
-       $productprice=$values["productPrice"];
-       $str.=$productname." (".$quantity.") ,";
-     }
-     $finaltotal=number_format($total, 2);
-     ?>
-     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                  aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header border-bottom-0">
-                       
+     
+     $productprice=$values["productPrice"];
+     $str.=$productname." (".$quantity.") ,";
+   }
+   $finaltotal=number_format($total, 2);
+   ?>
+   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                     
+                    </div>
+                    <div class="modal-body text-start text-black p-4">
+                      <h5 class="modal-title text-uppercase mb-5" id="exampleModalLabel"><?php echo $profileData['fullName']; ?></h5>
+                      <h4 class="mb-5" style="color: #35558a;">Thanks for your order</h4>
+                      <p class="mb-0" style="color: #35558a;">Payment summary</p>
+                      <hr class="mt-2 mb-4"
+                        style="height: 0; background-color: transparent; opacity: .75; border-top: 2px dashed #9e9e9e;">
+      
+                      <div class="d-flex justify-content-between">
+                        <p class="fw-bold mb-0"><?php echo $str?></p>
+                        <p class="text-muted mb-0">$<?php echo $finaltotal?></p>
                       </div>
-                      <div class="modal-body text-start text-black p-4">
-                        <h5 class="modal-title text-uppercase mb-5" id="exampleModalLabel"><?php echo $profileData['fullName']; ?></h5>
-                        <h4 class="mb-5" style="color: #35558a;">Thanks for your order</h4>
-                        <p class="mb-0" style="color: #35558a;">Payment summary</p>
-                        <hr class="mt-2 mb-4"
-                          style="height: 0; background-color: transparent; opacity: .75; border-top: 2px dashed #9e9e9e;">
-        
-                        <div class="d-flex justify-content-between">
-                          <p class="fw-bold mb-0"><?php echo $str?></p>
-                          <p class="text-muted mb-0">$<?php echo $finaltotal?></p>
-                        </div>
-        
-                        <!-- <div class="d-flex justify-content-between">
-                          <p class="small mb-0">Shipping</p>
-                          <p class="small mb-0">$175.00</p>
-                        </div>
-        
-                        <div class="d-flex justify-content-between pb-1">
-                          <p class="small">Tax</p>
-                          <p class="small">$200.00</p>
-                        </div> -->
-        
-                        <div class="d-flex justify-content-between">
-                          <p class="fw-bold">Total</p>
-                          <p class="fw-bold" style="color: #35558a;">$<?php echo $finaltotal?></p>
-                        </div>
-        
+      
+                      <!-- <div class="d-flex justify-content-between">
+                        <p class="small mb-0">Shipping</p>
+                        <p class="small mb-0">$175.00</p>
                       </div>
-                      <div class="modal-footer d-flex justify-content-center border-top-0 py-4">
-                        <button type="button" class="btn btn-primary btn-lg mb-1" style="background-color: #35558a;">
-                          Track your order
-                        </button>
+      
+                      <div class="d-flex justify-content-between pb-1">
+                        <p class="small">Tax</p>
+                        <p class="small">$200.00</p>
+                      </div> -->
+      
+                      <div class="d-flex justify-content-between">
+                        <p class="fw-bold">Total</p>
+                        <p class="fw-bold" style="color: #35558a;">$<?php echo $finaltotal?></p>
                       </div>
+      
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center border-top-0 py-4">
+                      <button type="button" class="btn btn-primary btn-lg mb-1" style="background-color: #35558a;">
+                        Track your order
+                      </button>
                     </div>
                   </div>
                 </div>
-                <?php
-    }
-     ?>
-     
-    </ul>
-    <div class="promoCode"><label for="promo">Have A Promo Code?</label><input type="text" name="promo" placholder="Enter Code" />
-  <a href="#" class="btn"></a></div>
-  
-  <div class="subtotal cf">
-    <ul>
-            <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
-            <li class="totalRow"><a href="" class="btn continue" name="checkout" onclick="checkout()" id="checkout" value=checkout>Checkout</a></li>
-    </ul>
-  </div>
-</div>
-    </div>
-  
-</div>
-                <?php
-        
-           }
-           public function clearcart($customerID){
-            setcookie("cart".$customerID, "", time() - 3600);
-          
-                
-                
-              ?>
-     <a href="" class="clear" id="clear" value="clear">Clear cart</a>
-              <ul class="cartWrap" >
-            
-                   
-                <script>// Remove Items From Cart
-          
-          $(document).ready(function(){
-          
-          
-          $('#clear').click(()=>{
-          
-          clear=$('#clear').val();
-          
-          
-          $.ajax({
-                type: 'POST',
-                url: 'Cart',
-                data:{"clear":clear},
-                success: (result)=>{
-                  $('#cartdata').html(result);
-               
-                  
-                }
-            })
-          
-            event.preventDefault();
-  $( this ).parent().parent().parent().hide( 400 );
-          });
-          
-          });
-          
-          </script>
-                <?php
-                 
-       
-              
-               ?>
-               
-              </ul>
-       
-          
-                          <?php
-            
-          }
-          public function checkout($customerID){
-            
-            if(isset($_COOKIE["cart".$_SESSION["ID"]]))
-            {
-                $cartmodel = $this->getModel();
-                $profileData = $cartmodel->getUserData($_SESSION['ID']);
-                foreach($profileData as $profile){
-                    $profileData = $profile;
-                    break;
-                }
+              </div>
+              <?php
+  }
+   ?>
+   
+  </ul>
+  <div class="promoCode"><label for="promo">Have A Promo Code?</label><input type="text" name="promo" placholder="Enter Code" />
+<a href="#" class="btn"></a></div>
 
-                $cookie_data = stripslashes($_COOKIE["cart".$_SESSION["ID"]]); //to decode data before using it 
-                $cart_data = json_decode($cookie_data, true);
-                $total = 0;
-                $str="";
-                foreach($cart_data as $keys => $values)
-                  {
-                    if(isset($_POST['productid'])){
-                        $quantity=$_POST["quantity"];
-                    }
-                    else{
-                        $quantity=$values["quantity"];
-                    }
-                    ?>
-                    <script>
-                    function checkout(){
+<div class="subtotal cf">
+  <ul>
+          <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
+          <li class="totalRow"><a href="" class="btn continue" name="checkout" onclick="checkout()" id="checkout" value=checkout>Checkout</a></li>
+  </ul>
+</div>
+</div>
+  </div>
+
+</div>
+              <?php
+      
+         }
+         public function clearcart($customerID){
+          setcookie("cart".$customerID, "", time() - 3600);
+        
+              
+              
+            ?>
+   <a href="" class="clear" id="clear" value="clear">Clear cart</a>
+            <ul class="cartWrap" >
+          
+                 
+              <script>// Remove Items From Cart
+        
+        $(document).ready(function(){
+        
+        
+        $('#clear').click(()=>{
+        
+        clear=$('#clear').val();
+        
+        
+        $.ajax({
+              type: 'POST',
+              url: 'Cart',
+              data:{"clear":clear},
+              success: (result)=>{
+                $('#cartdata').html(result);
+             
+                
+              }
+          })
+        
+          event.preventDefault();
+$( this ).parent().parent().parent().hide( 400 );
+        });
+        
+        });
+        
+        </script>
+              <?php
+               
+     
+            
+             ?>
+             
+            </ul>
+     
+        
+                        <?php
+          
+        }
+        public function checkout($customerID){
+          
+          if(isset($_COOKIE["cart".$_SESSION["ID"]]))
+          {
+              $cartmodel = $this->getModel();
+              $profileData = $cartmodel->getUserData($_SESSION['ID']);
+              foreach($profileData as $profile){
+                  $profileData = $profile;
+                  break;
+              }
+
+              $cookie_data = stripslashes($_COOKIE["cart".$_SESSION["ID"]]); //to decode data before using it 
+              $cart_data = json_decode($cookie_data, true);
+              $total = 0;
+              $str="";
+              foreach($cart_data as $keys => $values)
+                {
+                  if(isset($_POST['productid'])){
+                      $quantity=$_POST["quantity"];
+                  }
+                  else{
+                      $quantity=$values["quantity"];
+                  }
+                  ?>
+                  <script>
+                  function checkout(){
 
 
 checkout=$('#checkout').val();
 
 
 $.ajax({
-      type: 'POST',
-      url: 'Cart',
-      data:{"checkout":checkout},
-      success: (result)=>{
-        
-        $('#cartdata').html(result);
-        $('#exampleModal').modal('show');
-     
-        
-      }
-  })
-  event.preventDefault();
-  $( this ).parent().parent().parent().hide( 400 );
+    type: 'POST',
+    url: 'Cart',
+    data:{"checkout":checkout},
+    success: (result)=>{
+      
+      $('#cartdata').html(result);
+      $('#exampleModal').modal('show');
+   
+      
+    }
+})
+event.preventDefault();
+$( this ).parent().parent().parent().hide( 400 );
 
 }
 </script>
-                    <!-- Modal -->
-      
-        <?php
-                    $total = $total + ($quantity * $values["productPrice"]); 
-                      $productname=$values["productName"];
+                  <!-- Modal -->
+    
+      <?php
+                  $total = $total + ($quantity * $values["productPrice"]); 
+                    $productname=$values["productName"];
 
-                      $quantity=$values["quantity"];
-                      $productprice=$values["productPrice"];
-                      $str.=$productname." (".$quantity.") ,";
-             
-                      
-                      $cartmodel->updateStock($values["productID"],$quantity);
+                    $quantity=$values["quantity"];
+                    $productprice=$values["productPrice"];
+                    $str.=$productname." (".$quantity.") ,";
+           
                     
-              
-                  }
-                  $finaltotal=number_format($total, 2);
-                  ?>
-                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                  aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header border-bottom-0">
-                       
+                    $cartmodel->updateStock($values["productID"],$quantity);
+                  
+            
+                }
+                $finaltotal=number_format($total, 2);
+                ?>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                     
+                    </div>
+                    <div class="modal-body text-start text-black p-4">
+                      <h5 class="modal-title text-uppercase mb-5" id="exampleModalLabel"><?php echo $profileData['fullName']; ?></h5>
+                      <h4 class="mb-5" style="color: #35558a;">Thanks for your order</h4>
+                      <p class="mb-0" style="color: #35558a;">Payment summary</p>
+                      <hr class="mt-2 mb-4"
+                        style="height: 0; background-color: transparent; opacity: .75; border-top: 2px dashed #9e9e9e;">
+      
+                      <div class="d-flex justify-content-between">
+                        <p class="fw-bold mb-0"><?php echo $str?></p>
+                        <p class="text-muted mb-0">$<?php echo $finaltotal?></p>
+                      
                       </div>
-                      <div class="modal-body text-start text-black p-4">
-                        <h5 class="modal-title text-uppercase mb-5" id="exampleModalLabel"><?php echo $profileData['fullName']; ?></h5>
-                        <h4 class="mb-5" style="color: #35558a;">Thanks for your order</h4>
-                        <p class="mb-0" style="color: #35558a;">Payment summary</p>
-                        <hr class="mt-2 mb-4"
-                          style="height: 0; background-color: transparent; opacity: .75; border-top: 2px dashed #9e9e9e;">
-        
-                        <div class="d-flex justify-content-between">
-                          <p class="fw-bold mb-0"><?php echo $str?></p>
-                          <p class="text-muted mb-0">$<?php echo $finaltotal?></p>
-                        
-                        </div>
-        
-                        <!-- <div class="d-flex justify-content-between">
-                          <p class="small mb-0">Shipping</p>
-                          <p class="small mb-0">$175.00</p>
-                        </div>
-        
-                        <div class="d-flex justify-content-between pb-1">
-                          <p class="small">Tax</p>
-                          <p class="small">$200.00</p>
-                        </div> -->
-        
-                        <div class="d-flex justify-content-between">
-                          <p class="fw-bold">Total</p>
-                          <p class="fw-bold" style="color: #35558a;">$<?php echo $finaltotal?></p>
-                        </div>
-                        <?php
-                        if(!empty($_POST['newTotal'])){
-                        ?>
-                        <div class="d-flex justify-content-between">
-                          <p class="fw-bold">Final Price</p>
-                          <p class="fw-bold" style="color: #35558a;">$<?php echo number_format($_POST['newTotal'], 2)?></p>
-                        </div>
-                        <?php
-                        }
-                        ?>
-        
+      
+                      <!-- <div class="d-flex justify-content-between">
+                        <p class="small mb-0">Shipping</p>
+                        <p class="small mb-0">$175.00</p>
                       </div>
-                      <div class="modal-footer d-flex justify-content-center border-top-0 py-4">
-                        <button type="button" class="btn btn-primary btn-lg mb-1" style="background-color: #35558a;">
-                          Track your order
-                        </button>
+      
+                      <div class="d-flex justify-content-between pb-1">
+                        <p class="small">Tax</p>
+                        <p class="small">$200.00</p>
+                      </div> -->
+      
+                      <div class="d-flex justify-content-between">
+                        <p class="fw-bold">Total</p>
+                        <p class="fw-bold" style="color: #35558a;">$<?php echo $finaltotal?></p>
                       </div>
+                      <?php
+                      if(!empty($_POST['newTotal'])){
+                      ?>
+                      <div class="d-flex justify-content-between">
+                        <p class="fw-bold">Final Price</p>
+                        <p class="fw-bold" style="color: #35558a;">$<?php echo number_format($_POST['newTotal'], 2)?></p>
+                      </div>
+                      <?php
+                      }
+                      ?>
+      
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center border-top-0 py-4">
+                      <button type="button" class="btn btn-primary btn-lg mb-1" style="background-color: #35558a;">
+                        Track your order
+                      </button>
                     </div>
                   </div>
                 </div>
-                <?php
-                // if(!empty($_POST['newTotal'])){
-                //   $cartmodel->order($_SESSION["ID"],$str,$_POST['newTotal']);
-                // }
-                 
-                      $cartmodel->order($_SESSION["ID"],$str,$_POST['newTotal'],$_POST['promoCode1']);
-                      $orderID=$cartmodel->getOrderID();
-
-                      foreach($cart_data as $keys => $values)
-                  {
-                      $cartmodel->orderItems($orderID,$_SESSION["ID"],$values['productID'],$values['quantity']);
-                      
-                  } 
-                     
-                
-              ?>
-     <a href="" class="clear" id="clear" value="clear">Clear cart</a>
-              <ul class="cartWrap" >
-            
-                   
-   
-
-        
-
-    
-                <?php
-                 
-       
-              
-               ?>
+              </div>
+              <?php
+              // if(!empty($_POST['newTotal'])){
+              //   $cartmodel->order($_SESSION["ID"],$str,$_POST['newTotal']);
+              // }
                
-              </ul>
-       
-          
-                          <?php
-            }
-            setcookie("cart".$customerID, "", time() - 2678400);
-          }
+                    $cartmodel->order($_SESSION["ID"],$str,$_POST['newTotal'],$_POST['promoCode1'],$_POST['address']);
+                    $orderID=$cartmodel->getOrderID();
 
+                    foreach($cart_data as $keys => $values)
+                {
+                    $cartmodel->orderItems($orderID,$_SESSION["ID"],$values['productID'],$values['quantity']);
+                    
+                } 
+                   
+              
+            ?>
+   <a href="" class="clear" id="clear" value="clear">Clear cart</a>
+            <ul class="cartWrap" >
+          
+                 
+ 
+
+      
+
+  
+              <?php
+               
+     
+            
+             ?>
+             
+            </ul>
+     
+        
+                        <?php
+          }
+          setcookie("cart".$customerID, "", time() - 2678400);
         }
+}

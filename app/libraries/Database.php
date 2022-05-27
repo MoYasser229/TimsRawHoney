@@ -20,7 +20,7 @@ class Database{
         $this->createUserTable();
         $this->createProductTable();
         
-        
+        $this->createAddressTable();
         $this->createSurveyTable();
         $this->createReviewTable();
         $this->createErrorTable();
@@ -32,7 +32,7 @@ class Database{
         $this->createDeliveryTable();
         $this->createRecieptTable();
         $this->createStockProductsTable();
-        $this->createAddressTable();
+        
     }
     //FUNCTIONS
     public function createDatabase(){
@@ -104,10 +104,12 @@ class Database{
             customerID INT(6) NOT NULL,
             orderDetails VARCHAR(255) NOT NULL,
             promocodeid INT(10),
+            addressID INT(10),
             orderTotalPrice INT(10) NOT NULL,
             createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (customerID) REFERENCES users(ID) ON DELETE CASCADE,
-            FOREIGN KEY (promocodeid) REFERENCES promocodes(promoID) ON DELETE CASCADE
+            FOREIGN KEY (promocodeid) REFERENCES promocodes(promoID) ON DELETE CASCADE,
+            FOREIGN KEY (addressID) REFERENCES user_address(AddressID) ON DELETE CASCADE
         )";
         $this->execute(0);
     }

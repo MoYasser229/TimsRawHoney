@@ -1,4 +1,4 @@
-<?php
+b<?php
 
 class profile extends View{
     public function output(){
@@ -141,13 +141,14 @@ class profile extends View{
                         
                         <div id="addressbook"></div>
                         <div id="addAddress">
-                        <input id = addstreet type="text" name="street" placeholder="Street Name"/>
-                        <select id="regions" name="region"></select><br>
-                        <input id=adddistrict type="text" name=district placeholder="District">
-                        <input id=landmark type="text" name=landmark placeholder="Landmark"><br>
-                        <input id=building type="text" name=building placeholder="Building Number">
-                        <input id=addappNumber type="text" name=appNumber placeholder="Appartment Number">
-                        <button onclick="ajaxAddress()">Submit</button>
+                            <h1 class = addressHeader>Add Address</h1>
+                        <input class=addAddressForm id = addstreet type="text" name="street" placeholder="Street Name"/><br>
+                        <select id="addregions" name="region"></select><br>
+                        <input class=addAddressForm id=adddistrict type="text" name=district placeholder="District"><br>
+                        <input class=addAddressForm id=addlandmark type="text" name=landmark placeholder="Landmark"><br>
+                        <input class=addAddressForm id=addbuilding type="text" name=building placeholder="Building Number"><br>
+                        <input class=addAddressForm id=addappNumber type="text" name=appNumber placeholder="Appartment Number"><br>
+                        <button onclick="ajaxAddress()">Add Address</button>
                                         </div>
                     </div>
                     <div class="promo">
@@ -275,6 +276,7 @@ class profile extends View{
                                 console.log(city.city)
                                 option = "<option value='"+city.city+"'>"+city.city+"</option>"
                                 $("#regions").append(option)
+                                $("#addregions").append(option)
                             })
                         })
                 $(document).ready(function(){
@@ -476,6 +478,7 @@ class profile extends View{
                 }
                 function addAddress(){
                     $("#addressbook").html($("#addAddress").html())
+                    
                 }
                 function ajaxAddress(){
                     street =   $("#addstreet").val()
@@ -508,6 +511,26 @@ class profile extends View{
                                 $("#addressbook").html("")
                             }
                         })
+                }
+                function confirmDelete(ID,addresses){
+                    if(addresses == 2)
+                        $("#confirmDeleteAddress" + ID).html("<span class=confirmDelete>Are You sure you want to delete?</span><button class=deleteAddress onclick='deleteAddress("+ID+")'>DELETE</button><button class=cancelAddress onclick='cancelAddress("+ID+")'>CANCEL</button>")
+                    else
+                    $("#confirmDeleteAddress" + ID).html("This address can not be deleted as it is the only address available")
+                }
+                function deleteAddress(ID){
+                    $.ajax({
+                        type: "POST",
+                        url: "profile",
+                        data:{deleteAddressID:ID},
+                        success: (result) => {
+                            $("#myAddresses").html(result)
+                            $("#confirmDeleteAddress" + ID).html("")
+                        }
+                    })
+                }
+                function cancelAddress(ID){
+                    $("#confirmDeleteAddress" + ID).html("")
                 }
             </script>
         <?php

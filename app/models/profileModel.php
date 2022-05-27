@@ -64,22 +64,30 @@ class profileModel extends Model{
     public function updateAddressDB($ID,$street,$region,$landmark,$building,$district,$appNumber){
         $this->database->query("UPDATE user_address SET street='$street',region='$region',landmark='$landmark',buildingNumber='$building',district = '$district',appNumber = '$appNumber' WHERE AddressID = '$ID'");
     }
+    public function deleteAddress($address){
+        $this->database->query("DELETE FROM user_address WHERE AddressID = '$address'");
+    }
     public function addAddress($ID,$street,$region,$landmark,$building,$district,$appNumber){
         $this->database->query("INSERT INTO user_address(customerID,street,region,landmark,buildingNumber,district,appNumber) VALUES('$ID','$street','$region','$landmark','$building','$district','$appNumber')");
     }
     public function viewAddresses($addresses){
+        $num = mysqli_num_rows($addresses);
         foreach ($addresses as $address){
+            $street = strtoupper($address['street']);
             echo <<<HTML
                 <div class=addressContainer>
-                    <p>{$address['street']} Address</p>
-                    <button onclick="viewAddress({$address['AddressID']})">VIEW</button>
+                    <span class=addressHeader>Address: <strong>{$street}</strong></span>
+                    <button class=viewaddressButton onclick="viewAddress({$address['AddressID']})">VIEW</button>
+                    <button id=deleteAddress onclick="confirmDelete({$address['AddressID']},{$num})" >DELETE</button>
+                    <div id=confirmDeleteAddress{$address['AddressID']}></div>
+                    <hr>
                 </div>
             HTML;
         }
         if(mysqli_num_rows($addresses) < 2){
             echo <<<HTML
                 <div class=addAddress>
-                    <button onclick="addAddress()">Add Address</button>
+                    <button onclick="addAddress()"><i class="fa-solid fa-plus"></i><br>ADD ADDRESS</button>
                 </div>
             HTML;
         }
@@ -113,14 +121,19 @@ class profileModel extends Model{
                             })
                         })
                 </script>
-                <p>Street</p> <input type="text" id = street name="street" value="{$address['street']}">
-                <p>Region</p> <select name="region" id="regions" ></select>
-                <p>LandMark</p> <input type="text" id=landmark name="landmark" value="{$address['landmark']}">
-                <p>Building Number</p> <input type="text" id=building name = building value="{$address['buildingNumber']}">
-                <p>District</p> <input type="text" name=district id=district value="{$address['district']}">
-                <p>Appartment Number</p> <input type="text" id=appNumber name=appNumber value="{$address['appNumber']}">
-                <button onclick="editAddress({$address['AddressID']})">SUBMIT</button>
-                <div id=addressError></div>
+                <div class="addressFormEdit">
+                    <h1 class=addressHeader >ADDRESS INFORMATION</h1>
+                    <span class=formText>Street</span> <input class=editAddress type="text" id = street name="street" value="{$address['street']}"><br>
+                    <span class=formText>Region</span> <select name="region" id="regions" ></select><br>
+                    <span class=formText>LandMark</span> <input class=editAddress type="text" id=landmark name="landmark" value="{$address['landmark']}"><br>
+                    <span class=formText>Building Number</span> <input class=editAddress type="text" id=building name = building value="{$address['buildingNumber']}"><br>
+                    <span class=formText>District</span> <input class=editAddress type="text" name=district id=district value="{$address['district']}"><br>
+                    <span class=formText>Appartment Number</span> <input class=editAddress type="text" id=appNumber name=appNumber value="{$address['appNumber']}"><br>
+                    <div id=addressError></div>
+                    <button onclick="editAddress({$address['AddressID']})">SUBMIT</button>
+                    
+                </div>
+                
             HTML;
         }
         

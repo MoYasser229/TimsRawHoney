@@ -43,7 +43,9 @@ class signup extends View{
 		<form id = "form" action="" method = "POST">
 			<h1 class = regHeader>Create New Account</h1>
 			<div class="social-container">
-				<a href="#" class="social link" onclick="checkLoginState()"><i class="fab fa-facebook-f"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Register with Facebook</a>
+				<!-- <a href="#" class="social link" onclick="checkLoginState()"><i class="fab fa-facebook-f"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Register with Facebook</a> -->
+        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+        </fb:login-button>
       </div>
       <div id="email" class = "warning"><?php echo $this->model->getSocialError(); ?></div>
 			<span><div id="status"></div> or manually register a new account  </span><br>
@@ -89,13 +91,15 @@ class signup extends View{
       <input class = colSignUp type="text" placeholder="Phone Number" name = "phone1"/>
       <input class = colSignUp type="text" placeholder = "Alternative Phone Number" name = "phone2"/>
       <div id="email" class="warning"><?php echo $this->model->getErrorPhone1(); ?></div>
-      <!-- <button onclick="addAddress()">Add Address</button>
-      <input type="text" name="street" placeholder="Street Name"/>
-      <select id="region"></select> -->
-      
-      <input class = colSignUp type="text" placeholder = "Home Address" name = "address1"/>
-      <input class = colSignUp type="text" placeholder = "Alternative Home Address" name = "address2"/>
-      <div id="email" class="warning"><?php echo $this->model->getErrorAddress1(); ?></div>
+      <div id="viewAddressForm">
+        <input type="text" class="colSignUp" name="street" placeholder="Street Name"/>
+        <select id="region1" name="region"></select><br>
+        <input type="text" class="colSignUp" name=district placeholder="District">
+        <input type="text" class="colSignUp" name=landmark placeholder="Landmark"><br>
+        <input type="text" class="colSignUp" name=building placeholder="Building Number">
+        <input type="text" class="colSignUp" name=appNumber placeholder="Appartment Number">
+        <div id="email" class="warning"><?php echo $this->model->getErrorAddress1(); ?></div>
+      </div>
       <button type = submit name = "submitFacebook" value = "facebook">Sign In</button>
     </form>
 	</div>
@@ -124,7 +128,13 @@ class signup extends View{
                             $('#name').val('Facebook Name: ' + response.name);
                             $('#emailFacebook2').val(response.email)
                             $('#name2').val(response.name)
-                            
+                            readTextFile("<?php echo URLROOT . "json/regions.json" ;?>",(text) => {
+                            data = JSON.parse(text)
+                            data.forEach(function(city){
+                              option = `<option value=${city.city}>${city.city}</option>`
+                              $("#region1").append(option)
+                            })
+                          })
                             }
                         })
                     });

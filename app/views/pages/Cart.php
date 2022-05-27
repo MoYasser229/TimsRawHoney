@@ -39,7 +39,17 @@ class Cart extends View{
     <a href="<?php echo URLROOT.'pages/Shop' ?>" class="continue">Continue Shopping</a>
     
   </div>
-  
+  <br>
+  <?php if(!empty($_COOKIE["cart".$_SESSION["ID"]])){?>
+    <div class="addressPick">
+      <h1>First, Confirm an address</h1>
+      <br>
+      <?php
+        $this->model->getAddresses($_SESSION['ID']);
+      ?>
+      <div id="errorAddress"></div>
+    </div>
+ <?php }?>
   <div class="cart" role="document" id="cartdata">
     <a href="" class="clear" id="clear" value="clear">Clear cart</a>
 <!--    <ul class="tableHead">
@@ -93,43 +103,7 @@ class Cart extends View{
       </div>
  
       </li>
-      
-
-      <?php
-      $quantity=$values["quantity"];
-      
-       $productname=$values["productName"];
-
-       
-       $productprice=$values["productPrice"];
-       $str.=$productname." (".$quantity.") ,";
-       
-     }
-     $finaltotal=number_format($total, 2);
-     ?>
-    
-     
-    </ul>
-    <div class="promoCode"><label for="promo">Have A Promo Code?   <div id="result"><div class=errorclass id=error style="display:none"> the promo code is either expired or inactive</div>
-  <div class=successclass id=success style="display:none"> </div>
-    </div></label><input type="text" id="promo" name="promo" placholder="Enter Code" />
-  <a onclick="PromoCode()" class="btn"></a></div>
-  <input type="hidden" id="totalPrice" value=<?php echo $total?> >
-
-  <div class="subtotal cf" id="total">
-    <ul>
-
-            <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
-            <div id=discount>
-
-    </div>
-      <li class="totalRow"><a href="" class="btn continue" name="checkout" onclick="checkout()" id="checkout" value=checkout>Checkout</a></li>
-    </ul>
-  </div>
-</div>
-
-  </div>
-  <script>// Remove Items From Cart
+      <script>// Remove Items From Cart
 
 $(document).ready(function(){
 $('#remove'+<?php echo $values["productID"];?>).click(()=>{
@@ -235,9 +209,24 @@ function updatecart(id){
         }
   })
 }
+address = ""
+  function pickAddress(ID,counter){
+    address =  ID;
+    inverse = (counter == 1)?0:1;
+    $(".addressPick #addr"+counter).css({
+      'background-color':"white",
+      "color":"black"
+    })
+    $(".addressPick #addr"+inverse).css({
+      'background-color':"transparent",
+      "color":"gray"
+    })
+  }
+
+  function chosenAddress(){
+    return address;
+  }
 function checkout(){
-
-
 checkout=$('#checkout').val();
 newTotal="";
 if($('#newTotal').val()){
@@ -250,28 +239,69 @@ promoCode1= $('#promoID').val();
 
 }
 
-
-$.ajax({
-      type: 'POST',
-      url: 'Cart',
-      data:{"checkout":checkout,"newTotal":newTotal,"promoCode1":promoCode1},
-      success: (result)=>{
-        
-        $('#cartdata').html(result);
-        $('#exampleModal').modal('show');
-     
-        
-      }
-  })
-  event.preventDefault();
-  $( this ).parent().parent().parent().hide( 400 );
+if(chosenAddress() == ""){
+      // error = true
+      $("#errorAddress").html('Please Pick an address to proceed');
+    }
+    else{
+      // alert("hena")
+      $.ajax({
+            type: 'POST',
+            url: 'Cart',
+            data:{"checkout":checkout,"newTotal":newTotal,"promoCode1":promoCode1,"address":chosenAddress()},
+            success: (result)=>{
+              // alert(result)
+               $('#cartdata').html(result);
+                $('#exampleModal').modal('show');
+              $(".addressPick").html("")
+              
+            }
+        })
+      event.preventDefault();
+      $( this ).parent().parent().parent().hide( 400 );
+    }
 
 }
- </script>
+</script>
+
+      <?php
+      $quantity=$values["quantity"];
+      
+       $productname=$values["productName"];
+
+       
+       $productprice=$values["productPrice"];
+       $str.=$productname." (".$quantity.") ,";
+       
+     }
+     $finaltotal=number_format($total, 2);
+     ?>
+    
+     
+    </ul>
+    <div class="promoCode"><label for="promo">Have A Promo Code?   <div id="result"><div class=errorclass id=error style="display:none"> the promo code is either expired or inactive</div>
+  <div class=successclass id=success style="display:none"> </div>
+    </div></label><input type="text" id="promo" name="promo" placholder="Enter Code" />
+  <a onclick="PromoCode()" class="btn"></a></div>
+  <input type="hidden" id="totalPrice" value=<?php echo $total?> >
+
+  <div class="subtotal cf" id="total">
+    <ul>
+
+            <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
+            <div id=discount>
+
+    </div>
+      <li class="totalRow"><a class="greenButton btn continue" name="checkout" onclick="checkout()" id="checkout" value=checkout>Checkout</a></li>
+    </ul>
+  </div>
+</div>
+  </div>
+  
 </div>
 
 
-<script> 
+<script>
 // Just for testing, show all items
   $('a.btn.continue').click(function(){
     $('li.items').show(400);
@@ -282,6 +312,5 @@ $.ajax({
 else{
   echo "";
 }
-}
-}
-?>
+    }
+  }

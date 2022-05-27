@@ -234,3 +234,141 @@ body{
 #addAddress{
   display: none;
 }
+#myAddresses .addressHeader{
+  color: gray;
+  font-size: 20px;
+}
+.viewaddressButton{
+  margin-left: 50px;
+  outline: none;
+  border: none;
+  padding: 10px;
+  color: white;
+  background-color: #FBAB7E;
+}
+.addressContainer hr{
+  outline: none;
+  border: none;
+  height: 2px;
+  background-color: #FBAB7E;
+}
+.addAddress button{
+  font-size: 20px;
+  /* font-weight: 900; */
+  padding: 10px;
+  outline: none;
+  border: none;
+  color: white;
+  background-color: #FBAB7E;
+}
+.addressFormEdit{
+  color: gray;
+  display: flex;
+  flex-direction: column;
+}
+.addressHeader{
+  text-align: center;
+}
+.formText{
+  color: gray;
+  text-align: left;
+  font-size: 20px
+}
+.editAddress{
+  outline: none;
+  border: none;
+  color: gray;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  transition: all 0.2s ease-in-out;
+}
+.editAddress:hover,.editAddress:focus{
+  background-color: #eee;
+}
+.addressFormEdit #regions{
+  color: gray;
+  outline: none;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  transition: all 0.2s ease-in-out;
+}
+.addressFormEdit #regions:hover{
+  background-color: #eee;
+}
+.addressFormEdit button{
+  color: white;
+  background-color: #FBAB7E;
+  padding: 10px;
+  outline: none;
+  border: none;
+}
+#addressError{
+  color: red;
+  font-weight: bold;
+}
+#addressbook{
+  display: flex;
+  flex-direction: column;
+}
+.addAddressForm{
+  color: gray;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #FBAB7E;
+  padding: 10px;
+  font-size: 15px;
+}
+#addregions{
+  border: none;
+  outline: none;
+  color: gray;
+  background-color: #eee;
+  padding: 10px;
+  font-size: 15px;
+
+}
+#addressbook h1{
+  color: gray;
+  text-align: center;
+}
+#addressbook button{
+  color: white;
+  background-color: #FBAB7E;
+  padding: 10px;
+  outline: none;
+  border: none;
+}
+#deleteAddress{
+  color: white;
+  background: red;
+  outline: none;
+  border: none;
+  padding: 10px;
+}
+#confirmDeleteAddress{
+  color: gray;
+  font-weight: bold;
+}
+.confirmDelete{
+  color: gray;
+  font-weight: bold;
+}
+.deleteAddress{
+  margin-left: 10px;
+  margin-right: 10px;
+  outline: none;
+  border: none;
+  color: white;
+  font-weight: 600;
+  background-color: #FBAB7E;
+}
+.cancelAddress{
+  outline: none;
+  border: none;
+  color: white;
+  font-weight: 600;
+  background-color: #FBAB7E;
+}
