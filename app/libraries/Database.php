@@ -130,9 +130,7 @@ class Database{
         $this->statement = "CREATE TABLE IF NOT EXISTS deliveries(
             deliveryID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
             orderID INT(6) NOT NULL,
-            deliveryPrice INT(10) NOT NULL,
             deliveryStatus VARCHAR(30),
-            deliveryLink VARCHAR(30),
             FOREIGN KEY (orderID) REFERENCES orders(ID) ON DELETE CASCADE
             )";
             $this->execute(0);

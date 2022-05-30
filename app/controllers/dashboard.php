@@ -1,7 +1,14 @@
 <?php
-
+require_once APPROOT . "/models/admin.php";
 class dashboard extends Controller{
+    private $admin;
+    public function setAdmin(){
+        $this->admin = new Admin(new Database(),$_SESSION['ID']);
+    }
     public function home(){
+        // require_once APPROOT . "/models/admin.php";
+        // $model = "homeModel";
+        // $this->admin = new Admin($this->model->getDatabase(),$_SESSION['ID']);
         $dashboardPath = VIEWSPATH . 'dashboard/home.php';
         require_once $dashboardPath;
         $dashboardView = new home($this->getModel(), $this);
@@ -12,7 +19,10 @@ class dashboard extends Controller{
             if(isset($_POST['type'])){
                 $type = $_POST['type'];
                 $filter = $_POST['filter'];
-                $this->model->sortProducts($type, $filter);
+                // $this->model->sortProducts($type, $filter);
+                $this->setAdmin();
+                $sorted = $this->admin->sort("products",$type,$filter);
+                $this->model->setProducts($sorted);
                 $this->model->getProducts();
             }
             if(isset($_POST['edit'])){
@@ -143,10 +153,24 @@ class dashboard extends Controller{
         
     }
     public function delivery(){
-        $deliveryPath = VIEWSPATH . 'dashboard/delivery.php';
-        require_once $deliveryPath;
-        $deliveryView = new delivery($this->getModel(), $this);
-        $deliveryView->output();
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            if(isset($_POST['search'])){
+                $this->model->search($_POST['search']);
+            }
+            if(isset($_POST['filter'])){
+                $this->model->filter($_POST['filter'],$_POST['type']);
+            }
+            if(isset($_POST['editID'])){
+                $this->model->updateDelivery($_POST['editID']);
+                $this->model->viewCustomer();
+            }
+        }
+        else{
+            $deliveryPath = VIEWSPATH . 'dashboard/delivery.php';
+            require_once $deliveryPath;
+            $deliveryView = new delivery($this->getModel(), $this);
+            $deliveryView->output();
+        }
 
     }
     public function order(){

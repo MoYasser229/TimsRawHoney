@@ -9,7 +9,7 @@ class sales extends View{
         require_once APPROOT . "/views/inc/managerHeader.php";
         ?>
         <div class="mainContainer">
-            <h1>Sales</h1>
+            <h1>Regions Sales</h1>
             <hr>
             <div class="gridContainer">
                 <div class="gridChild">

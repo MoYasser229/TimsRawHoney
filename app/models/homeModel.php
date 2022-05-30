@@ -4,7 +4,14 @@ class homeModel extends Model{
     public $icon = IMAGEROOT . "icon/";
     public $css = URLROOT . "css/dashboard/dashboardStyle.css";
     public $headercss = URLROOT . "css/dashboard/headerStyles.css";
+    private $admin;
+    // require_once APPROOT . "/models/admin.php";
+    public function setAdmin($admin){
+        $this->admin = $admin;
+    }
     public function getProducts(){
+        // require_once APPROOT . "/models/admin.php";
+        // $admin = new Admin($this->getDatabase(),$_SESSION['ID']);
         //DATABASE CALL
         return 30;
     }
@@ -40,5 +47,8 @@ class homeModel extends Model{
     }
     public function getRecordedDate(){
         return 25;
+    }
+    public function getDatabase(){
+        return $this->database;
     }
 }

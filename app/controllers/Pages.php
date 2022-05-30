@@ -87,7 +87,14 @@ class Pages extends Controller{
                         $session->setSession("ID",$row['ID']);
                         $session->setSession("email",$row['email']);
                           // $cookie = new Cookie($row['ID']);
-                        echo ($row['userRole'] === "ADMIN")? URLROOT . "dashboard/home": URLROOT . "pages/index";  
+                          if($row['userRole'] === "ADMIN"){
+                            
+                            // $this->$model->setAdmin($admin); 
+                            echo URLROOT . "dashboard/home";
+                            // print_r($admin);
+                          }
+                          else
+                            echo URLROOT . "pages/index";  
                     }
 
                 return;
@@ -1158,7 +1165,7 @@ $( this ).parent().parent().parent().hide( 400 );
                
                     $cartmodel->order($_SESSION["ID"],$str,$_POST['newTotal'],$_POST['promoCode1'],$_POST['address']);
                     $orderID=$cartmodel->getOrderID();
-
+                    $cartmodel->delivery($orderID);
                     foreach($cart_data as $keys => $values)
                 {
                     $cartmodel->orderItems($orderID,$_SESSION["ID"],$values['productID'],$values['quantity']);

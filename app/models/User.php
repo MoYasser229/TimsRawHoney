@@ -14,17 +14,18 @@ class User{
     protected $database;
 
     public function __construct($ID){
+        require_once "address.php";
         $this->ID = $ID;
         $this->database = new Database;
-        $customerData = $this->database->query("SELECT * FROM users WHERE ID = {$this->ID}");
+        $customerData = $this->database->query("SELECT * FROM users,user_address WHERE users.ID = user_address.customerID AND users.ID = {$this->ID}");
         if($customer = $customerData->fetch_assoc()){
             $this->name = $customer['fullName'];
             $this->Email = $customer['email'];
             $this->Password = $customer['pswrd'];
             $this->PhoneNumber1 = $customer['phoneNumber1'];
             $this->PhoneNumber2 = $customer['phoneNumber2'];
-            $this->address1 = $customer['homeAddress1'];
-            $this->address2 = $customer['homeAddress2'];
+            $this->address1 = Address::createAddress($customer['AddressID']);
+            // $this->address2 = $customer['region'];
             $this->Role = $customer['userRole'];
         }
     }

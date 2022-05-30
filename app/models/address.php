@@ -13,6 +13,13 @@ class Address{
         $this->setLandMark($landMark);
         $this->database = new Database();
     }
+    static function createAddress($ID){
+        $database = new Database();
+        $result = $database->query("SELECT * FROM user_address WHERE AddressID = $ID")->fetch_assoc();
+        if($address = $result){
+            return new Address($address['street'],$address['district'],$address['region'],$address['appNumber'],$address['buildingNumber'],$address['landmark']);
+        }
+    }
     public function validate(){
         if(empty($this->street) || empty($this->district) || empty($this->region) || empty($this->buildingNumber) || empty($this->landMark) || empty($this->appNumber)){
             return false;
@@ -64,6 +71,9 @@ class Address{
     }
     public function getRegion(){
         return $this->region;
+    }
+    public function toString(){
+        return $this->street . ", " . $this->district . ", " . $this->region . ", " . $this->appNumber . ", " . $this->buildingNumber . ", " . $this->landMark;
     }
     
 }

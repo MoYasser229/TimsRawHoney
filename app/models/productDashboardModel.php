@@ -129,7 +129,10 @@ class productDashboardModel extends Model{
                 }
                 $availableStock = $product['productStock'];
                 
-                $stockRatio = ceil(($availableStock / $product['productStock'])*100);
+                if($product['productStock'] != 0)
+                    $stockRatio = ceil(($availableStock / $product['productStock'])*100);
+                else
+                    $stockRatio = 0;
                 echo "
                 <div class='productCard' id=edit{$product['ID']}>
                             <button id=deleteButton onclick='deleteProduct(this.value)' class ='deleteProduct' value = '{$product['ID']}'>DELETE PRODUCT</button>

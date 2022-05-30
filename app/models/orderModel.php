@@ -61,7 +61,7 @@ class orderModel extends Model{
                 </div>
                 <div class='customerChild'>
                     <h2>Home Address</h2>
-                    <h3>{$orderList->getCustomer()->getAddress1()}</h3>
+                    <h3>{$orderList->getCustomer()->getAddress1()->toString()}</h3>
                 </div>
                 
                 <button onclick='viewOrder(this.value,{$orderList->getCustomer()->getID()})' class=viewButton value='".$orderList->getID()."'>VIEW ORDERS DETAIL</button>

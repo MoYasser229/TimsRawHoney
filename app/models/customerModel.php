@@ -120,9 +120,7 @@ class customerModel extends Model{
             $result = $this->database->query("SELECT * FROM users WHERE (fullName LIKE '%$search%'
                 OR email LIKE '%$search%'
                 OR phoneNumber1 LIKE '%$search%'
-                OR phoneNumber2 LIKE '%$search%'
-                OR homeAddress1 LIKE '%$search%'
-                OR homeAddress2 LIKE '%$search%') AND userRole = 'CUSTOMER' ORDER BY $type $filter"
+                OR phoneNumber2 LIKE '%$search%') AND userRole = 'CUSTOMER' ORDER BY $type $filter"
                 );
             $this->customers = $result;
         }
@@ -135,7 +133,10 @@ class customerModel extends Model{
             $fullName = $customer['fullName'];
             $phone1 = $customer['phoneNumber1'];
             $phone2 = (empty($customer['phoneNumber2']))?"Not specified":$customer['phoneNumber2'];
-            $homeAddress = $customer['homeAddress1'];
+            $result = $this->database->query("SELECT * FROM user_address WHERE customerID = {$customer['ID']}")->fetch_assoc()['AddressID'];
+            require_once "address.php";
+            $address = Address::createAddress($result);
+            $homeAddress = $address->toString();
             echo "<div class='customerCard'>";
             echo "<h2>{$fullName}</h2>";
             echo "<hr>";

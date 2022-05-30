@@ -34,6 +34,9 @@ class CartModel extends model
     public function orderItems($orderID,$ID,$productID,$quantity){
         $this->database->query("INSERT INTO orderitems(orderID,customerID,productID,quantity) VALUES('$orderID','$ID','$productID','$quantity')");
     }
+    public function delivery($ID){
+        $this->database->query("INSERT INTO deliveries(orderID,deliveryStatus) VALUES('$ID','PENDING')");
+    }
     public function getUserData($ID){
         $result = $this->database->query("SELECT * FROM users WHERE ID = '$ID'");
         return $result;

@@ -57,7 +57,7 @@ class Orders{
         <p><strong>Customer Name</strong><br><br> {$this->getCustomer()->getName()}</p>
         <p><strong>Customer phone number</strong><br><br> {$this->getCustomer()->getPhone1()}</p>
         </div>
-        <p class = informationText><strong>Customer Address</strong> <br><br>{$this->getCustomer()->getAddress1()}</p>
+        <p class = informationText><strong>Customer Address</strong> <br><br>{$this->getCustomer()->getAddress1()->toString()}</p>
         <div class = "informationGrid">
             <p><strong>Quantity</strong> <br><br>{$this->quantity}</p>
             <p><strong>Total Price</strong><br><br> {$this->price} EGP</p>
