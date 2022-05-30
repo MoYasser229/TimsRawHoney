@@ -241,7 +241,10 @@ promoCode1= $('#promoID').val();
 
 if(chosenAddress() == ""){
       // error = true
-      $("#errorAddress").html('Please Pick an address to proceed');
+      location.reload();
+      alert('Please Pick an address to proceed');
+      
+    
     }
     else{
       // alert("hena")

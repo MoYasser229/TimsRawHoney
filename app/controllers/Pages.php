@@ -590,21 +590,23 @@ foreach($cart_data as $keys => $values)
 $(document).ready(function(){
 $('#remove'+<?php echo $values["productID"];?>).click(()=>{
 
-productid=$('#productid'+<?php echo $values["productID"];?>).val();
-remove=$('#remove'+<?php echo $values["productID"];?>).val();
-qty=$('#quantity'+<?php echo $values["productID"];?>).val();
-$.ajax({
-  type: 'POST',
-  url: 'Cart',
-  data:{"productid":productid,"remove":remove,"qty":qty},
-  success: (result)=>{
-      $('#cartdata').html(result);
-    
-  }
-})
-event.preventDefault();
-$( this ).parent().parent().parent().hide( 400 );
+  productid=$('#productid'+<?php echo $values["productID"];?>).val();
+  remove=$('#remove'+<?php echo $values["productID"];?>).val();
 
+
+  $.ajax({
+        type: 'POST',
+        url: 'Cart',
+        data:{"productid":productid,"remove":remove},
+        success: (result)=>{
+          $('#cartdata').html(result);
+       
+          
+        }
+    })
+  event.preventDefault();
+  $( this ).parent().parent().parent().hide( 400 );
+ 
 });
 
 $('#clear').click(()=>{
@@ -613,68 +615,134 @@ clear=$('#clear').val();
 
 
 $.ajax({
-type: 'POST',
-url: 'Cart',
-data:{"clear":clear},
-success: (result)=>{
-  $('#cartdata').html(result);
+      type: 'POST',
+      url: 'Cart',
+      data:{"clear":clear},
+      success: (result)=>{
+        $('#cartdata').html(result);
+     
+        
+      }
+  })
+  event.preventDefault();
+  $( this ).parent().parent().parent().hide( 400 );
 
-  
+});
+
+
+});
+function PromoCode(){
+  promoCode=$('#promo').val();
+  total=$('#totalPrice').val();
+  $.ajax({
+    type: 'POST',
+      url: 'Cart',
+      data:{"promoCode":promoCode},
+      success: function(result){
+          // $('#cartdata').html(result);
+          if(result=='false'){
+            $('#error').css('display', 'block');
+            $('#success').css('display', 'none');
+          }
+          else{
+            $('#success').css('display', 'block');
+            $('#error').css('display', 'none');
+            $('#success').html("You have a "+result+"% discount <a href=Cart>Cancel</a>");
+            discountPrice=(parseInt(result)/100)*total;
+            afterDiscount=total-discountPrice;
+            $('#discount').html("<li class='totalRow final'><span class=label>Discount</span><span class=value> -"+discountPrice+"</span></li><li class='totalRow final'><span class=label>Final price</span><span class=value>"+afterDiscount+"</span></li><input type=hidden name=newTotal id=newTotal value="+afterDiscount+"><input type=hidden name=promoID id=promoID value="+promoCode+">");
+            
+            
+          }
+          
+        }
+  })
 }
-})
-event.preventDefault();
-$( this ).parent().parent().parent().hide( 400 );
-
-});
-});
 function updatecart(id){
-productid=$('#productid'+id).val();
-quantity=$('#quantity'+id).val();
-<?php
- echo "var maxQuantity ='$maxQuantity';";
-?>
+  productid=$('#productid'+id).val();
+  quantity=$('#quantity'+id).val();
+  <?php
+       echo "var maxQuantity ='$maxQuantity';";
+   ?>
 
-
-if(quantity==''){
-alert("Number field cannot be empty");
-quantity=1;
-}
-if(quantity> <?php echo $maxQuantity?>){
-alert("Sorry the max quantity is <?php echo $maxQuantity?>");
-quantity=maxQuantity;
-}
-if(quantity<1){
-alert("Sorry the min quantity is 1");
-quantity=1;
-}
-$.ajax({
-type: 'POST',
-url: 'Cart',
-data:{"productid":productid,"quantity":quantity},
-success: function(result){
-    $('#cartdata').html(result);
-    
+  if(quantity==''){
+    alert("Number field cannot be empty");
+    quantity=1;
   }
-})
+  if(quantity > <?php echo $maxQuantity?>){
+    alert("Sorry the max quantity is <?php echo $maxQuantity?>");
+    quantity=maxQuantity;
+  }
+  if(quantity<1){
+    alert("Sorry the min quantity is 1");
+    quantity=1;
+  }
+
+
+
+ 
+  $.ajax({
+    type: 'POST',
+      url: 'Cart',
+      data:{"productid":productid,"quantity":quantity},
+      success: function(result){
+          $('#cartdata').html(result);
+          
+        }
+  })
 }
+address = ""
+  function pickAddress(ID,counter){
+    address =  ID;
+    inverse = (counter == 1)?0:1;
+    $(".addressPick #addr"+counter).css({
+      'background-color':"white",
+      "color":"black"
+    })
+    $(".addressPick #addr"+inverse).css({
+      'background-color':"transparent",
+      "color":"gray"
+    })
+  }
+
+  function chosenAddress(){
+    return address;
+  }
 function checkout(){
-
-
 checkout=$('#checkout').val();
+newTotal="";
+if($('#newTotal').val()){
+newTotal= $('#newTotal').val(); 
 
-
-$.ajax({
-type: 'POST',
-url: 'Cart',
-data:{"checkout":checkout},
-success: (result)=>{
-  $('#cartdata').html(result);
-  $('#exampleModal').modal('show');
-  
 }
-})
-event.preventDefault();
-$( this ).parent().parent().parent().hide( 400 );
+promoCode1="";
+if($('#promoID').val()){
+promoCode1= $('#promoID').val(); 
+
+}
+
+if(chosenAddress() == ""){
+      // error = true
+      location.reload();
+      alert('Please Pick an address to proceed');
+    }
+    else{
+      // alert("hena")
+      $.ajax({
+            type: 'POST',
+            url: 'Cart',
+            data:{"checkout":checkout,"newTotal":newTotal,"promoCode1":promoCode1,"address":chosenAddress()},
+            success: (result)=>{
+              // alert(result)
+               $('#cartdata').html(result);
+                $('#exampleModal').modal('show');
+              $(".addressPick").html("")
+              
+            }
+        })
+      event.preventDefault();
+      $( this ).parent().parent().parent().hide( 400 );
+    }
 
 }
 </script>
@@ -734,14 +802,21 @@ $str.=$productname." (".$quantity.") ,";
                 </div>
               </div>
   </ul>
-  <div class="promoCode"><label for="promo">Have A Promo Code?</label><input type="text" name="promo" placholder="Enter Code" />
-<a href="#" class="btn"></a></div>
+  <div class="promoCode"><label for="promo">Have A Promo Code?   <div id="result"><div class=errorclass id=error style="display:none"> the promo code is either expired or inactive</div>
+  <div class=successclass id=success style="display:none"> </div>
+    </div></label><input type="text" id="promo" name="promo" placholder="Enter Code" />
+  <a onclick="PromoCode()" class="btn"></a></div>
+  <input type="hidden" id="totalPrice" value=<?php echo $total?> >
 
-<div class="subtotal cf">
-  <ul>
-          <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
-          <li class="totalRow"><a href="" class="btn continue" name="checkout" onclick="checkout()" id="checkout" value=checkout>Checkout</a></li>
-  </ul>
+  <div class="subtotal cf" id="total">
+    <ul>
+
+            <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
+            <div id=discount>
+
+    </div>
+      <li class="totalRow"><a class="greenButton btn continue" name="checkout" onclick="checkout()" id="checkout" value=checkout>Checkout</a></li>
+    </ul>
 </div>
 </div>
   </div>
@@ -825,92 +900,159 @@ foreach($cart_data as $keys => $values)
 $(document).ready(function(){
 $('#remove'+<?php echo $values["productID"];?>).click(()=>{
 
-productid=$('#productid'+<?php echo $values["productID"];?>).val();
-remove=$('#remove'+<?php echo $values["productID"];?>).val();
+  productid=$('#productid'+<?php echo $values["productID"];?>).val();
+  remove=$('#remove'+<?php echo $values["productID"];?>).val();
 
-$.ajax({
-      type: 'POST',
-      url: 'Cart',
-      data:{"productid":productid,"remove":remove},
-      success: (result)=>{
+
+  $.ajax({
+        type: 'POST',
+        url: 'Cart',
+        data:{"productid":productid,"remove":remove},
+        success: (result)=>{
           $('#cartdata').html(result);
-        
-      }
-  })
-event.preventDefault();
-$( this ).parent().parent().parent().hide( 400 );
-
+       
+          
+        }
+    })
+  event.preventDefault();
+  $( this ).parent().parent().parent().hide( 400 );
+ 
 });
+
 $('#clear').click(()=>{
 
 clear=$('#clear').val();
 
 
 $.ajax({
-    type: 'POST',
-    url: 'Cart',
-    data:{"clear":clear},
-    success: (result)=>{
-      $('#cartdata').html(result);
-   
-      
-    }
-})
-event.preventDefault();
-$( this ).parent().parent().parent().hide( 400 );
-
-});
-
-
-});
-function updatecart(id){
-productid=$('#productid'+id).val();
-quantity=$('#quantity'+id).val();
-<?php
-     echo "var maxQuantity ='$maxQuantity';";
- ?>
-
-
-
-if(quantity==''){
-  alert("Number field cannot be empty");
-  quantity=1;
-}
-if(quantity> <?php echo $maxQuantity?>){
-  alert("Sorry the max quantity is <?php echo $maxQuantity?>");
-  quantity=maxQuantity;
-}
-if(quantity<1){
-  alert("Sorry the min quantity is 1");
-  quantity=1;
-}
-$.ajax({
-  type: 'POST',
-    url: 'Cart',
-    data:{"productid":productid,"quantity":quantity},
-    success: function(result){
+      type: 'POST',
+      url: 'Cart',
+      data:{"clear":clear},
+      success: (result)=>{
         $('#cartdata').html(result);
+     
         
       }
-})
-}
-function checkout(){
+  })
+  event.preventDefault();
+  $( this ).parent().parent().parent().hide( 400 );
 
-checkout=$('#checkout').val();
+});
 
 
-$.ajax({
+});
+function PromoCode(){
+  promoCode=$('#promo').val();
+  total=$('#totalPrice').val();
+  $.ajax({
     type: 'POST',
-    url: 'Cart',
-    data:{"checkout":checkout},
-    success: (result)=>{
-      $('#cartdata').html(result);
-      $('#exampleModal').modal('show');
-      
+      url: 'Cart',
+      data:{"promoCode":promoCode},
+      success: function(result){
+          // $('#cartdata').html(result);
+          if(result=='false'){
+            $('#error').css('display', 'block');
+            $('#success').css('display', 'none');
+          }
+          else{
+            $('#success').css('display', 'block');
+            $('#error').css('display', 'none');
+            $('#success').html("You have a "+result+"% discount <a href=Cart>Cancel</a>");
+            discountPrice=(parseInt(result)/100)*total;
+            afterDiscount=total-discountPrice;
+            $('#discount').html("<li class='totalRow final'><span class=label>Discount</span><span class=value> -"+discountPrice+"</span></li><li class='totalRow final'><span class=label>Final price</span><span class=value>"+afterDiscount+"</span></li><input type=hidden name=newTotal id=newTotal value="+afterDiscount+"><input type=hidden name=promoID id=promoID value="+promoCode+">");
+            
+            
+          }
+          
+        }
+  })
+}
+function updatecart(id){
+  productid=$('#productid'+id).val();
+  quantity=$('#quantity'+id).val();
+  <?php
+       echo "var maxQuantity ='$maxQuantity';";
+   ?>
+
+  if(quantity==''){
+    alert("Number field cannot be empty");
+    quantity=1;
+  }
+  if(quantity > <?php echo $maxQuantity?>){
+    alert("Sorry the max quantity is <?php echo $maxQuantity?>");
+    quantity=maxQuantity;
+  }
+  if(quantity<1){
+    alert("Sorry the min quantity is 1");
+    quantity=1;
+  }
+
+
+
+ 
+  $.ajax({
+    type: 'POST',
+      url: 'Cart',
+      data:{"productid":productid,"quantity":quantity},
+      success: function(result){
+          $('#cartdata').html(result);
+          
+        }
+  })
+}
+address = ""
+  function pickAddress(ID,counter){
+    address =  ID;
+    inverse = (counter == 1)?0:1;
+    $(".addressPick #addr"+counter).css({
+      'background-color':"white",
+      "color":"black"
+    })
+    $(".addressPick #addr"+inverse).css({
+      'background-color':"transparent",
+      "color":"gray"
+    })
+  }
+
+  function chosenAddress(){
+    return address;
+  }
+function checkout(){
+checkout=$('#checkout').val();
+newTotal="";
+if($('#newTotal').val()){
+newTotal= $('#newTotal').val(); 
+
+}
+promoCode1="";
+if($('#promoID').val()){
+promoCode1= $('#promoID').val(); 
+
+}
+
+if(chosenAddress() == ""){
+      // error = true
+      location.reload();
+      alert('Please Pick an address to proceed');
     }
-})
-event.preventDefault();
-$( this ).parent().parent().parent().hide( 400 );
+    else{
+      // alert("hena")
+      $.ajax({
+            type: 'POST',
+            url: 'Cart',
+            data:{"checkout":checkout,"newTotal":newTotal,"promoCode1":promoCode1,"address":chosenAddress()},
+            success: (result)=>{
+              // alert(result)
+               $('#cartdata').html(result);
+                $('#exampleModal').modal('show');
+              $(".addressPick").html("")
+              
+            }
+        })
+      event.preventDefault();
+      $( this ).parent().parent().parent().hide( 400 );
+    }
 
 }
 </script>
@@ -973,14 +1115,21 @@ $( this ).parent().parent().parent().hide( 400 );
    ?>
    
   </ul>
-  <div class="promoCode"><label for="promo">Have A Promo Code?</label><input type="text" name="promo" placholder="Enter Code" />
-<a href="#" class="btn"></a></div>
+  <div class="promoCode"><label for="promo">Have A Promo Code?   <div id="result"><div class=errorclass id=error style="display:none"> the promo code is either expired or inactive</div>
+  <div class=successclass id=success style="display:none"> </div>
+    </div></label><input type="text" id="promo" name="promo" placholder="Enter Code" />
+  <a onclick="PromoCode()" class="btn"></a></div>
+  <input type="hidden" id="totalPrice" value=<?php echo $total?> >
 
-<div class="subtotal cf">
-  <ul>
-          <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
-          <li class="totalRow"><a href="" class="btn continue" name="checkout" onclick="checkout()" id="checkout" value=checkout>Checkout</a></li>
-  </ul>
+  <div class="subtotal cf" id="total">
+    <ul>
+
+            <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
+            <div id=discount>
+
+    </div>
+      <li class="totalRow"><a class="greenButton btn continue" name="checkout" onclick="checkout()" id="checkout" value=checkout>Checkout</a></li>
+    </ul>
 </div>
 </div>
   </div>
@@ -1139,7 +1288,9 @@ $( this ).parent().parent().parent().hide( 400 );
                         <p class="fw-bold" style="color: #35558a;">$<?php echo $finaltotal?></p>
                       </div>
                       <?php
+                      
                       if(!empty($_POST['newTotal'])){
+                        $finaltotal=$_POST['newTotal'];
                       ?>
                       <div class="d-flex justify-content-between">
                         <p class="fw-bold">Final Price</p>
@@ -1163,7 +1314,7 @@ $( this ).parent().parent().parent().hide( 400 );
               //   $cartmodel->order($_SESSION["ID"],$str,$_POST['newTotal']);
               // }
                
-                    $cartmodel->order($_SESSION["ID"],$str,$_POST['newTotal'],$_POST['promoCode1'],$_POST['address']);
+                    $cartmodel->order($_SESSION["ID"],$str,$finaltotal,$_POST['promoCode1'],$_POST['address']);
                     $orderID=$cartmodel->getOrderID();
                     $cartmodel->delivery($orderID);
                     foreach($cart_data as $keys => $values)
