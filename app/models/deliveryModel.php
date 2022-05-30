@@ -10,11 +10,13 @@
         return (mysqli_num_rows($result) == 0)?"NONE":mysqli_num_rows($result);
      }
      public function getMostDaysPending(){
-         $result = $this->database->query("SELECT createdAt FROM deliveries,orders WHERE orders.ID = deliveries.orderID AND deliveryStatus = 'PENDING' ORDER BY createdAt ASC LIMIT 1;")->fetch_assoc()['createdAt'];
+         $result = $this->database->query("SELECT createdAt FROM deliveries,orders WHERE orders.ID = deliveries.orderID AND deliveryStatus = 'PENDING' ORDER BY createdAt ASC LIMIT 1;");
+         if(mysqli_num_rows($result) != 0){
+             $result = $result->fetch_assoc()['createdAt'];
          $date = new DateTime(Date("Y-m-d",strtotime($result)));
          $curr = new DateTime(Date("Y-m-d"));
          $date = $curr->diff($date);
-         return $date->format('%a days');
+         return $date->format('%a days');}
 
 
      }
