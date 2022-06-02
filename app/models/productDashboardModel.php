@@ -78,8 +78,8 @@ class productDashboardModel extends Model{
     public function deleteProduct($id){
         $this->database->query("DELETE FROM products WHERE id = $id");
     }
-    public function editProduct($id,$name,$rcost,$mcost,$image){
-        $this->database->query("UPDATE products SET productName = '$name',retailCost = '$rcost',manifactureCost = '$mcost', productImage = '{$image}' WHERE id = $id");
+    public function editProduct($id,$name,$rcost,$mcost,$image,$desc){
+        $this->database->query("UPDATE products SET productName = '$name',retailCost = '$rcost',manifactureCost = '$mcost', productImage = '{$image}',productDescription = '{$desc}' WHERE id = $id");
     }
     public function getEditInfo($ID){
         $edit = $this->database->query("SELECT * FROM products WHERE id = $ID")->fetch_assoc();
@@ -102,7 +102,7 @@ class productDashboardModel extends Model{
                     </label>
                     <p id='file-name2'></p>
                     </div>
-        Description: <textarea name=description id=description value={$edit["productDescription"]}>{$edit["productDescription"]}</textarea>
+        Description: <textarea name=description id= editDescription value={$edit["productDescription"]}>{$edit["productDescription"]}</textarea>
         <button id = submitEdit name = submitEdit onclick='submitEdit()' value='{$edit['ID']}'>EDIT PRODUCT</button>
         <div id=errorMessage></div>
         ";

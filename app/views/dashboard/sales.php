@@ -37,9 +37,7 @@ class sales extends View{
                     <option value=ASC>Ascending</option>
                 </select>
         </div>
-        <div class="regionGrid">
             <?php $this->model->viewRegions(); ?>
-        </div>
         <script>
             function searchButton(){
                 search = $("#search").val();

@@ -275,7 +275,7 @@
     font-size: 15px;
     font-weight: bold;
 }
-#description{
+#description,#editDescription{
     resize: none;
     width: 100%;
     outline: none;

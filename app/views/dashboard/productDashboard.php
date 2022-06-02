@@ -246,18 +246,17 @@ class productDashboard extends View{
                     })
                 }
                 function submitEdit() {
-                    
                     pname = $("#productName").val()
                     rcost = $("#retailCost").val()
                     mcost = $("#manifactureCost").val()
                     productImage = $("#file2")[0].files[0]
                     submit = $("#submitEdit").val()
-                    description = $("#description").val()
+                    description = $("#editDescription").val()
                     error = false;
                     if(pname == "" || rcost == "" || mcost == "")
                         error = true
                     if(!productImage){
-                        alert(productImage)
+                        // alert(productImage)
                         productImage = $("#imageName").val()
                     }
                     

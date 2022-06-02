@@ -54,7 +54,7 @@ class dashboard extends Controller{
                     $target_dir = "../public" . "/images/product/$fullFile";
                     move_uploaded_file($_FILES["productImage"]["tmp_name"],$target_dir);
                 }
-                $this->model->editProduct($_POST['submitEdit'],$productName,$retail,$manifactureCost,$fullFile);
+                $this->model->editProduct($_POST['submitEdit'],$productName,$retail,$manifactureCost,$fullFile,$_POST['description']);
                 $this->model->databaseProducts();
                 $this->model->getProducts();
             }
