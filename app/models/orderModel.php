@@ -17,18 +17,25 @@ class orderModel extends Model{
         $this->orders = $orders;
     }
     public function topCustomer(){
-        $result = $this->database->query("SELECT *,orders.ID as orderID FROM ORDERS,users WHERE users.ID = customerID ORDER BY COUNT(customerID) DESC LIMIT 1;");
-        $row = $result->fetch_assoc();
-        $order = new Orders($row['orderID'],new Customer($row['customerID']));
-        $topCustomer = $order->getCustomer();
-        return $topCustomer;
+        $result = $this->database->query("SELECT *,orders.ID as orderID FROM ORDERS,users WHERE users.ID = customerID GROUP BY orders.ID ORDER BY COUNT(customerID) DESC LIMIT 1;");
+        if(mysqli_num_rows($result) != 0){
+            $row = $result->fetch_assoc();
+            return new Customer($row['customerID']);
+        }
+        return false;
     }
     public function numOrders(){
-        return $this->topCustomer()->getNumOrders();
+        $customer = $this->topCustomer();
+        if(!$customer)
+            return "NONE";
+        return $customer->getNumOrders();
     }
     public function numProducts(){
-        $result = $this->database->query("SELECT SUM(quantity) as orderquantity FROM orderitems")->fetch_assoc();
-        return $result['orderquantity'];
+        $result = $this->database->query("SELECT SUM(quantity) as orderquantity FROM orderitems");
+        if(mysqli_num_rows($result) != 0){
+            return "NONE";
+        }
+        return $result->fetch_assoc()['orderquantity'];
     }
     public function databaseOrders(){
         $result =  $this->database->query("SELECT * FROM orders,orderitems,users WHERE orders.ID = orderItems.orderID AND users.ID = orderItems.customerID GROUP BY orderitems.orderID");

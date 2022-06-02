@@ -9,6 +9,9 @@ class homeModel extends Model{
     public function setAdmin($admin){
         $this->admin = $admin;
     }
+    public function getAdmin() {
+        return $this->admin;
+    }
     public function getProducts(){
         // require_once APPROOT . "/models/admin.php";
         // $admin = new Admin($this->getDatabase(),$_SESSION['ID']);

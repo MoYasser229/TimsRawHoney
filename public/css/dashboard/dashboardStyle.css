@@ -63,11 +63,13 @@
 }
 .grid-buttons { 
     display: grid; 
-    grid-template-columns: 1fr 1fr; 
+    grid-template-columns: 1fr 1fr 1fr 1fr; 
     grid-gap: 10px; 
-    width: 50%; 
-    margin-left: 25%;
+    /* width: 50%;  */
+    /* margin-left: 25%; */
+    padding: 10px
 } 
+
 @media screen and (max-width: 1024px){
     .grid-buttons{
         grid-template-columns: 1fr;
@@ -168,6 +170,7 @@
   }
   
   @media screen and (max-width: 1024px) {
+    
       .grid-table{
           grid-template-columns: 1fr;
           margin: 0;
@@ -241,4 +244,223 @@
   border: 1px solid #F7CE68;
   border-radius: 10px;
 }
+.personalInformation{
+  padding: 20px
+}
+.personalInformation h1{
+  font-size: 70px;
+  color:#FBAB7E;
+  font-family: 'Ubuntu', sans-serif;
+}
+.personalInformation p{
+  color: gray;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 20px
+}
+.personalInformation .fastMenu{
+  display: grid;
+  grid-template-columns:  1fr 1fr 1fr 1fr;
+}
+.personalInformation .fastMenu button{
+  outline: none;
+  border: none;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 20px;
+  transition: all 0.2s ease-in-out;
+}
+.personalInformation .fastMenu button:hover{
+  font-size: 22px;
+  font-weight: 600;
+}
+.topContainer .generalGrid{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 
+}
+.topContainer .generalGrid h2{
+  font-size: 20px;
+  font-family: 'Ubuntu', sans-serif;
+  color: gray;
+  text-align: center;
+  margin-top: 30px;
+}
+.generalGrid div{
+  text-align: center;
+  font-family: 'Ubuntu', sans-serif;
+
+}
+.generalGrid div i{
+  font-size: 30px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+
+}
+.productInfo p{
+  float: right;
+  line-height:1px;
+  margin-right: 20px;
+  color: gray;
+}
+.productInfo h2{
+  margin-left: 20px;
+}
+.productInfo h4{
+  margin-left: 20px;
+  /* font-size: 30px; */
+}
+.productInfo .monthReport{
+  color: gray;
+  font-family: 150px;
+  margin-left: 20px;
+  font-family: 'Ubuntu', sans-serif;
+}
+.productInfo .numProd{
+  color: gray;
+  font-size: 20px
+}
+.productInfo h2{
+  color: gray;
+}
+.productInfo strong{
+  font-size: 30px;
+}
+.proInformation{
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+}
+.proChild{
+  text-align: center;
+  padding: 20px;
+  border-right: 2px solid #fab637
+}
+.proChild h2{
+  color: gray
+}
+.chart {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.1) 2%, rgba(0, 0, 0, 0) 2%);
+  background-size: 100% 50px;
+  background-position: left top;
+}
+.chart li {
+  position: relative;
+  display: table-cell;
+  vertical-align: bottom;
+  height: 200px;
+}
+.chart span {
+  margin: 0 1em;
+  display: block;
+  background: #FBAB7E;
+  animation: draw 1s ease-in-out;
+}
+.chart span:before {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  /* padding: 5px 1em 0; */
+  display: block;
+  text-align: center;
+  content: attr(title);
+  word-wrap: break-word;
+}
+.warningChild{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.bestChild h1{
+  color: gray;
+  margin-left: 20px;
+}
+.warningClass{
+  color: gray;
+  
+}
+.bestContainer{
+  display: grid;
+  grid-template-columns:1fr 3fr;
+  grid-gap: 10px;
+  margin-left: 20px;
+  width: 95%;
+
+}
+.bestContainer img{
+  background-color: #FBAB7E;
+}
+.bestContainer .bestContainerChild{
+  padding: 10px;
+  color: gray;
+}
+.bestContainer .bestContainerChild p{
+  padding-left: 10px;
+}
+@keyframes draw {
+  0% {
+    height: 0;
+  }
+}
+.financeGrid{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 150px;
+  margin-right: 20px;
+}
+.financeChild{
+  margin-left: 20px;
+}
+.financeChild h2,.financeChildError h2{
+  color: gray
+}
+.financeChild span,.financeChildError span{
+  float: right;
+  color: gray;
+  font-size: 20px
+}
+.financeChild .normalRevenue,.financeChild .errorRevenue{
+  text-align: center;
+  /* float: right; */
+}
+.financeChild .normalRevenue{
+  color : rgb(50, 139, 50);
+  /* border-radius: 50px; */
+  border: 5px solid rgb(106, 138, 106);
+  padding: 9px;
+  font-weight: bold;
+  margin-right: 20px;
+}
+.financeChild .errorRevenue,.financeChildError .errorGross{
+  color : rgb(202, 121, 121);
+  /* border-radius: 50px; */
+  border: 5px solid rgb(202, 121, 121);
+  padding: 9px;
+  font-weight: bold;
+  margin-right: 20px;
+  text-align: center;
+}
+
+.financeChild .resultFinance,.financeChildError p,.financeChild p{
+  color: #FBAB7E;
+  font-size: 30px;
+  line-height: 0.5px;
+}
+.monthReport{
+  color: gray;
+  margin-left: 20px;
+}
+@media screen and (max-width: 1024px){
+  .personalInformation h1{
+    font-size: 50px
+  }
+  .personalInformation .fastMenu{
+    grid-template-columns: 1fr;
+    grid-gap: 10px;
+  }
+  .personalInformation .fastMenu button{
+    padding: 20px
+  }
+}

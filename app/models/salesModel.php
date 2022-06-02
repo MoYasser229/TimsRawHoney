@@ -5,12 +5,16 @@ class salesModel extends Model{
     public $css = URLROOT . "css/dashboard/salesStyles.css";
     public $headercss = URLROOT . "css/dashboard/headerStyles.css";
     public function topRegion(){
-        $result = $this->database->query("SELECT region FROM user_address WHERE addressID = (SELECT addressID FROM orders GROUP BY addressID ORDER BY SUM(orderTotalPrice) DESC LIMIT 1)")->fetch_assoc()['region'];
-        return $result;
+        $result = $this->database->query("SELECT region FROM user_address WHERE addressID = (SELECT addressID FROM orders GROUP BY addressID ORDER BY SUM(orderTotalPrice) DESC LIMIT 1)");
+        if(mysqli_num_rows($result) != 0)
+            return $result->fetch_assoc()['region'];
+        return "NONE";
     }
     public function activeRegions(){
-        $result = $this->database->query("SELECT COUNT(addressID) as regions FROM orders GROUP BY addressID LIMIT 1;")->fetch_assoc()['regions'];
-        return $result;
+        $result = $this->database->query("SELECT COUNT(addressID) as regions FROM orders GROUP BY addressID LIMIT 1;");
+        if(mysqli_num_rows($result) != 0)
+            return $result->fetch_assoc()['regions'] . "regions";
+        return "NONE";
     }
     public function search($search){
         $result = $this->database->query("SELECT region,quantity,SUM(quantity) as totproduct,SUM(orderTotalPrice) as regiontotPrice FROM orders,orderitems,products,user_address WHERE user_address.AddressID = orders.addressID AND user_address.customerID = orders.customerID AND orders.ID = orderitems.orderID AND orderitems.productID = products.ID AND region LIKE '%$search%' GROUP BY orders.addressID;");

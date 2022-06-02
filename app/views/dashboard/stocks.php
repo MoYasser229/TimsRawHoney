@@ -16,17 +16,29 @@ class stocks extends View{
             </p>
             <div class="infoGrid">
                 <div class="infoChild">
-                    <h2><?php echo $this->model->getSold()['sold']; ?></h2>
+                    <h2><?php echo $this->model->getSold(); ?></h2>
                     <h3>PRODUCTS SOLD</h3>
                 </div>
                 <div class="infoChild">
-                    <h2><?php echo $this->model->getLeastStock()['productName']?></h2>
+                    <h2><?php echo $this->model->getLeastStock()['productName'];?></h2>
                     <h3>The Least Stock</h3>
                 </div>
                 <div class="infoChild">
-                    <?php $expensiveManifacture = $this->model->getManifacturingCost(); ?>
-                    <h2><?php echo $expensiveManifacture['manifactureCost']?> EGP</h2>
-                    <h3><?php echo $expensiveManifacture['productName']?> Manifacture Cost</h3>
+                    <?php $expensiveManifacture = $this->model->getManifacturingCost(); 
+                    if($expensiveManifacture === false){
+                        echo <<<HTML
+                            <h2>NONE</h2>
+                            <h3>There are no products</h3>
+                        HTML;
+                    }
+                    else{
+                        echo <<<HTML
+                            <h2>{$expensiveManifacture['manifactureCost']} EGP</h2>
+                            <h3>{$expensiveManifacture['productName']} Manifacture Cost</h3>
+                        HTML;
+                    }
+                    ?>
+                    
                 </div>
             </div>
         </div>
@@ -181,6 +193,7 @@ class stocks extends View{
                 currentProd = after
                 cost = $('#stockCost'+currentProd).val() * parseInt($("#products").val())
                 $("#viewStock" + currentProd).html(myString + cost + "EGP")
+                
             }
             $("#decrease").click(() => {
                 // alert($("#productsSimulation").val())
@@ -205,6 +218,7 @@ class stocks extends View{
                 $("#productStock" + ID).val(parseInt($('#productStock' + ID).val()) + parseInt('1'))
                 currentCost = (parseInt($("#productStock" + ID).val()) - parseInt($("#curStock" + ID).val())) * parseInt($("#stockCost" + ID).val())
                 // alert($("#stockCost" + ID).val())
+                // alert((parseInt($("#productStock" + ID).val()) - parseInt($("#curStock" + ID).val())))
                 $("#scost" + ID).html(`Cost: <strong> ${currentCost} EGP</strong>`)
                 $(".saveContainer").css('display','flex')
             }
@@ -223,12 +237,14 @@ class stocks extends View{
                 // currentCost = parseInt($("#productStock" + ID).val()) - parseInt($("#curStock" + ID).val())
                     // console.log(currentCost)
                     if(value >= parseInt($("#curStock" + ID).val())){
-                        $("#scost" + ID).html(`Cost: <strong> ${value - parseInt($("#curStock" + ID).val())} EGP</strong>`)
+                        currentCost = (parseInt($("#productStock" + ID).val()) - parseInt($("#curStock" + ID).val())) * parseInt($("#stockCost" + ID).val())
+                        $("#scost" + ID).html(`Cost: <strong> ${currentCost} EGP</strong>`)
                         
                         $(".saveContainer").css('display','flex')
                     }
                     else{
                         $("#scost" + ID).html("<div class = error>Please Enter a number greater than the stock value available</div>")
+                        $(".saveContainer").css('display','none')
                     }
             }
             function recieptPrev(product){
@@ -286,6 +302,9 @@ class stocks extends View{
             function closeReciept(){
                 $(".recieptContainer").css("display","none")
             }
+            $("#closeButton").click(function(){
+                location.reload()
+            })
         </script>
         <?php
 

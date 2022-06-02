@@ -14,7 +14,7 @@ class sales extends View{
             <div class="gridContainer">
                 <div class="gridChild">
                     <h1>Regions with Active Customers</h1>
-                    <h2><?php echo $this->model->activeRegions(); ?> REGIONS</h2>
+                    <h2><?php echo $this->model->activeRegions(); ?></h2>
                 </div>
                 <div class="gridChild">
                     <h1>Best region</h1>
