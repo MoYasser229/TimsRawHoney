@@ -1,5 +1,5 @@
 <?php
-// require "User.php";
+// require "Users.php";
 class Customer extends User{
 
 private $HomeAddress;
@@ -14,7 +14,8 @@ public function __construct($ID){
     $this->ID = $ID;
     parent::__construct($ID);
     $this->orders = $this->database->query("SELECT * FROM orders WHERE customerID = {$this->ID}");
-    $this->setOrders();
+    if(mysqli_num_rows($this->orders) != 0)
+        $this->setOrders();
 
 }
 public function setOrders(){

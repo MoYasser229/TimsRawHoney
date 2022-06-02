@@ -13,17 +13,23 @@ class stocksModel extends Model{
         $this->products = $result;
     }
     public function getLeastStock(){
-        $result = $this->database->query("SELECT * FROM products ORDER BY productStock ASC LIMIT 1")->fetch_assoc();
-        return $result;
+        $result = $this->database->query("SELECT * FROM products GROUP BY ID ORDER BY productStock ASC LIMIT 1");
+        if(mysqli_num_rows($result) != 0)
+            return $result->fetch_assoc()['productName'];
+        return "NONE";
     }
     
     public function getSold(){
-        $result = $this->database->query("SELECT SUM(quantity) as sold FROM orderitems");
-        return $result -> fetch_assoc();
+        $result = $this->database->query("SELECT SUM(quantity) as sold FROM orderitems GROUP BY quantity");
+        if(mysqli_num_rows($result) != 0)
+            return $result -> fetch_assoc()['sold'];
+        return "NONE";
     }
     public function getManifacturingCost(){
-        $result = $this->database->query("SELECT * FROM products ORDER BY manifactureCost DESC LIMIT 1");
-        return $result->fetch_assoc();
+        $result = $this->database->query("SELECT * FROM products GROUP BY ID ORDER BY manifactureCost DESC LIMIT 1");
+        if(mysqli_num_rows($result) != 0)
+            return $result->fetch_assoc();
+        return false;
     }
     public function search($search){
         $result = $this->database->query("SELECT * FROM products WHERE (productName LIKE '%$search%') OR (productStock LIKE '%$search%')");
@@ -167,7 +173,7 @@ class stocksModel extends Model{
                 <div class='productCard'>
                 <h1>{$product['productName']}</h1>
                     <hr>
-                    <span class=stockInfo>Cost per one product: <strong>{$product['retailCost']} EGP </strong></span><br>
+                    <span class=stockInfo>Cost per one product: <strong>{$product['manifactureCost']} EGP </strong></span><br>
                     <span class = stockInfo>Current Stock: <strong>{$product['productStock']}</strong></span>
                     <!-- <p>Stock: <strong>{$product['productStock']}</strong></p> -->
                     <input type=hidden id=curStock{$product['ID']} value={$product['productStock']}>

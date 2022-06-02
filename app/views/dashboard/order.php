@@ -11,7 +11,7 @@ class order extends View{
                 <h1>Orders</h1>
                 <hr>
                 <div class="gridCards">
-                    <div class="cardChild"><h2>TOP CUSTOMER BY ORDERS</h2><h3><?php echo $this->model->topCustomer()->getName(); ?></h3></div>
+                    <div class="cardChild"><h2>TOP CUSTOMER BY ORDERS</h2><h3><?php echo ($this->model->topCustomer() != false)?$this->model->topCustomer()->getName():"NONE"; ?></h3></div>
                     <div class="cardChild"><h2>NUMBER OF ORDERS</h2><h3><?php echo $this->model->numOrders(); ?></h3></div>
                     <div class="cardChild"><h2>PRODUCTS SOLD</h2><h3><?php echo $this->model->numProducts(); ?></h4></div>
                 </div>

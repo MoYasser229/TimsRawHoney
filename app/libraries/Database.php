@@ -19,7 +19,7 @@ class Database{
         
         $this->createUserTable();
         $this->createProductTable();
-        
+        $this->createRevenueTable();
         $this->createAddressTable();
         $this->createSurveyTable();
         $this->createReviewTable();
@@ -38,6 +38,16 @@ class Database{
     public function createDatabase(){
         $this->statement = "CREATE DATABASE IF NOT EXISTS timsrawhoney;";
         // $this->exec("CREATE DATABASE IF NOT EXISTS timsrawhoney;");
+        $this->execute(0);
+    }
+    public function createRevenueTable(){
+        $this->statement = "CREATE TABLE IF NOT EXISTS finance(
+            financeID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+            revenue FLOAT(32),
+            expenses FLOAT(32),
+            profit FLOAT(32),
+            createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        );";
         $this->execute(0);
     }
     public function createStockProductsTable(){

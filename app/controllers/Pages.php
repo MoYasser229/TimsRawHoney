@@ -151,7 +151,7 @@ class Pages extends Controller{
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $signUp = $this->getModel();
             require_once APPROOT."/models/address.php";
-            require_once APPROOT."/models/User.php";
+            require_once APPROOT."/models/Users.php";
             $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
             // $password = $_POST['password'];
             $confirmNewPassword = $_POST['confirmPassword'];

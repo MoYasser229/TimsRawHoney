@@ -42,8 +42,11 @@
                             <ul style="list-style: none;text-align: left;width: 100%;">
                                 <li><div id="home" onclick="location.replace('home')"><i class='fa-solid fa-house'></i>&nbsp;HOME</div></li>
                                 
-                                <li><div id="sales" onclick="location.replace('sales')"><i class="fa-solid fa-square-poll-vertical"></i>&nbsp;SALES</div></li>
                                 
+                                <li><div id="sales" onclick="location.replace('sales')"><i class="fa-solid fa-square-poll-vertical"></i>&nbsp;SALES</div></li>
+
+                                
+
                                 <li><div id="products" onclick="location.replace('productDashboard')"><i class="fa-solid fa-box-archive"></i>&nbsp;PRODUCTS</div></li>
                                 
                                 <li><div id="stocks" onclick="location.replace('stocks')"><i class="fa-solid fa-warehouse"></i>&nbsp;STOCKS</div></li>

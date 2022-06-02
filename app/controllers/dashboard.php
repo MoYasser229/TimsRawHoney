@@ -1,18 +1,29 @@
 <?php
 require_once APPROOT . "/models/admin.php";
+require_once APPROOT . "/helpers/security.php";
 class dashboard extends Controller{
     private $admin;
     public function setAdmin(){
         $this->admin = new Admin(new Database(),$_SESSION['ID']);
     }
+    private function secure(){
+        $security = new Security();
+        $security->checkID();
+        $security->checkDb(new Database());
+    }
     public function home(){
-        // require_once APPROOT . "/models/admin.php";
-        // $model = "homeModel";
-        // $this->admin = new Admin($this->model->getDatabase(),$_SESSION['ID']);
-        $dashboardPath = VIEWSPATH . 'dashboard/home.php';
-        require_once $dashboardPath;
-        $dashboardView = new home($this->getModel(), $this);
-        $dashboardView->output();
+        if($_SERVER['REQUEST_METHOD'] == "POST"){
+
+        }
+        else{
+            $this->secure();
+            $this->setAdmin();
+            $this->model->setAdmin($this->admin);
+            $dashboardPath = VIEWSPATH . 'dashboard/home.php';
+            require_once $dashboardPath;
+            $dashboardView = new home($this->getModel(), $this);
+            $dashboardView->output();
+        }
     }
     public function productDashboard(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -43,7 +54,7 @@ class dashboard extends Controller{
                     $target_dir = "../public" . "/images/product/$fullFile";
                     move_uploaded_file($_FILES["productImage"]["tmp_name"],$target_dir);
                 }
-                $this->model->editProduct($_POST['submitEdit'],$productName,$retail,$manifactureCost,$fullFile);
+                $this->model->editProduct($_POST['submitEdit'],$productName,$retail,$manifactureCost,$fullFile,$_POST['description']);
                 $this->model->databaseProducts();
                 $this->model->getProducts();
             }
@@ -192,10 +203,7 @@ class dashboard extends Controller{
             if(isset($_POST['products'])){
                 require_once APPROOT . "\models\Order.php";
                 $orders = new Orders($_POST['products'],new Customer($_POST['customer']));
-                // echo "<button onclick='closeView()'>Close</button>
-                // <h1>Order</h1>" . $orders->getID();
                 $orders->viewOrder();
-
             }
         }
         else{
