@@ -15,7 +15,7 @@ class stocksModel extends Model{
     public function getLeastStock(){
         $result = $this->database->query("SELECT * FROM products GROUP BY ID ORDER BY productStock ASC LIMIT 1");
         if(mysqli_num_rows($result) != 0)
-            return $result->fetch_assoc();
+            return $result->fetch_assoc()['productName'];
         return "NONE";
     }
     

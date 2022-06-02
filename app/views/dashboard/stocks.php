@@ -20,7 +20,7 @@ class stocks extends View{
                     <h3>PRODUCTS SOLD</h3>
                 </div>
                 <div class="infoChild">
-                    <h2><?php echo $this->model->getLeastStock()['productName'];?></h2>
+                    <h2><?php echo $this->model->getLeastStock();?></h2>
                     <h3>The Least Stock</h3>
                 </div>
                 <div class="infoChild">

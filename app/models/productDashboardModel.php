@@ -135,7 +135,7 @@ class productDashboardModel extends Model{
                     $stockRatio = 0;
                 echo "
                 <div class='productCard' id=edit{$product['ID']}>
-                            <button id=deleteButton onclick='deleteProduct(this.value)' class ='deleteProduct' value = '{$product['ID']}'>DELETE PRODUCT</button>
+                            <button id=deleteButton{$product['ID']} onclick='deleteProduct(this.value)' class ='deleteProduct' value = '{$product['ID']}'>DELETE PRODUCT</button>
                             <div class='smallGrid2'>
                                 
                                 <img src='".IMAGEROOT."product/".$product['productImage']."'> 
