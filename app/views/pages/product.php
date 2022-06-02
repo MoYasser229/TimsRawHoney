@@ -52,7 +52,7 @@ public function output(){
       <div class="product_images">
         <div class="product_image_1">
         <input type="hidden"  id="productid" name="productid" value="<?php echo $ID ?>"></input>
-        <img name="productimage" src = "<?php echo IMAGEROOT."product/".$Image ; ?>" /> 
+        <img name="productimage" src = "<?php echo IMAGEROOT."product/".$Image ; ?>"width="320px" height = "400px" /> 
         <input type="hidden" id="productimage" name="productimage" value="<?php echo IMAGEROOT."product/".$Image ; ?>"></input>
         </div>
         </div>

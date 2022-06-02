@@ -24,6 +24,14 @@ class Pages extends Controller{
         $testView = new Suggested($this->getModel(), $this);
         $testView->output();
     }
+    public function ShopSearch(){
+      if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        if(isset($_POST['shopSearch'])){
+          $this->model->searchProduct($_POST['shopSearch']);
+          $this->model->getProducts();
+      }
+      }
+    }
 
     public function product(){
         // habd
@@ -1347,4 +1355,6 @@ $( this ).parent().parent().parent().hide( 400 );
           }
           setcookie("cart".$customerID, "", time() - 2678400);
         }
+
+
 }

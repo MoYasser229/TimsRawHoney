@@ -1,5 +1,5 @@
 <?php
-require "User.php";
+// require "User.php";
 class Customer extends User{
 
 private $HomeAddress;

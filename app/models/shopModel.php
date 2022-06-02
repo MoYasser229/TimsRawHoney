@@ -1,5 +1,6 @@
 <?php
-class ShopModel extends model
+require_once"filter.php";
+class ShopModel extends model implements filter
 {
      public $title = "Tim's Raw Honey";
      public function getimage($ID){
@@ -26,6 +27,13 @@ class ShopModel extends model
           $result = $this->database->query("SELECT * FROM products");
           return $result;
       }
-         
+      public function search($table,$columns,$search){
+        $result = $this->database->query("SELECT * FROM $table WHERE ($columns LIKE '%$search%')");
+        $this->products = $result;
+      }
+      public function sort($table,$type,$fitler){
+            $result = $this->database->query("SELECT * FROM $table ORDER BY $type $filter");
+            $this->products = $result;
+    }
 }
 
