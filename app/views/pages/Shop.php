@@ -24,27 +24,7 @@ class shop extends View{
           </form>
         </div>
 
-        <div class="searchContainer">
-                <h1>SEARCH AND SORT</h1> 
-                <hr>
-                <!-- <div class="formSort"> -->
-                <div class="centerized">
-                    <input type="text" id = "shopSearch" placeholder="Search Here">
-                    <button id = searchButton onclick = "submitSearch()"><i class="fas fa-search"></i></button>
-                    <!-- <br><br> -->
-                    <select name="type" id = 'type'>
-                        <option id="typeChosen" value = "productName" selected>PRODUCT NAME</option>
-                        <option id="typeChosen" value = "retailCost">RETAIL COST</option>
-                        <option id="typeChosen" value = "manifactureCost">MANIFACTURE COST</option>
-                        <option id="typeChosen" value = "stock">STOCK</option>
-                    </select>
-                    <select name="filter" id = 'filter'>
-                        <option value = "DESC" selected>DESCENDING</option>
-                        <option value = "ASC">ASCENDING</option>
-                    </select>
-                </div>
-                <!-- </div> -->
-            </div>
+        
             
         <!-- <div class="container">
           <h2>best selling</h2>      
