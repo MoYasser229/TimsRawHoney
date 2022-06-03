@@ -83,8 +83,7 @@ class Cart extends View{
           <p class="itemNumber">#QUE-007544-002</p>
           <h3><?php echo $values["productName"];  ?></h3>
           <input type="hidden" id="productname<?php echo $values["productID"];?>"name="productname<?php echo $values["productID"];?>" value="<?php echo $values["productName"]; ?>"></input>
-          <h3><?php echo"Material: ".$values["material"] ;  ?></h3>
-          <h3><?php echo "Size: " .$values["size"] ; ?></h3></br>
+         
           
            <p> <input type="number" name="quantity<?php echo $values["productID"];?>" id="quantity<?php echo $values["productID"];?>" min="1" max="<?php echo  $maxQuantity?>" class="form-control" value="<?php echo $values["quantity"];?>" onchange="updatecart(<?php echo $values['productID'];?>)"> x <?php echo $values["productPrice"];?></p>
            <input type="hidden" id="productprice<?php echo $values["productID"];?>"name="productprice<?php echo $values["productID"];?>" value="<?php echo $values["productPrice"];?>"></input>
