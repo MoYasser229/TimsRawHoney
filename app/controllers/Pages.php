@@ -338,6 +338,9 @@ class Pages extends Controller{
                     echo "<script>alert('Email/Password is invalid')</script>";
                 }
             }
+            if(isset($_POST['orderID'])){
+              echo($this->model->myOrder($_POST['orderID']));
+            }
             if(isset($_POST['addressID'])){
               $address = $_POST['addressID'];
               $this->model->getAddress($address);

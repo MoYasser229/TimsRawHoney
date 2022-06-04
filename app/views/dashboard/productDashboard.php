@@ -156,7 +156,7 @@ class productDashboard extends View{
                         <option id="typeChosen" value = "productName" selected>PRODUCT NAME</option>
                         <option id="typeChosen" value = "retailCost">RETAIL COST</option>
                         <option id="typeChosen" value = "manifactureCost">MANIFACTURE COST</option>
-                        <option id="typeChosen" value = "stock">STOCK</option>
+                        <option id="typeChosen" value = "productStock">STOCK</option>
                     </select>
                     <select name="filter" id = 'filter'>
                         <option value = "DESC" selected>DESCENDING</option>

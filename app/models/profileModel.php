@@ -92,6 +92,68 @@ class profileModel extends Model{
             HTML;
         }
     }
+    public function viewOrders($orders){
+        if($orders === 0){
+            echo "<h6>No Pending Orders</h6>";
+        }
+        else
+            foreach ($orders as $order){
+                echo "
+                    <div class='gridCard'>
+                    <h5>Order Serial: <strong>{$order['ID']}</strong></h5>
+                    <hr>
+                    <p>Order Total Price: <strong>{$order['orderTotalPrice']} EGP</strong></p>
+                    <p>Order status: <strong>{$order['deliveryStatus']}</strong></p>
+                    <p>Order Date: <strong>{$order['createdAt']}</strong></p>
+                    <button onclick='viewOrder(this.value)' name = 'viewOrder' value = '{$order['ID']}'>View Order</button>
+                    </div>
+                ";
+        }
+    }
+    public function myOrder($ID){
+        $result = $this->database->query("SELECT * FROM orders,orderitems,products WHERE orders.ID = orderitems.orderID AND orderitems.productID = products.ID AND orders.ID = $ID");
+        if($order = $result->fetch_assoc()){
+            $discount = 1;
+            $discountString = "";
+            if(isset($order['promocodeid'])){
+                $discountString = "Discount: " . (($this->database->query("SELECT promoValue FROM promocodes WHERE promoID = '{$order['promocodeid']}'")->fetch_assoc()['promoValue']));
+            }
+            $totalPrice = $order['orderTotalPrice'] ;
+            $createdAt = Date("D d F Y",strtotime($order['createdAt']));
+            echo <<<HTML
+                <button onclick="closeView()">X</button>
+                <h4>Order Serial: <strong>{$order['orderID']}</strong></h4>
+                <h6>$discountString</h6>
+                <h5>Date of issue: <strong>{$createdAt}</strong></h5>
+                <h5>Total Price <strong>$totalPrice EGP</strong></h5>
+            HTML;
+        }
+        echo <<<HTML
+            <div class="table">
+                <div class="table-header">
+                    <div class="header__item"><span id="name" class="filter__link">Name</span></div>
+                    <div class="header__item"><span id="price" class="filter__link">Unit Price</span></div>
+                    <div class="header__item"><span id="quantity" class="filter__link">Quantity</span></div>
+                    <div class="header__item"><span id="totalPrice" class="filter__link">Price</span></div>
+                </div>
+            </div>
+            <div class="table-content">
+                
+         HTML;
+        foreach($result as $order){
+            $productPrice = $order['retailCost'] * $order['quantity'];
+            echo <<<HTML
+                <div class='table-row'>
+                    <div class='table-data'>{$order['productName']}</div>
+                    <div class='table-data'>{$order['retailCost']} EGP</div>
+                    <div class='table-data'>{$order['quantity']}</div>
+                    <div class='table-data'>{$productPrice} EGP</div>
+
+            </div>
+            HTML;
+        }
+        echo "</div>";
+    }
     public function getAddress($address){
         $result = $this->database->query("SELECT * FROM user_address WHERE AddressID = '$address'")->fetch_assoc();
         if($address = $result){

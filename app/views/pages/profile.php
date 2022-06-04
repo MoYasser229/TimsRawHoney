@@ -67,53 +67,19 @@ class profile extends View{
                     <div class="orders">
                         <h1 class = "header">My Orders</h1>
                         <hr class = "headerSeparator">
+                        <div id="orderReciept"></div>
                         <h3 class = header>Pending Orders</h3>
                         <div class="gridView">
                             <?php 
-                            if($pendingOrders === 0){
-                                echo "<h6>No Pending Orders</h6>";
-                            }
-                            else
-                                foreach ($pendingOrders as $order){
-                                    echo "
-                                        <div class='gridCard'>
-                                        <h5>Order Serial: <strong>{$order['ID']}</strong></h5>
-                                        <hr>
-                                        <p>Order Total Price: <strong>{$order['orderTotalPrice']} EGP</strong></p>
-                                        <p>Order Items: <strong>{$order['quantity']} items</strong></p>
-                                        <p>Order status: <strong>{$order['deliveryStatus']}</strong></p>
-                                        <p>Order Date: <strong>{$order['createdAt']}</strong></p>
-                                        <form method='post' action = ''>
-                                        <button type = 'submit' name = 'viewOrder' value = '{$order['ID']}'>View Order</button>
-                                        </form>
-                                        </div>
-                                    ";
-                                }
+                                $this->model->viewOrders($pendingOrders);
                              ?>
                         </div>
                         <br>
                         <h3 class = header>Delivered Orders</h3>
                         <div class="gridView">
                         <?php 
-                            if($deliveredOrders === 0){
-                                echo "<h6>No Previous Delivered Orders</h6>";
-                            }
-                            else
-                                foreach($deliveredOrders as $order){
-                                    echo "
-                                    <div class='gridCard'>
-                                    <h5>Order Serial: <strong>{$order['ID']}</strong></h5>
-                                    <hr>
-                                    <p>Order Total Price: <strong>{$order['orderTotalPrice']} EGP</strong></p>
-                                    <p>Order Items: <strong>{$order['quantity']} items</strong></p>
-                                    <p>Order status: <strong>{$order['deliveryStatus']}</strong></p>
-                                    <p>Order Date: <strong>{$order['createdAt']}</strong></p>
-                                    <form method='post' action = ''>
-                                    <button type = 'submit' name = 'viewOrder' value = '{$order['ID']}'>View Order</button>
-                                    </form>
-                                    </div>
-                                    ";
-                                } ?>
+                            $this->model->viewOrders($deliveredOrders);   
+                        ?>
                         </div>
                     </div>
                     <div class="address">
@@ -531,6 +497,21 @@ class profile extends View{
                 }
                 function cancelAddress(ID){
                     $("#confirmDeleteAddress" + ID).html("")
+                }
+                function viewOrder(value){
+                    $.ajax({
+                        type: "POST",
+                        url: "profile",
+                        data:{orderID:value},
+                        success: (result) => {
+                            $("#orderReciept").html(result)
+                            $("#orderReciept").css("display","block")
+                        }
+                    })
+                }
+                function closeView(){
+                    $("#orderReciept").html("")
+                    $("#orderReciept").css("display", "none")
                 }
             </script>
         <?php

@@ -177,14 +177,14 @@ class productDashboardModel extends Model{
         $this->products = $result;
     }
     public function sortProducts($type,$filter){
-        if($type == 'stock'){
-            $result = $this->database->query("SELECT *,sum(productStock - quantity) FROM (SELECT * FROM (SELECT  COUNT(*) as quantity,productID FROM products LEFT JOIN orderitems ON orderitems.productID = ID GROUP BY productID) as livestock RIGHT JOIN products ON livestock.productID = products.ID) as stock GROUP BY ID ORDER BY `sum(productStock - quantity)` $filter");
-            $this->products = $result;
-        }
-        else{
+        // if($type == 'stock'){
+        //     $result = $this->database->query("SELECT * FROM products ORDER BY $type $filter");
+        //     $this->products = $result;
+        // }
+        // else{
             $result = $this->database->query("SELECT * FROM products ORDER BY $type $filter");
             $this->products = $result;
-        }
+        // }
         
     }
 

@@ -69,8 +69,6 @@ class Orders{
                     <div class="header__item"><span id="name" class="filter__link">Name</span></div>
                     <div class="header__item"><span id="price" class="filter__link">Price</span></div>
                     <div class="header__item"><span id="quantity" class="filter__link">Quantity</span></div>
-                    <div class="header__item"><span id="material" class="filter__link">Material</span></div>
-                    <div class="header__item"><span id="size" class="filter__link">Size</span></div>
                 </div>
             </div>
             <div class="table-content">
@@ -82,46 +80,12 @@ class Orders{
                     <div class='table-data'>{$product->getName()}</div>
                     <div class='table-data'>{$product->getRetailCost()} EGP</div>
                     <div class='table-data'>{$this->productQuantities[$product->getID()]}</div>
-                    <div class='table-data'>3</div>
-                    <div class='table-data'>4</div>
+
             </div>
             EOT;
         }
          echo "</div>";
-    //     <div class="table">
-	// 	<div class="table-header">
-	// 		<div class="header__item"><a id="name" class="filter__link" href="#">Name</a></div>
-	// 		<div class="header__item"><a id="wins" class="filter__link filter__link--number" href="#">Wins</a></div>
-	// 		<div class="header__item"><a id="draws" class="filter__link filter__link--number" href="#">Draws</a></div>
-	// 		<div class="header__item"><a id="losses" class="filter__link filter__link--number" href="#">Losses</a></div>
-	// 		<div class="header__item"><a id="total" class="filter__link filter__link--number" href="#">Total</a></div>
-	// 	</div>
-	// 	<div class="table-content">	
-	// 		<div class="table-row">		
-	// 			<div class="table-data">Tom</div>
-	// 			<div class="table-data">2</div>
-	// 			<div class="table-data">0</div>
-	// 			<div class="table-data">1</div>
-	// 			<div class="table-data">5</div>
-	// 		</div>
-	// 		<div class="table-row">
-	// 			<div class="table-data">Dick</div>
-	// 			<div class="table-data">1</div>
-	// 			<div class="table-data">1</div>
-	// 			<div class="table-data">2</div>
-	// 			<div class="table-data">3</div>
-	// 		</div>
-	// 		<div class="table-row">
-	// 			<div class="table-data">Harry</div>
-	// 			<div class="table-data">0</div>
-	// 			<div class="table-data">2</div>
-	// 			<div class="table-data">2</div>
-	// 			<div class="table-data">2</div>
-	// 		</div>
-	// 	</div>	
-	// </div>
-        
-    //     EOT;
+   
     }
     function getProducts(){
         return $this->products;
