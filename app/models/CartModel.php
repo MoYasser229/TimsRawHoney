@@ -78,7 +78,10 @@ class CartModel extends model
         }
 
     }
-
+    public function getOrder($ID){
+    $result = $this->database->query("SELECT * FROM orders,orderitems,products WHERE orders.ID = orderitems.orderID AND orderitems.productID = products.ID AND orders.ID = $ID");
+    return $result;
+    }
     public function setTotal($total){
         $this->total = $total;
     }

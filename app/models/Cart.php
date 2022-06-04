@@ -6,7 +6,7 @@ class Carts{
     private $quantity;
 
     public function __construct(){
-       
+
     }
 
     public function getID(){
@@ -753,13 +753,71 @@ $( this ).parent().parent().parent().hide( 400 );
                     <p class="mb-0" style="color: #35558a;">Payment summary</p>
                     <hr class="mt-2 mb-4"
                       style="height: 0; background-color: transparent; opacity: .75; border-top: 2px dashed #9e9e9e;">
-    
-                    <div class="d-flex justify-content-between">
-                      <p class="fw-bold mb-0"><?php echo $str?></p>
-                      <p class="text-muted mb-0">$<?php echo $finaltotal?></p>
+                      <table width=400 height=100>
+        
+  
+        <tr>
+            <th class="fw-bold mb-0" style="text-align:center">Product </th>
+            <th class="fw-bold mb-0" style="text-align:center">quantity</th>
+            <th class="fw-bold mb-0" style="text-align:center">Unit Price</th>
+            <th class="fw-bold mb-0" style="text-align:center">Total Price</th>
+       
+            </tr>
+  
+                      <?php    
+                    $cartmodel->order($_SESSION["ID"],$str,$finaltotal,$_POST['promoCode1'],$_POST['address']);
+                    $orderID=$cartmodel->getOrderID();
+                    $cartmodel->delivery($orderID);
+                    foreach($cart_data as $keys => $values)
+              {
+                $cartmodel->orderItems($orderID,$_SESSION["ID"],$values['productID'],$values['quantity']);
+               
+
+                ?>
                     
+                    
+       
+                    
+              
+              
+                     
+                      
+                    
+                  
+                    <?php
+              } 
+              $result= $cartmodel->getOrder($orderID);
+              setcookie("cart".$customerID, "", time() - 2678400);
+              foreach($result as $order){
+                ?>
+                 <tr>
+            <td class="fw-bold mb-0" style="text-align:center"><?php echo $order['productName']?></td>
+            <td class="fw-bold mb-0" style="text-align:center"><?php echo $order['quantity']?></td>
+            <td class="fw-bold mb-0" style="text-align:center"><?php echo $order['retailCost']?></td>
+            <td class="fw-bold mb-0" style="text-align:center"><?php echo $order['quantity'] * $order['retailCost']?></td>
+        </tr>
+                <?php
+                
+              }
+              
+              ?>
+                </table>
+                <div class="d-flex justify-content-between" style="margin-top: 5%">
+                      <p class="fw-bold">Total</p>
+                      <p class="fw-bold" style="color: #35558a;">$<?php echo $finaltotal?></p>
                     </div>
-    
+              <?php
+              if($_POST['promoCode1']!=NULL)
+              {
+              $promoValue=$cartmodel->promoCode($_POST['promoCode1']);
+              ?>
+              <div class="d-flex justify-content-between" style="margin-top: 5%">
+                      <p class="fw-bold">Discount</p>
+                      <p class="fw-bold" style="color: #35558a;"><?php echo $promoValue ?> %</p>
+                    </div>
+               <?php     
+            }
+            ?>
                     <!-- <div class="d-flex justify-content-between">
                       <p class="small mb-0">Shipping</p>
                       <p class="small mb-0">$175.00</p>
@@ -770,23 +828,27 @@ $( this ).parent().parent().parent().hide( 400 );
                       <p class="small">$200.00</p>
                     </div> -->
     
-                    <div class="d-flex justify-content-between">
-                      <p class="fw-bold">Total</p>
-                      <p class="fw-bold" style="color: #35558a;">$<?php echo $finaltotal?></p>
-                    </div>
+                   
                     <?php
                     
                     if(!empty($_POST['newTotal'])){
                       $finaltotal=$_POST['newTotal'];
                     ?>
-                    <div class="d-flex justify-content-between">
-                      <p class="fw-bold">Final Price</p>
+                    <div class="d-flex justify-content-between" style="margin-top: 5%">
+                      <p class="fw-bold">Price After Discount</p>
                       <p class="fw-bold" style="color: #35558a;">$<?php echo number_format($_POST['newTotal'], 2)?></p>
                     </div>
                     <?php
                     }
                     ?>
-    
+                  <div class="d-flex justify-content-between" style="margin-top: 5%">
+                      <p class="fw-bold">Delivery Fees</p>
+                      <p class="fw-bold" style="color: #35558a;">$30</p>
+                    </div>
+                    <div class="d-flex justify-content-between" style="margin-top: 5%">
+                      <p class="fw-bold">Price to Pay</p>
+                      <p class="fw-bold" style="color: #35558a;">$<?php echo number_format($finaltotal+30, 2)?></p>
+                    </div>
                   </div>
               
                 </div>
@@ -797,15 +859,9 @@ $( this ).parent().parent().parent().hide( 400 );
             //   $cartmodel->order($_SESSION["ID"],$str,$_POST['newTotal']);
             // }
              
-                  $cartmodel->order($_SESSION["ID"],$str,$finaltotal,$_POST['promoCode1'],$_POST['address']);
-                  $orderID=$cartmodel->getOrderID();
-                  $cartmodel->delivery($orderID);
-                  foreach($cart_data as $keys => $values)
-              {
-                  $cartmodel->orderItems($orderID,$_SESSION["ID"],$values['productID'],$values['quantity']);
                   
-              } 
-                 
+              
+              
             
           ?>
  <a href="" class="clear" id="clear" value="clear">Clear cart</a>
@@ -828,7 +884,7 @@ $( this ).parent().parent().parent().hide( 400 );
       
                       <?php
         }
-        setcookie("cart".$customerID, "", time() - 2678400);
+        
       }
 
       public function clearcart($customerID,$cartmodel){
