@@ -263,6 +263,9 @@ class Database{
     // public function getError(){
     //     return $this->connection->error;
     // }
+    public function getConnection(){
+        return $this->connection;
+    }
 }
 
 //NOTES

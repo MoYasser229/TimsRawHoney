@@ -25,6 +25,10 @@ class dashboard extends Controller{
             $dashboardView->output();
         }
     }
+    function filter_string_polyfill(string $string): string{
+        $str = preg_replace('/\x00|<[^>]*>?/', '', $string);
+        return str_replace(["'", '"'], ['&#39;', '&#34;'], $str);
+    }
     public function productDashboard(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             if(isset($_POST['type'])){
@@ -80,13 +84,24 @@ class dashboard extends Controller{
                 $fileName = md5($explodeFile[0]);
                 $extension = $explodeFile[1];
                 $fullFile = $fileName."." . $extension;
-                $this->model->insertProduct($productName,$retailCost,$manifactureCost,$productStock,$fullFile,$description);
-                $this->model->databaseProducts();
-                $this->model->getProducts();
+
+                //VALIDATION//
+                mysqli_real_escape_string($this->model->getDatabase()->getConnection(),$description);
+                $description = filter_var($description, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $productName = filter_var($productName, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                if(!is_int($retailCost) || !is_int($manifactureCost) || !is_int($productStock)){
+                    echo "false";
+                }
+                else{
+                    $this->model->insertProduct($productName,$retailCost,$manifactureCost,$productStock,$fullFile,$description);
+                    $this->model->databaseProducts();
+                    $this->model->getProducts();
+                    $target_dir = "../public" . "/images/product/$fullFile";
+                    move_uploaded_file($_FILES["productImage"]["tmp_name"],$target_dir);
+                }
 
                 
-                $target_dir = "../public" . "/images/product/$fullFile";
-                move_uploaded_file($_FILES["productImage"]["tmp_name"],$target_dir);
+                
             }
             
         }

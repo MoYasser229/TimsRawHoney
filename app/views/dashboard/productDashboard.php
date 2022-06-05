@@ -365,14 +365,21 @@ class productDashboard extends View{
                             contentType: false,
                             processData: false,
                             success: (result)=>{
-                                $("#productTable").html(result)
-                                $("#name").val("")
-                                $("#retail").val("")
-                                $("#manifacture").val("")
-                                $("#stock").val("")
-                                $("#description").val("")
-                                $("#file").val("")
-                                $("#file-name").html("")
+                                if(result === 'false'){
+                                    $("#productTable").html(result)
+                                    $("#name").val("")
+                                    $("#retail").val("")
+                                    $("#manifacture").val("")
+                                    $("#stock").val("")
+                                    $("#description").val("")
+                                    $("#file").val("")
+                                    $("#file-name").html("")
+                                }
+                                else{
+                                    $(".subButton").css("background-color", "red")
+                                    $("#error").html("*ERROR Retail cost, manifacture Cost, and stock must number values")
+                                }
+
                             }
                         })
                     }

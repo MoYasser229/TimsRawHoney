@@ -7,25 +7,7 @@ class home extends View{
         $css = $this->model->css;
         $headercss = $this->model->headercss;
 
-        //SUMMARY
-        $numOfProducts = $this->model->getProducts();
-        $revenue = $this->model->getRevenue();
-        $order = $this->model->getOrders();
-        $sold = $this->model->getSold();
-
-        //PRODUCTS
-        $products = $this->model->getThreeProducts();
-        $stock = $this->model->getLeastStock();
-        $bestSeller = $this->model->getBestSeller();
-
-        //CUSTOMER
-        $customers = $this->model->getCustomers();
-        $activeCustomers = $this->model->getActiveCustomers();
-
-        //FINANCIALS
-        $expenses = $this->model->getExpenses();
-        $profit = $this->model->getProfit();
-        $recordedDate = $this->model->getRecordedDate();
+        
         require_once APPROOT . "/views/inc/managerHeader.php";
         ?>
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -213,6 +195,13 @@ class home extends View{
                             }
                             else{
                                 $prevReport = $prevReport->fetch_assoc();
+                                $cog = "";
+                                $rev = "";
+                                if($report['revenue'] == 0 || $report['expenses'] == 0){
+                                    $rev = "Sales are still empty";
+                                    $cog = "Sales are still empty";
+                                }
+                                else{
                                 $rev = ceil((($report['revenue'] - $prevReport['revenue'])/$prevReport['revenue'])*100);
                                 $cog = ceil((($report['expenses'] - $prevReport['expenses'])/$prevReport['expenses'])*100);
                                 // $rev .= "%";
@@ -273,7 +262,7 @@ class home extends View{
                                 </div>
                                 $container
                                 
-                            HTML;
+                            HTML;}
                         ?>
                         
 
