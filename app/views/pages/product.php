@@ -32,7 +32,28 @@ public function output(){
     <title>Tim Raw Honey</title>
 </head>
 <body>
+<button onclick="bottomFunction()" id="myBtn" title="Go to bottom">Check Reviews</button>
+<script>
+//Get the button
+var mybutton = document.getElementById("myBtn");
 
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
+    mybutton.style.display = "none";
+  } else {
+    mybutton.style.display = "block";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function bottomFunction() {
+  document.body.scrollTop = 500;
+  document.documentElement.scrollTop = 500;
+}
+</script>
 <div class="example" >
   <div class="hexagon -big" style="margin-left:50%"><span class="text"></span></div>
   <div class="hexagon -big" style="margin-left:50%"><span class="text"></span></div>
