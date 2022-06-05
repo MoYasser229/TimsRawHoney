@@ -52,7 +52,7 @@ public function output(){
       <div class="product_images">
         <div class="product_image_1">
         <input type="hidden"  id="productid" name="productid" value="<?php echo $ID ?>"></input>
-        <img name="productimage" src = "<?php echo IMAGEROOT."product/".$Image ; ?>"width="320px" height = "400px" /> 
+        <img name="productimage" src = "<?php echo IMAGEROOT."product/".$Image ; ?>" /> 
         <input type="hidden" id="productimage" name="productimage" value="<?php echo IMAGEROOT."product/".$Image ; ?>"></input>
         </div>
         </div>
@@ -104,12 +104,12 @@ public function output(){
                         </div>
                     </div>
           <div class="product_description">
-          <p><?php echo $description;?></p>
+          <p><b>Description:</b> <?php echo $description;?></p>
           </div>
-        
+       
          <div class="options">
          <div class="buying_options">
-         
+         <div class="selectall">
                  <div class="select">
                  <select id="material" name="material">
                    <option value = "glass" id="glass"><?php echo $material[0][0] ?></option>
@@ -126,6 +126,7 @@ public function output(){
                  </select>
                  </div>
           </div>
+         </div>
           <div class="buying">
                 
                  <div class="cart">

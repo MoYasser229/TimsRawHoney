@@ -50,9 +50,11 @@ class Pages extends Controller{
               
                $this->addtocart($_SESSION['ID'],$productID,$productname,$productimage,$productprice,1,$productMaterial,$productsize);
                echo '
+               <div class="itemadded" style="margin-top:-60px;">
                <div class="alert alert-success alert-dismissible">
                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                   Item Added into Cart
+               </div>
                </div>
                ';
               
