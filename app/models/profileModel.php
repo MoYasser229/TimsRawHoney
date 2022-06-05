@@ -105,8 +105,29 @@ class profileModel extends Model{
                     <p>Order Total Price: <strong>{$order['orderTotalPrice']} EGP</strong></p>
                     <p>Order status: <strong>{$order['deliveryStatus']}</strong></p>
                     <p>Order Date: <strong>{$order['createdAt']}</strong></p>
-                    <button onclick='viewOrder(this.value)' name = 'viewOrder' value = '{$order['ID']}'>View Order</button>
+                    <button onclick='viewOrder(this.value); topFunction()' name = 'viewOrder' value = '{$order['ID']}' id = '{$order['ID']}'>View Order</button>
                     </div>
+                    <script>
+
+                    var mybutton = document.getElementById('{$order['ID']}');
+    
+                    // When the user scrolls down 20px from the top of the document, show the button
+                    window.onscroll = function() {scrollFunction()};
+    
+                    function scrollFunction() {
+                      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                        mybutton.style.display = 'block';
+                      } else {
+                        mybutton.style.display = 'none';
+                      }
+                    }
+    
+                    // When the user clicks on the button, scroll to the top of the document
+                    function topFunction() {
+                      document.body.scrollTop = 0;
+                      document.documentElement.scrollTop = 0;
+                    }
+                    </script>
                 ";
         }
     }
@@ -116,16 +137,21 @@ class profileModel extends Model{
             $discount = 1;
             $discountString = "";
             if(isset($order['promocodeid'])){
-                $discountString = "Discount: " . (($this->database->query("SELECT promoValue FROM promocodes WHERE promoID = '{$order['promocodeid']}'")->fetch_assoc()['promoValue']));
+                $discount=(($this->database->query("SELECT promoValue FROM promocodes WHERE promoID = '{$order['promocodeid']}'")->fetch_assoc()['promoValue']));
+                $discountString = "Discount: " . (($this->database->query("SELECT promoValue FROM promocodes WHERE promoID = '{$order['promocodeid']}'")->fetch_assoc()['promoValue']))." %";
             }
             $totalPrice = $order['orderTotalPrice'] ;
             $createdAt = Date("D d F Y",strtotime($order['createdAt']));
+            $discountPrice=$totalPrice*$discount/100;
+            $totalAfter=$totalPrice-$discountPrice;
             echo <<<HTML
                 <button onclick="closeView()">X</button>
                 <h4>Order Serial: <strong>{$order['orderID']}</strong></h4>
                 <h6>$discountString</h6>
                 <h5>Date of issue: <strong>{$createdAt}</strong></h5>
-                <h5>Total Price <strong>$totalPrice EGP</strong></h5>
+                <h5>Price before discount : <strong>$totalPrice EGP</strong></h5>
+                <h5>Price After discount : <strong>$totalAfter EGP</strong></h5>
+              
             HTML;
         }
         echo <<<HTML
@@ -153,6 +179,7 @@ class profileModel extends Model{
             HTML;
         }
         echo "</div>";
+        
     }
     public function getAddress($address){
         $result = $this->database->query("SELECT * FROM user_address WHERE AddressID = '$address'")->fetch_assoc();

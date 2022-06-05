@@ -28,7 +28,7 @@ class profile extends View{
                     <button id = "address" class = "myButton margin-bottom"><i class="fas fa-address-card"></i><br>My Address Book</button><br>
                     <button id = "promo" class = "myButton margin-bottom"><i class="fa-solid fa-percent"></i><br>My Promo Codes</button><br>
                     <button id = "survey" class = "myButton margin-bottom"><i class="fa-solid fa-file-pen"></i><br>Survey</button><br>
-                    <button id = "delete" class = "myButton"><i class="fas fa-trash"></i><br>Delete Account</button>
+                   
                 </div>
                 <div class="mainChild">
                     <div class="personal">
@@ -214,14 +214,7 @@ class profile extends View{
         <span class=error id=surveyError></span>
           <button style="color: white;background-color: #FBAB7E;" onclick="survey()">Send Feedback</button>
                     </div>
-                    <div class="delete">
-                        <h1 class = "header">Delete Account</h1>
-                        <hr class = "headerSeparator">
-                        <h5>Are you sure you want to delete this account. Please Note that the account will permanently be <span style = "color: red">DELETED</span>.</h5>
-                        <form action="" method="post">
-                            <button class = "deleteButton" type="submit" name = "submitDelete">DELETE MY ACCOUNT</button>
-                        </form>
-                    </div>
+                   
                 </div>
             </div>
             <script>
