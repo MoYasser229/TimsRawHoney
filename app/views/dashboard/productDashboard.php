@@ -221,6 +221,7 @@ class productDashboard extends View{
                         }
                     })
                 });
+                
                 $("#filter").change(() => {
                     type = $("#type").val();
                     filter = $("#filter").val();

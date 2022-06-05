@@ -13,24 +13,27 @@ class Pages extends Controller{
         $testView->output();
     }
     public function Shop(){
-        $viewPath = VIEWSPATH . 'pages/Shop.php';
-        require_once $viewPath;
-        $testView = new Shop($this->getModel(), $this);
-        $testView->output();
+      $Shop = $this->getModel();   
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+             if(isset($_POST['shopSearch'])){
+              $result = $Shop->search("products","productName",$_POST['shopSearch']);
+              $Shop->getProducts($result);
+          } 
+        }
+        else{
+          $viewPath = VIEWSPATH . 'pages/Shop.php';
+          require_once $viewPath;
+          $testView = new Shop($this->getModel(), $this);
+          $testView->output();
+        }
+        
     }
+
     public function Suggested(){
         $viewPath = VIEWSPATH . 'pages/Suggested.php';
         require_once $viewPath;
         $testView = new Suggested($this->getModel(), $this);
         $testView->output();
-    }
-    public function ShopSearch(){
-      if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        if(isset($_POST['shopSearch'])){
-          $this->model->searchProduct($_POST['shopSearch']);
-          $this->model->getProducts();
-      }
-      }
     }
 
     public function product(){
@@ -395,7 +398,7 @@ class Pages extends Controller{
                 $q4 = $_POST['q4'];
                 $q5 = $_POST['q5'];
                 $description =isset($_POST['description'])?$_POST['description']:"";
-                require_once 'survey.php';
+                require_once APPROOT.'/models/survey.php';
                 $surveyEntry = new Survey($_SESSION['ID'],$q1,$q2,$q3,$q4,$q5,$description);
                 $model->insertSurvey($surveyEntry);
                 echo "Successfully added!";

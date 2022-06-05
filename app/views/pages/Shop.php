@@ -12,28 +12,50 @@ class shop extends View{
         <title>Shop</title>
         <link rel="stylesheet" href="<?php echo URLROOT. "css/shopStyle.css" ?>">
         <script src="https://kit.fontawesome.com/1d1d7fdffa.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js "></script>
         </head>
         <body>
 
-        <div class= "Searchbar">
-          <form onsubmit="event.preventDefault();" role="search">
+        <!-- <div class= "Searchbar">
             <label for="search">Search for stuff</label>
-            <!-- <input id="search" type="search" placeholder="Search..." autofocus required /> -->
-            <input type="text" id = "shopSearch" placeholder="Search...">
-            <button type="submit">Go</button>    
-          </form>
-        </div>
-
-        
-            
-        <!-- <div class="container">
-          <h2>best selling</h2>      
+            <input id="shopSearch" type="search" placeholder="Search..." autofocus required /> -->
+            <!-- <input type="text" id="shopSearch" placeholder="Search..."> -->
+        <!-- </div>
+        <div class="button">
+          <button onclick = "submitSearch()" type="submit">Go</button>
         </div> -->
-        <div class="row">
+
+        <!-- <button id = searchButton onclick = "submitSearch()"> Go </button> -->
+
+        <br><br><br><br><br><br><br><br><br>
+        <div class="searchContainer">
+                <h1>SEARCH AND SORT</h1> 
+                <hr>
+                <!-- <div class="formSort"> -->
+                <div class="centerized">
+                    <input type="text" id = "shopSearch" placeholder="Search Here">
+                    <button id = searchButton onclick = "Search()"><i class="fas fa-search"></i></button>
+                    <!-- <br><br> -->
+                    <select name="type" id = 'type'>
+                        <option id="typeChosen" value = "productName" selected>PRODUCT NAME</option>
+                        <option id="typeChosen" value = "retailCost">RETAIL COST</option>
+                        <option id="typeChosen" value = "manifactureCost">MANIFACTURE COST</option>
+                        <option id="typeChosen" value = "stock">STOCK</option>
+                    </select>
+                    <select name="filter" id = 'filter'>
+                        <option value = "DESC" selected>DESCENDING</option>
+                        <option value = "ASC">ASCENDING</option>
+                    </select>
+                </div>
+                <!-- </div> -->
+            </div> 
+        
+        <div class="row" id="productsContainer">
           <?php
           foreach($shop as $row)
           {
          ?>
+         
           <div class="col-md-3 col-sm-6">
             <div class="product-grid">
               <div class="product-image">
@@ -62,9 +84,21 @@ class shop extends View{
           <?php
           }
           ?>
-      </body>
-      </html>
-      <script>
+          </div>
+          <script>
+          function Search(){
+            shopSearch = $('#shopSearch').val();
+                    $.ajax({
+                        type: 'POST',
+                        url: 'Shop',
+                        data: {shopSearch:shopSearch},
+                        success: (result)=>{
+                            // console.log(result);
+                            $("#productsContainer").html("") 
+                            $("#productsContainer").html(result)
+                        }
+                    })
+        }
         $("#type").change(() => {
                     type = $("#type").val();
                     filter = $("#filter").val();
@@ -77,7 +111,7 @@ class shop extends View{
                         }
                     })
                 });
-                $("#filter").change(() => {
+        $("#filter").change(() => {
                     type = $("#type").val();
                     filter = $("#filter").val();
                     $.ajax({
@@ -89,19 +123,9 @@ class shop extends View{
                         }
                     })
                 });
-                
-                function submitSearch() {
-                    search = $('#shopSearch').val()
-                    $.ajax({
-                        type: 'POST',
-                        url: 'Shop',
-                        data: {search:shopSearch},
-                        success: (result)=>{
-                            $("#productSearchShop").html(result)
-                        }
-                    })
-                }
-      </script>
+        </script>
+      </body>
+      </html>
       <?php
     }
 }
