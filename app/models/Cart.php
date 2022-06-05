@@ -113,7 +113,7 @@ $maxQuantity=$cartmodel->getQuantity($values["productID"]);
 
 
 <div class="prodTotal cartSection">
- <p>$ <?php echo number_format($quantity * $values["productPrice"], 2);?></p>
+ <p>EGP <?php echo number_format($quantity * $values["productPrice"], 2);?></p>
 </div>
      <div class="cartSection removeWrap">
      <a  class="remove" id="remove<?php echo $values["productID"];?>" value="remove" >x</a>
@@ -348,7 +348,7 @@ $finaltotal=number_format($total, 2);
 <div class="subtotal cf" id="total">
  <ul>
 
-         <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
+         <li class="totalRow final"><span class="label">Total</span><span style="display:inline" class="value">EGP <?php echo number_format($total, 2);?></span></li>
          <div id=discount>
 
  </div>
@@ -423,7 +423,7 @@ $str="";
 
     
     <div class="prodTotal cartSection">
-      <p>$ <?php echo number_format($quantity * $values["productPrice"], 2);?></p>
+      <p>EGP <?php echo number_format($quantity * $values["productPrice"], 2);?></p>
     </div>
           <div class="cartSection removeWrap">
           <a  class="remove" id="remove<?php echo $values["productID"];?>" value="remove" >x</a>
@@ -620,7 +620,7 @@ if(chosenAddress() == ""){
     
                     <div class="d-flex justify-content-between">
                       <p class="fw-bold mb-0"><?php echo $str?></p>
-                      <p class="text-muted mb-0">$<?php echo $finaltotal?></p>
+                      <p class="text-muted mb-0">EGP <?php echo $finaltotal?></p>
                     </div>
     
                     <!-- <div class="d-flex justify-content-between">
@@ -635,7 +635,7 @@ if(chosenAddress() == ""){
     
                     <div class="d-flex justify-content-between">
                       <p class="fw-bold">Total</p>
-                      <p class="fw-bold" style="color: #35558a;">$<?php echo $finaltotal?></p>
+                      <p class="fw-bold" style="color: #35558a;">EGP <?php echo $finaltotal?></p>
                     </div>
     
                   </div>
@@ -661,7 +661,7 @@ if(chosenAddress() == ""){
 <div class="subtotal cf" id="total">
   <ul>
 
-          <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
+          <li class="totalRow final"><span class="label">Total</span><span style="display:inline" class="value">EGP <?php echo number_format($total, 2);?></span></li>
           <div id=discount>
 
   </div>
@@ -757,15 +757,15 @@ $( this ).parent().parent().parent().hide( 400 );
         
   
         <tr>
-            <th class="fw-bold mb-0" style="text-align:center">Product </th>
-            <th class="fw-bold mb-0" style="text-align:center">quantity</th>
-            <th class="fw-bold mb-0" style="text-align:center">Unit Price</th>
-            <th class="fw-bold mb-0" style="text-align:center">Total Price</th>
+            <th class="fw-bold mb-0" style="width: 150px; text-align: center; padding: 5px;">Product </th>
+            <th class="fw-bold mb-0" style="width: 150px; text-align: center; padding: 5px;">quantity</th>
+            <th class="fw-bold mb-0" style="width: 150px; text-align: center; padding: 5px;">Unit Price</th>
+            <th class="fw-bold mb-0" style="width: 150px; text-align: center; padding: 5px;">Total Price</th>
        
             </tr>
   
                       <?php    
-                    $cartmodel->order($_SESSION["ID"],$str,$finaltotal,$_POST['promoCode1'],$_POST['address']);
+                    $cartmodel->order($_SESSION["ID"],$str,$total,$_POST['promoCode1'],$_POST['address']);
                     $orderID=$cartmodel->getOrderID();
                     $cartmodel->delivery($orderID);
                     foreach($cart_data as $keys => $values)
@@ -804,7 +804,7 @@ $( this ).parent().parent().parent().hide( 400 );
                 </table>
                 <div class="d-flex justify-content-between" style="margin-top: 5%">
                       <p class="fw-bold">Total</p>
-                      <p class="fw-bold" style="color: #35558a;">$<?php echo $finaltotal?></p>
+                      <p class="fw-bold" style="color: #35558a;">EGP <?php echo $finaltotal?></p>
                     </div>
               <?php
               if($_POST['promoCode1']!=NULL)
@@ -832,22 +832,22 @@ $( this ).parent().parent().parent().hide( 400 );
                     <?php
                     
                     if(!empty($_POST['newTotal'])){
-                      $finaltotal=$_POST['newTotal'];
+                      $total=$_POST['newTotal'];
                     ?>
                     <div class="d-flex justify-content-between" style="margin-top: 5%">
                       <p class="fw-bold">Price After Discount</p>
-                      <p class="fw-bold" style="color: #35558a;">$<?php echo number_format($_POST['newTotal'], 2)?></p>
+                      <p class="fw-bold" style="color: #35558a;">EGP <?php echo number_format($_POST['newTotal'], 2)?></p>
                     </div>
                     <?php
                     }
                     ?>
                   <div class="d-flex justify-content-between" style="margin-top: 5%">
                       <p class="fw-bold">Delivery Fees</p>
-                      <p class="fw-bold" style="color: #35558a;">$30</p>
+                      <p class="fw-bold" style="color: #35558a;">EGP 30</p>
                     </div>
                     <div class="d-flex justify-content-between" style="margin-top: 5%">
                       <p class="fw-bold">Price to Pay</p>
-                      <p class="fw-bold" style="color: #35558a;">$<?php echo number_format($finaltotal+30, 2)?></p>
+                      <p class="fw-bold" style="color: #35558a;">EGP <?php echo number_format($total+30, 2)?></p>
                     </div>
                   </div>
               

@@ -17,14 +17,14 @@ class Index extends View{
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <link rel="stylesheet" href="<?php echo URLROOT . 'css/indexStyle.css'; ?>">
                 <script src="https://kit.fontawesome.com/1d1d7fdffa.js" crossorigin="anonymous"></script>
-                <title>Tim's Raw Honey</title>
+                <title>Tim Raw Honey</title>
             </head>
             <body>
       
 
                 <div class="bgBody">
                     <img src = "<?php echo IMAGEROOT . 'na7la1.png' ; ?>"/>    
-                    <h1 class = "alignmentText">Tim's Raw Honey<br><span class = 'subtitle'>As it exists in the beehive</span></h1>
+                    <h1 class = "alignmentText">Tim Raw Honey<br><span class = 'subtitle'>As it exists in the beehive</span></h1>
                     <a href = "#down"><i class="fas fa-chevron-down fa-lg"></i></a>
                 </div>
 

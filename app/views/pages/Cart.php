@@ -93,7 +93,7 @@ class Cart extends View{
     
         
         <div class="prodTotal cartSection">
-          <p>$ <?php echo number_format($values["quantity"] * $values["productPrice"], 2);?></p>
+          <p>EGP <?php echo number_format($values["quantity"] * $values["productPrice"], 2);?></p>
         </div>
               <div class="cartSection removeWrap">
               <a  class="remove" id="remove<?php echo $values["productID"];?>" value="remove" >x</a>
@@ -290,7 +290,7 @@ if(chosenAddress() == ""){
   <div class="subtotal cf" id="total">
     <ul>
 
-            <li class="totalRow final"><span class="label">Total</span><span class="value">$<?php echo number_format($total, 2);?></span></li>
+            <li class="totalRow final"><span class="label">Total</span><span style="display:inline" class="value">EGP <?php echo number_format($total, 2);?></span></li>
             <div id=discount>
 
     </div>

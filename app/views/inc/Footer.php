@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
     
     <title>Tims Raw Honey</title>
+    
 </head>
 <body>
 
@@ -148,11 +149,16 @@
   </div>
   <div class="content">
     <div>
+    
+    <div class="popup">
+          <h6>Copied 📋</h6>
+        </div>
+      <div ><i class="fa-solid fa-envelope"></i><b>Email</b> : <a style="cursor: pointer;" value="timrawhoney@gmail.com"id= "email" onclick="CopyToClipboard('email')" onmouseout="outFunc('email')"  >timrawhoney@gmail.com</a></div>
+      <div class="copy"><i class="fa-brands fa-whatsapp"></i><b>Whatsapp</b> : <a style="cursor: pointer;" value="+20 1200110271"id= "whatsapp" onclick="CopyToClipboard('whatsapp')" onmouseout="outFunc('whatsapp')" >+20 1200110271</a></div>
       
-      <div ><i class="fa-solid fa-envelope"></i><a><b>Email</b> : timrawhoney@gmail.com</a></div>
-      <div ><i class="fa-brands fa-whatsapp"></i><a><b>Whatsapp</b> : +20 1200110271</a></div>
-      <div id="down"><i class="fa-brands fa-facebook"></i><a href="https://www.facebook.com/TimRawHoney"><b>Facebook</b></a></div>
-      <div><i class="fa-brands fa-instagram"></i><a href="https://www.instagram.com/TimRawHoney/?fbclid=IwAR1Ioi1TPIl5KIpB2ZuzG6nucqiUSpWwQXJ5yTextgQ4Wn41iYJ6NZm7-RM"><b>Instagram</b></a></div>
+
+      <div id="down"><i class="fa-brands fa-facebook"></i><a href="https://www.facebook.com/TimRawHoney" target="_blank"><b>Facebook</b></a></div>
+      <div><i class="fa-brands fa-instagram"></i><a href="https://www.instagram.com/TimRawHoney/?fbclid=IwAR1Ioi1TPIl5KIpB2ZuzG6nucqiUSpWwQXJ5yTextgQ4Wn41iYJ6NZm7-RM" target="_blank"><b>Instagram</b></a></div>
       
       
     </div>
@@ -169,5 +175,43 @@
     </filter>
   </defs>
 </svg>
+<script>
+const text = document.querySelector(".content a");
+const text2 = document.querySelector(".copy a");
+const popup = document.querySelector(".popup");
+
+text.addEventListener("click", () => {
+  popup.classList.add("active");
+  copyToClipBoard();
+});
+text2.addEventListener("click", () => {
+  popup.classList.add("active");
+  copyToClipBoard2();
+});
+popup.addEventListener("animationend", () => {
+  popup.classList.remove("active");
+});
+
+function copyToClipBoard() {
+  const textarea = document.createElement("textarea");
+  textarea.setAttribute("readonly", "");
+  textarea.value = text.innerText;
+  textarea.style.position = "absolute";
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand("copy");
+  document.body.removeChild(textarea);
+}
+function copyToClipBoard2() {
+  const textarea = document.createElement("textarea");
+  textarea.setAttribute("readonly", "");
+  textarea.value = text2.innerText;
+  textarea.style.position = "absolute";
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand("copy");
+  document.body.removeChild(textarea);
+}
+</script>
 </body>
 </html>
