@@ -11,9 +11,9 @@ class salesModel extends Model{
         return "NONE";
     }
     public function activeRegions(){
-        $result = $this->database->query("SELECT COUNT(addressID) as regions FROM orders GROUP BY addressID LIMIT 1;");
+        $result = $this->database->query("SELECT COUNT(DISTINCT ua.region) as regions from user_address as ua, users as u, orders as o where u.ID = ua.customerID and o.addressID=ua.AddressID LIMIT 1;");
         if(mysqli_num_rows($result) != 0)
-            return $result->fetch_assoc()['regions'] . " regions";
+            return $result->fetch_assoc()['regions'] . " region(s)";
         return "NONE";
     }
     public function search($search){

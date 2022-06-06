@@ -452,6 +452,10 @@
   color: gray;
   margin-left: 20px;
 }
+.emptyContainer{
+  text-align: center;
+  color: gray
+}
 @media screen and (max-width: 1024px){
   .personalInformation h1{
     font-size: 50px

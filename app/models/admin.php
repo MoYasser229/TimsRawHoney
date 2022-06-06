@@ -130,6 +130,14 @@ class Admin extends User implements Filter{
             $this->setFinance();
         }
     }
+    public function updateExpenses($expenses){
+        $this->database->query("UPDATE finance SET expenses = '$expenses' WHERE MONTH(createdAt) = MONTH(CURRENT_TIMESTAMP)");
+    }
+    public function currentExpenses(){
+        $expenses = $this->database->query("SELECT expenses FROM finance WHERE MONTH(createdAt) = MONTH(CURRENT_TIMESTAMP)")->fetch_assoc()['expenses'];
+        return $expenses;
+
+    }
     public function monthlyReport(){
         $result = $this->database->query("SELECT * FROM finance WHERE MONTH(createdAt) = MONTH(CURRENT_TIMESTAMP)");
         return $result;
@@ -141,8 +149,11 @@ class Admin extends User implements Filter{
     public function setFinance(){
         $revenue = $this->database->query("SELECT (SUM(quantity) * products.retailCost) as myRevenue FROM orderitems,products WHERE products.ID = orderitems.productID")->fetch_assoc()['myRevenue'];
         $cog = $this->database->query("SELECT (SUM(quantity) * products.retailCost) as cog FROM stockProducts,products WHERE products.ID = stockproducts.productID")->fetch_assoc()['cog'];
-        $gross = (($revenue - $cog) / $revenue)*100;
-        $this->database->query("INSERT into finance(revenue,expenses,profit) VALUES($revenue,$cog,$gross)");
+        // $gross = "No sales found";
+        if($revenue != 0){
+            $gross = (($revenue - $cog) / $revenue)*100;
+            $this->database->query("INSERT into finance(revenue,expenses,profit) VALUES('$revenue','$cog','$gross')");
+        }
     }
 
 }

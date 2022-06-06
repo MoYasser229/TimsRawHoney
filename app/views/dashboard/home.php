@@ -149,7 +149,7 @@ class home extends View{
                         $reportMonth = $report->fetch_assoc()['createdAt'];
                         $reportMonth = Date("F",strtotime($reportMonth));
                         echo <<<HTML
-                            <p class=monthReport>Monthly report for <strong>{$reportMonth}</strong></p>
+                            <p class=monthReport id=financialReports>Monthly report for <strong>{$reportMonth}</strong></p>
                         HTML;
                     }
 
@@ -165,35 +165,44 @@ class home extends View{
                     ?>
                     
                         <?php
-                            $report = $this->model->getAdmin()->monthlyReport()->fetch_assoc();
-                            $gross = ceil($report['profit']);
-                            $container = <<<HTML
-                                <div class="financeChild">
-                                    <h2>Gross Profit</h2>
-                                    <span><strong>%</strong></span>
-                                    <p><strong>$gross</strong></p>
-                                    <div class=normalRevenue><i class="fa-solid fa-angles-up"></i></div>
-                                </div>
-                            HTML;
-                            if($report['profit'] < 0){
+                            $report = $this->model->getAdmin()->monthlyReport();
+                            if(mysqli_num_rows($report) != 0){
+                                $report = $report->fetch_assoc();
+                                $gross = ceil($report['profit']);
                                 $container = <<<HTML
-                                <div class="financeChildError">
-                                    <h2>Gross Profit</h2>
-                                    <span><strong>%</strong></span>
-                                    <p><strong>$gross</strong></p>
-                                    <div class=errorGross><i class="fa-solid fa-angles-down"></i></div>
+                                    <div class="financeChild">
+                                        <h2>Gross Profit</h2>
+                                        <span><strong>%</strong></span>
+                                        <p><strong>$gross</strong></p>
+                                        <div class=normalRevenue><i class="fa-solid fa-angles-up"></i></div>
 
-                                </div>
+                                    </div>
                                 HTML;
-                            }
+                                if($report['profit'] < 0){
+                                    $container = <<<HTML
+                                    <div class="financeChildError">
+                                        <h2>Gross Profit</h2>
+                                        <span><strong>%</strong></span>
+                                        <p><strong>$gross</strong></p>
+                                        <div class=errorGross><i class="fa-solid fa-angles-down"></i></div>
+
+                                    </div>
+                                    HTML;
+                                }
                             $prevReport = $this->model->getAdmin()->prevMonthlyReport();
                             $previousPercent = "";
                             $rev = "";
                             $cog = "";
                             if(mysqli_num_rows($prevReport) == 0){
                                 $previousPercent = "No Previous Reports";
+                                echo <<<HTML
+                                    <script>
+                                        $("#financialReports").html('{$previousPercent}');
+                                    </script>
+                                HTML;
                             }
                             else{
+                                
                                 $prevReport = $prevReport->fetch_assoc();
                                 $cog = "";
                                 $rev = "";
@@ -262,7 +271,15 @@ class home extends View{
                                 </div>
                                 $container
                                 
-                            HTML;}
+                            HTML;}}
+                            else{
+                                echo <<<HTML
+                                    <div class="emptyContainer">
+                                        <h1>Nothing To Show Here...</h1>
+                                        <p>There is no sales data to be shown.</p>
+                                    </div>
+                                HTML;
+                            }
                         ?>
                         
 

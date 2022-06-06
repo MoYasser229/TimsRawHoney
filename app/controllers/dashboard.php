@@ -246,7 +246,8 @@ class dashboard extends Controller{
                 $this->model->display();
             }
             if(isset($_POST['productID'])){
-                $this->model->insertReciept($_POST['productID'],$_POST['quantities']);
+                $this->setAdmin();
+                $this->model->insertReciept($_POST['productID'],$_POST['quantities'],$this->admin);
             }
         }
         else{$stocksPath = VIEWSPATH . 'dashboard/stocks.php';

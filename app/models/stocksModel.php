@@ -79,11 +79,16 @@ class stocksModel extends Model{
 
         HTML;
     }
-    public function insertReciept($products,$quantities){
+    public function insertReciept($products,$quantities,$admin){
         $this->database->query("INSERT INTO reciept() VALUES()");
         $result = $this->database->query("SELECT * FROM reciept ORDER BY ID DESC LIMIT 1")->fetch_assoc()['ID'];
 
         foreach(array_combine($products,$quantities) as $product => $quantity){
+            // echo "<script>alert('Hena')</script>";
+            $cost = $this->database->query("SELECT manifactureCost FROM products WHERE ID = '$product'")->fetch_assoc()['manifactureCost'];
+            $expenses = ($cost * $quantity) + $admin->currentExpenses();
+            $admin->updateExpenses($expenses);
+            
             $this->database->query("UPDATE products SET productStock = ((SELECT productStock FROM products WHERE ID = '$product') + $quantity) WHERE ID = '$product'");
             $this->database->query("INSERT INTO stockProducts(recieptID,productID,quantity) VALUES('$result','$product','$quantity') ");
         }

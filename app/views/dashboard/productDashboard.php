@@ -366,7 +366,7 @@ class productDashboard extends View{
                             contentType: false,
                             processData: false,
                             success: (result)=>{
-                                if(result === 'false'){
+                                if(result !== 'false'){
                                     $("#productTable").html(result)
                                     $("#name").val("")
                                     $("#retail").val("")
