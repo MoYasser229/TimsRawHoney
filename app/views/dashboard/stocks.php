@@ -146,9 +146,9 @@ class stocks extends View{
             for(i = 2; i <= numProducts;i++){
                 $("#product" + $('#prodID'+i).val()).css("display","none")
                 arrayProduct[i-1] = $('#prodID'+i).val()
-                // stockCost = $('#stockCost'+i).val()
-                // cost = stockCost * parseInt($("#productsSimulation").val())
-                // $("#viewStock" + i).html(myString + cost + "EGP")
+                stockCost = $('#stockCost'+i).val()
+                cost = stockCost * parseInt($("#productsSimulation").val())
+                $("#viewStock" + i).html(myString + cost + "EGP")
             }
             stockRecieptCount = parseInt($("#stockRecieptCount").val())
             for(i = 1; i < stockRecieptCount;i++){

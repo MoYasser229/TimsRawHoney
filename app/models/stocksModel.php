@@ -95,7 +95,7 @@ class stocksModel extends Model{
         // redirect("stocks");
     }
     public function getReciepts(){
-        $result = $this->database->query("SELECT *,SUM(quantity) as totalQuantity,SUM(quantity * retailCost) as cost FROM reciept,stockproducts,products WHERE reciept.ID = stockproducts.recieptID AND stockproducts.productID = products.ID GROUP BY recieptID;");
+        $result = $this->database->query("SELECT *,stockproducts.createdAt as recieptTime,SUM(quantity) as totalQuantity, reciept.ID as roID,SUM(quantity * retailCost) as cost FROM reciept,stockproducts,products WHERE reciept.ID = stockproducts.recieptID AND stockproducts.productID = products.ID GROUP BY recieptID;");
         if(mysqli_num_rows($result) == 0){
             echo <<<HTML
                 <div class="emptyClass">
@@ -109,8 +109,8 @@ class stocksModel extends Model{
             $options = "";
             $j = 0;
             foreach($result as $reciept){
-                $month = date("d F h:m",strtotime($reciept['createdAt']));
-                $options .= "<option id=month$j value='$j'>Reciept: $month</option>";
+                $month = date("d F h:m",strtotime($reciept['recieptTime']));
+                $options .= "<option id=month$j value='$j'>Reciept {$reciept['roID']}: $month</option>";
                 $j+=1;
             }
             $options =  "
@@ -182,7 +182,7 @@ class stocksModel extends Model{
                     <span class = stockInfo>Current Stock: <strong>{$product['productStock']}</strong></span>
                     <!-- <p>Stock: <strong>{$product['productStock']}</strong></p> -->
                     <input type=hidden id=curStock{$product['ID']} value={$product['productStock']}>
-                    <input type=hidden id = stockCost{$product['ID']} value = "{$product['retailCost']}">
+                    <input type=hidden id = stockCost{$product['ID']} value = "{$product['manifactureCost']}">
                     <br>
                     <span class=stockInfo id=scost{$product['ID']}></span>
                     <input type = hidden id=currentStock value={$product['productStock']}>
