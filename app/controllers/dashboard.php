@@ -89,16 +89,16 @@ class dashboard extends Controller{
                 mysqli_real_escape_string($this->model->getDatabase()->getConnection(),$description);
                 $description = filter_var($description, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $productName = filter_var($productName, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                if(!is_int($retailCost) || !is_int($manifactureCost) || !is_int($productStock)){
-                    echo "false";
-                }
-                else{
+                // if(!is_int($retailCost) || !is_int($manifactureCost) || !is_int($productStock)){
+                //     echo "errorValidation";
+                // }
+                // else{
                     $this->model->insertProduct($productName,$retailCost,$manifactureCost,$productStock,$fullFile,$description);
                     $this->model->databaseProducts();
                     $this->model->getProducts();
                     $target_dir = "../public" . "/images/product/$fullFile";
                     move_uploaded_file($_FILES["productImage"]["tmp_name"],$target_dir);
-                }
+                // }
 
                 
                 

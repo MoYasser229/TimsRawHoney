@@ -25,20 +25,21 @@ class orderModel extends Model{
         return false;
     }
     public function numOrders(){
-        $customer = $this->topCustomer();
-        if(!$customer)
+        $result = $this->database->query("SELECT COUNT(orderID) as ordernum FROM orders as o, deliveries as d WHERE d.orderID=o.ID and d.deliveryStatus='DELIVERED'");
+        if(mysqli_num_rows($result) == 0){
             return "NONE";
-        return $customer->getNumOrders();
+        }
+        return $result->fetch_assoc()['ordernum'];
     }
     public function numProducts(){
         $result = $this->database->query("SELECT SUM(quantity) as orderquantity FROM orderitems");
-        if(mysqli_num_rows($result) != 0){
+        if(mysqli_num_rows($result) == 0){
             return "NONE";
         }
         return $result->fetch_assoc()['orderquantity'];
     }
     public function databaseOrders(){
-        $result =  $this->database->query("SELECT * FROM orders,orderitems,users WHERE orders.ID = orderItems.orderID AND users.ID = orderItems.customerID GROUP BY orderitems.orderID");
+        $result =  $this->database->query("SELECT * FROM orders,orderitems,users,deliveries WHERE orders.ID = orderItems.orderID AND users.ID = orderItems.customerID and orders.ID=deliveries.orderID and deliveries.deliveryStatus='DELIVERED' GROUP BY orderitems.orderID");
         $this->orders = $result;
     }
     public function display(){

@@ -57,7 +57,7 @@ class stocks extends View{
             $numProducts = mysqli_num_rows($products);
             $i = 1;
             while($product = $products->fetch_assoc()){
-                $before = ($i != 1)? $i - 1: $i;
+                $before = ($i > 0)? $i - 1: $i;
                 $after = ($i == $numProducts)?$i:$i + 1;
                 echo <<<HTML
                     <input type='hidden' id=numProducts value = $numProducts>
@@ -139,7 +139,6 @@ class stocks extends View{
             numProducts = $("#numProducts").val()
             arrayProduct = []
             arrayProduct[0] = $('#prodID'+1).val()
-            // alert($('#stockCost1').val())
             stockCost = $('#stockCost1').val()
             cost = stockCost * parseInt($("#productsSimulation").val())
             currentProd = 1
@@ -147,9 +146,9 @@ class stocks extends View{
             for(i = 2; i <= numProducts;i++){
                 $("#product" + $('#prodID'+i).val()).css("display","none")
                 arrayProduct[i-1] = $('#prodID'+i).val()
-                stockCost = $('#stockCost'+i).val()
-                cost = stockCost * parseInt($("#products").val())
-                $("#viewStock" + i).html(myString + cost + "EGP")
+                // stockCost = $('#stockCost'+i).val()
+                // cost = stockCost * parseInt($("#productsSimulation").val())
+                // $("#viewStock" + i).html(myString + cost + "EGP")
             }
             stockRecieptCount = parseInt($("#stockRecieptCount").val())
             for(i = 1; i < stockRecieptCount;i++){
@@ -181,17 +180,21 @@ class stocks extends View{
             })
             function before(before,current){
                 // alert(before)
-                $("#product" + current).css("display","none")
-                $("#product"+arrayProduct[before-1]).css("display","block")
-                currentProd = before
-                cost = $('#stockCost'+currentProd).val() * parseInt($("#products").val())
-                $("#viewStock" + currentProd).html(myString + cost + "EGP")
+                if(before != 0){
+                    $("#product" + current).css("display","none")
+                    $("#product"+arrayProduct[before-1]).css("display","block")
+                    currentProd = before
+                    cost = $('#stockCost'+currentProd).val() * parseInt($("#productsSimulation").val())
+                    $("#viewStock" + currentProd).html(myString + cost + "EGP")
+                }
             }
             function after(after,current){
+                
                 $("#product" + current).css("display","none")
                 $("#product"+arrayProduct[after-1]).css("display","block")
                 currentProd = after
-                cost = $('#stockCost'+currentProd).val() * parseInt($("#products").val())
+                cost = $('#stockCost'+currentProd).val() * parseInt($("#productsSimulation").val())
+                // alert($("#products").val())
                 $("#viewStock" + currentProd).html(myString + cost + "EGP")
                 
             }

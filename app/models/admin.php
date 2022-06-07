@@ -139,7 +139,7 @@ class Admin extends User implements Filter{
 
     }
     public function monthlyReport(){
-        $result = $this->database->query("SELECT * FROM finance WHERE MONTH(createdAt) = MONTH(CURRENT_TIMESTAMP)");
+        $result = $this->database->query("SELECT *,(((revenue-expenses)/revenue)*100) as profit FROM finance WHERE MONTH(createdAt) = MONTH(CURRENT_TIMESTAMP)");
         return $result;
     }
     public function prevMonthlyReport(){
@@ -151,8 +151,7 @@ class Admin extends User implements Filter{
         $cog = $this->database->query("SELECT (SUM(quantity) * products.retailCost) as cog FROM stockProducts,products WHERE products.ID = stockproducts.productID")->fetch_assoc()['cog'];
         // $gross = "No sales found";
         if($revenue != 0){
-            $gross = (($revenue - $cog) / $revenue)*100;
-            $this->database->query("INSERT into finance(revenue,expenses,profit) VALUES('$revenue','$cog','$gross')");
+            $this->database->query("INSERT into finance(revenue,expenses) VALUES('$revenue','$cog')");
         }
     }
 

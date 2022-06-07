@@ -68,7 +68,7 @@ class productDashboardModel extends Model{
         return false;
     }
     public function getBestSeller(){
-        $result = $this->database->query("SELECT productID,productName,COUNT(*) as quantity FROM products,orderitems WHERE orderitems.productID = ID GROUP BY ID ORDER BY quantity DESC LIMIT 1");
+        $result = $this->database->query("SELECT productID,productName,SUM(orderitems.quantity) as quantity FROM products,orderitems WHERE orderitems.productID != ID;");
         return $result->fetch_assoc();
     }
     public function getZeroSeller(){
@@ -113,7 +113,6 @@ class productDashboardModel extends Model{
                 <i class='fa-solid fa-triangle-exclamation'></i>
                 <p>Nothing Found. Please check that the product searched is an actual product or add a new product. </p>
             </div>";
-            
         }
         else{
             $check = false;
@@ -155,7 +154,7 @@ class productDashboardModel extends Model{
                                     <div class='pie' style='--p:$profit;--c:$color;--f:$color'>$text<br> $profit%</div>
                                 </div>
                                 <div class='childPie'>
-                                <div class='pie' style='--p:$stockRatio;--c:#FBAB7E;--f:#FBAB7E'>STOCK<br> $stockRatio%</div>
+                                <div class='pie' style='--p:100;--c:#FBAB7E;--f:#FBAB7E'>STOCK<br> {$availableStock}</div>
                                 </div>
                             </div>
                             <br>

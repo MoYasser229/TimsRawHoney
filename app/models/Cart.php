@@ -675,6 +675,9 @@ if(chosenAddress() == ""){
             <?php
     
        }
+       public function updateRevenue($totalPrice,$database){
+          $database->query("UPDATE finance SET revenue = ((SELECT revenue FROM finance WHERE MONTH(createdAt) = MONTH(CURRENT_TIMESTAMP))+ $totalPrice) WHERE MONTH(createdAt) = MONTH(CURRENT_TIMESTAMP)");
+       }
        public function checkout($customerID,$cartmodel){
           
         if(isset($_COOKIE["cart".$_SESSION["ID"]]))
@@ -727,6 +730,7 @@ $( this ).parent().parent().parent().hide( 400 );
   
     <?php
                 $total = $total + ($quantity * $values["productPrice"]); 
+                $this->updateRevenue($total,$cartmodel->getDatabase());
                   $productname=$values["productName"];
 
                   $quantity=$values["quantity"];

@@ -45,7 +45,6 @@ class Database{
             financeID INT(6) AUTO_INCREMENT NOT NULL PRIMARY KEY,
             revenue FLOAT(32),
             expenses FLOAT(32),
-            profit FLOAT(32),
             createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
         );";
         $this->execute(0);

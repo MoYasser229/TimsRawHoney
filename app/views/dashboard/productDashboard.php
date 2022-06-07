@@ -60,10 +60,7 @@ class productDashboard extends View{
                 
                 <hr>
                 <p>Here you can view your products and add new products. You can also edit existing products and delete unwanted products.</p>
-                <div class="grid-buttons">
-                    <!-- <button onclick="addProduct()" class="productButtons " href="/"><i class="fa-solid fa-plus btnIcon icon"></i> <br> <span>ADD PRODUCT</span> </button>  -->
-                    <!-- <button class="productButtons" href="/"><i class="fa-solid fa-trash icon"></i> <br>  <span>DELETE PRODUCT</span> </button> -->
-                </div>
+               
                 
             </div>
             <div class="gridContainer">
@@ -335,13 +332,22 @@ class productDashboard extends View{
                     description = $("#description").val()
                     submit = $("#addProdoct").val()
                     error = false
+                    errorCost = false
 
                     if(productName == "" || retailCost == "" || manifactureCost == "" || productStock == "" || description == "")
                         error = true
+                    const digits_only = string => [...string].every(c => '0123456789'.includes(c));
+                    if(digits_only(retailCost) == false || digits_only(manifactureCost) == false || digits_only(productStock) == false){
+                        errorCost = true
+                        $(".subButton").css("background-color", "red")
+                        $("#error").html("*ERROR Retail cost, manifacture Cost, and stock must number values")
+                    }
                     if(!productImage){
                         error = true
                         $("#productImage").css("border","none")
                     }
+                    
+
                     else{
                         type = productImage['type']
                         if(!type.includes("image/")){
@@ -351,7 +357,7 @@ class productDashboard extends View{
                         //     error = true
                         // }
                     }
-                    if(!error){
+                    if(!error && !errorCost){
                         fd.append("productImage",productImage)
                         fd.append("retailCost",retailCost)
                         fd.append("manifactureCost",manifactureCost)
@@ -366,7 +372,7 @@ class productDashboard extends View{
                             contentType: false,
                             processData: false,
                             success: (result)=>{
-                                if(result !== 'false'){
+                                // if(!result.includes("errorValidation")){
                                     $("#productTable").html(result)
                                     $("#name").val("")
                                     $("#retail").val("")
@@ -375,16 +381,15 @@ class productDashboard extends View{
                                     $("#description").val("")
                                     $("#file").val("")
                                     $("#file-name").html("")
-                                }
-                                else{
-                                    $(".subButton").css("background-color", "red")
-                                    $("#error").html("*ERROR Retail cost, manifacture Cost, and stock must number values")
-                                }
+                                // }
+                                // else{
+                                    
+                                // }
 
                             }
                         })
                     }
-                    else{
+                    if(error){
                         $(".subButton").css("background-color", "red")
                         $("#error").html("*ERROR please check that you entered all inputs")
                     }
