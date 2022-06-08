@@ -245,7 +245,7 @@ class Pages extends Controller{
                 }
                 if(!password_verify($confirmNewPassword, $password)){
                     $error = true;
-                    $signUp->setErrorConfirmation("$password and $confirmNewPassword Confirmation of the password is different to the password written");
+                    $signUp->setErrorConfirmation("Confirmation of the password is different to the password written");
                 }
                 if(empty($phoneNumber1) && empty($phoneNumber2)){
                     $error = true;
