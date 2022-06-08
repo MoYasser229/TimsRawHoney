@@ -144,15 +144,28 @@ class profileModel extends Model{
             $createdAt = Date("D d F Y",strtotime($order['createdAt']));
             $discountPrice=$totalPrice*$discount/100;
             $totalAfter=$totalPrice-$discountPrice;
+            if (isset($order['promocodeid'])){
             echo <<<HTML
                 <button onclick="closeView()">X</button>
                 <h4>Order Serial: <strong>{$order['orderID']}</strong></h4>
                 <h6>$discountString</h6>
                 <h5>Date of issue: <strong>{$createdAt}</strong></h5>
                 <h5>Price before discount : <strong>$totalPrice EGP</strong></h5>
+                
                 <h5>Price After discount : <strong>$totalAfter EGP</strong></h5>
               
             HTML;
+            }
+            else{
+                echo <<<HTML
+                <button onclick="closeView()">X</button>
+                <h4>Order Serial: <strong>{$order['orderID']}</strong></h4>
+                <h6>$discountString</h6>
+                <h5>Date of issue: <strong>{$createdAt}</strong></h5>
+                <h5>Price: <strong>$totalPrice EGP</strong></h5>
+                  
+            HTML;
+            }
         }
         echo <<<HTML
             <div class="table">
