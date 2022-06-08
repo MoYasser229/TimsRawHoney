@@ -11,12 +11,12 @@ class orderModel extends Model implements filter{
     public $headercss = URLROOT . "css/dashboard/headerStyles.css";
     private $orders;
     public function search($table,$columns,$search){
-        $result = $this->database->query("SELECT * FROM $table WHERE $columns");s
+        $result = $this->database->query("SELECT *,orders.ID as orderID FROM $table,users WHERE $table.customerID = users.ID AND $columns LIKE '%$search%'");
         $this->orders = $result; 
     }
     public function sort($table,$type,$filter){
-        $result = $this->database->query("SELECT * FROM $table ORDER BY $type $filter");
-        return $result;
+        $result = $this->database->query("SELECT *,orders.ID as orderID FROM $table,users WHERE $table.customerID = users.ID  ORDER BY $type $filter");
+        $this->orders = $result;
     }
     public function getOrders(){
         return $this->orders;
@@ -25,7 +25,7 @@ class orderModel extends Model implements filter{
         $this->orders = $orders;
     }
     public function topCustomer(){
-        $result = $this->database->query("SELECT orders.ID as orderID,SUM(orderTotalPrice) as customerTotalPrice,customerID FROM ORDERS GROUP BY customerID ORDER BY customerTotalPrice DESC LIMIT 1;");
+        $result = $this->database->query("SELECT orders.ID as orderID,SUM(orderTotalPrice) as customerTotalPrice,customerID FROM ORDERS  GROUP BY customerID ORDER BY customerTotalPrice DESC LIMIT 1;");
         if(mysqli_num_rows($result) != 0){
             $row = $result->fetch_assoc();
             return new Customer($row['customerID']);

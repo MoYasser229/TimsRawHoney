@@ -211,8 +211,9 @@ class home extends View{
                                     $cog = "Sales are still empty";
                                 }
                                 else{
-                                $rev = ceil((($report['revenue'] - $prevReport['revenue'])/$prevReport['revenue'])*100);
-                                $cog = ceil((($report['expenses'] - $prevReport['expenses'])/$prevReport['expenses'])*100);
+                                    //$report['revenue'] - $prevReport['revenue'])/
+                                $rev = ceil((1-($prevReport['revenue']/$report['revenue']))*100);
+                                $cog = ceil((1-($prevReport['expenses']/$report['expenses']))*100);
                                 // $rev .= "%";
                                 // $cog .= "%";
                                 if($rev > 0)

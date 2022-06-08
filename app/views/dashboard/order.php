@@ -23,9 +23,8 @@ class order extends View{
                 <button onclick="searchButton()" id=searchButton>SEARCH</button>
                 <select id=type>
                     <option value = "orderID">ID</option>
-                    <option value = "fullName">Customer Name</option>
+                    <option value = "users.fullName">Customer Name</option>
                     <option value = "orders.orderTotalPrice">Purchase price</option>
-                    <option value = "orders.quantity">Order Quantity</option>
                     <option value = "orders.createdAt">Date of Purchase</option>
                 </select>
                 <select id="filter">

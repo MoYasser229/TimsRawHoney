@@ -17,27 +17,25 @@ class salesModel extends Model{
         return "NONE";
     }
     public function search($search){
-        $result = $this->database->query("SELECT region,quantity,SUM(quantity) as totproduct,SUM(orderTotalPrice) as regiontotPrice FROM orders,orderitems,products,user_address WHERE user_address.AddressID = orders.addressID AND user_address.customerID = orders.customerID AND orders.ID = orderitems.orderID AND orderitems.productID = products.ID AND region LIKE '%$search%' GROUP BY orders.addressID;");
+        $result = $this->database->query("SELECT *,SUM(ordertotalprice) as regiontotPrice FROM orders,user_address WHERE user_address.AddressID = orders.addressID AND region LIKE '%$search%' GROUP BY region;");
         foreach($result as $region){
             echo <<<HTML
                 <div class="regionCard">
                 <h1>{$region['region']}</h1>
                 <hr>
                 <h3>Sales Revenue: {$region['regiontotPrice']} EGP</h3>
-                <h3>Number of Products Sold: {$region['totproduct']}</h3>
                 </div>
             HTML;
         }
     }
     public function filter($filter,$type){
-        $result = $this->database->query("SELECT region,quantity,SUM(quantity) as totproduct,SUM(orderTotalPrice) as regiontotPrice FROM orders,orderitems,products,user_address WHERE user_address.AddressID = orders.addressID AND user_address.customerID = orders.customerID AND orders.ID = orderitems.orderID AND orderitems.productID = products.ID GROUP BY orders.addressID ORDER BY $type $filter");
+        $result = $this->database->query("SELECT *,SUM(ordertotalprice) as regiontotPrice FROM orders,user_address WHERE user_address.AddressID = orders.addressID GROUP BY region ORDER BY $type $filter");
         foreach($result as $region){
             echo <<<HTML
                 <div class="regionCard">
                 <h1>{$region['region']}</h1>
                 <hr>
                 <h3>Sales Revenue: {$region['regiontotPrice']} EGP</h3>
-                <h3>Number of Products Sold: {$region['totproduct']}</h3>
                 </div>
             HTML;
         }

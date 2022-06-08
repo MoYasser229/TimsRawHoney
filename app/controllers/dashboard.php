@@ -205,15 +205,14 @@ class dashboard extends Controller{
             require_once APPROOT."\models\sort.php";
             $sort = new Sort('orders,users,orderItems',array('fullName','orders.ID'));
             if(isset($_POST['search'])){
-                $sort->setSearch($_POST['search']);
+                // $sort->setSearch($_POST['search']);
                 // print_r($sort->search("GROUP BY orders.customerID"));
-                $this->model->setOrders($sort->search("GROUP BY orderitems.orderID"));
+                // $this->model->setOrders($sort->search("GROUP BY orderitems.orderID"));'
+                $this->model->search("orders","fullName",$_POST['search']);
                 $this->model->display();
             }
             if(isset($_POST['filter'])){
-                $sort = new Sort('orders,users');
-                $sort->setSort($_POST['type'],$_POST['filter']);
-                $this->model->setOrders($sort->filter("*,orders.ID as orderID","GROUP BY orders.ID","WHERE orders.customerID = users.ID"));
+                $this->model->sort("orders",$_POST['type'],$_POST['filter']);
                 $this->model->display();
             }
             if(isset($_POST['products'])){

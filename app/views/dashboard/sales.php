@@ -30,7 +30,6 @@ class sales extends View{
                 <select id=type>
                     <option value = "region">Region</option>
                     <option value = "regiontotPrice">Revenue</option>
-                    <option value = "totproduct">Products Sold</option>
                 </select>
                 <select id="filter">
                     <option value="DESC">Descending</option>
