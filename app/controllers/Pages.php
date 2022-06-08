@@ -39,6 +39,8 @@ class Pages extends Controller{
     public function product(){
         // habd
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+            require_once APPROOT."/models/Product.php";
+            $product = new Product($_POST['productid']);
 
             if(isset($_POST['productid'])){
               
@@ -51,7 +53,7 @@ class Pages extends Controller{
                 $productsize=$_POST['size'];
                 
               
-               $this->addtocart($_SESSION['ID'],$productID,$productname,$productimage,$productprice,1,$productMaterial,$productsize);
+               $product->addtocart($_SESSION['ID'],$productID,$productname,$productimage,$productprice,1,$productMaterial,$productsize);
                echo '
                <div class="itemadded" style="margin-top:-60px;">
                <div class="alert alert-success alert-dismissible">
@@ -476,51 +478,5 @@ class Pages extends Controller{
         // $surveyView = new ajax($this->getModel(), $this);
         // $surveyView->output();  
     }
-    public function addtocart($customerID,$productID,$productname,$productimage,$productprice,$quantity,$material,$size){
-      
-
-      if(isset($_COOKIE["cart$customerID"]))
-      {
-       $cookie_data = stripslashes($_COOKIE["cart$customerID"]);
-     
-       $cart_data = json_decode($cookie_data, true);
-      }
-      else
-      {
-       $cart_data = array();
-      }
-     
-      $item_id_list = array_column($cart_data, 'productID');
-     
-      if(in_array($productID, $item_id_list))
-      {
-       foreach($cart_data as $keys => $values)
-       {
-        if($cart_data[$keys]["productID"] == $productID)
-        {
-            if( $cart_data[$keys]["quantity"] + $quantity >0){
-         $cart_data[$keys]["quantity"] = $cart_data[$keys]["quantity"] + $quantity;
-            }
-            
-        }
-       }
-      }
-      else
-      {
-       $item_array = array(
-        'productID'   => $productID,
-        'productImage'=>$productimage,
-        'productName' => $productname,
-        'productPrice'=> $productprice,
-        'quantity'  => $quantity,
-        'material' => $material,
-        'size' => $size
-       );
-       $cart_data[] = $item_array;
-      }
-     
-      
-      $item_data = json_encode($cart_data);
-      setcookie("cart$customerID", $item_data, time() + 2678400);
-         }
+  
 }
