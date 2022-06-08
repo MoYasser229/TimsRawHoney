@@ -26,6 +26,13 @@ class profileModel extends Model{
         }
         return $result;
     }
+    public function checkSurvey($ID){
+        $result = $this->database->query("SELECT * FROM survey WHERE customerID = $ID");
+        if(mysqli_num_rows($result) == 0){
+            return true;
+        }
+        return false;
+    }
     public function getPromos(){
         $result = $this->database->query("SELECT * FROM promocodes WHERE active = '1'");
         return $result;
@@ -38,8 +45,7 @@ class profileModel extends Model{
         $uppercase = preg_match('@|A-Z|@',$password);
         $lowercase = preg_match('@|a-z|@',$password);
         $number = preg_match('@|0-9|@',$password);
-        $specialChars = preg_match('@[^\w]@',$password);
-        return (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8)?false:true; 
+        return (!$uppercase || !$lowercase || !$number || strlen($password) < 8)?false:true; 
     }
     public function deleteAccount($ID){
         $result = $this->database->query("DELETE FROM users WHERE ID = '$ID'");
@@ -50,6 +56,7 @@ class profileModel extends Model{
         return ($result)?true:false;
     }
     public function updateSecurity($ID,$email,$password){
+        $password = password_hash($password,PASSWORD_DEFAULT);
         $result = $this->database->query("UPDATE users SET email = '$email', pswrd = '$password' WHERE ID =$ID");
         return ($result)?true:false;
     }

@@ -19,6 +19,10 @@ class Pages extends Controller{
               $result = $Shop->search("products","productName",$_POST['shopSearch']);
               $Shop->getProducts($result);
           } 
+          if(isset($_POST['filter'])){
+              $result = $Shop->sort("products",$_POST['type'],$_POST['filter']);
+              $Shop->getProducts($result);
+          }
         }
         else{
           $viewPath = VIEWSPATH . 'pages/Shop.php';
@@ -130,7 +134,7 @@ class Pages extends Controller{
                     }
                     else{
                         $session = new Session();
-                        echo "<script>alert('donee')</script>";
+                        // echo "<script>alert('donee')</script>";
                         $session->setSession("ID",$row['ID']);
                         $session->setSession("email",$row['email']);
                         if($row['userRole'] === "CUSTOMER")
@@ -323,7 +327,7 @@ class Pages extends Controller{
                     $pass = $this->model->getOldPassword($_SESSION['ID']);
                     $newPassword = $pass['pswrd'];
                 }
-                else if($this->model->getOldPassword($_SESSION['ID'])){
+                else if(!$this->model->getOldPassword($_SESSION['ID'])){
                     $error = true;
                 }
                 else if(!$this->model->checkPassword($newPassword)){
@@ -342,7 +346,7 @@ class Pages extends Controller{
                     }
                 }
                 else if($error){
-                    echo "<script>alert('Email/Password is invalid')</script>";
+                    echo "<script>alert('Password is invalid')</script>";
                 }
             }
             if(isset($_POST['orderID'])){

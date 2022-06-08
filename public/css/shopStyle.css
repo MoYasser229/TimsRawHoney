@@ -21,13 +21,26 @@ body{
     padding-top: 74px;
 }
 
-.product-grid{
+/* .product-grid{
   font-family: 'Poppins', sans-serif;
   text-align: center;
   margin-top:15vh;
   padding: 2vh; 
   position: relative;
   left: 240px;
+} */
+.product-grid{
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  margin-top:10vh;
+  margin-left: 7vh;
+  margin-right: 7vh;
+  padding: -200px;
+  /* padding: 7vh;  /
+  / padding-left: 7vh;
+  padding-right: 7vh; /
+  position: relative;
+  / left: 150px; */
 }
 .product-grid .product-image{
   overflow: hidden;
@@ -331,7 +344,7 @@ html {
   font-size: 1.8rem;
 } */
 
-input[type=search] {
+/* input[type=search] {
   outline: 0;
   width: 100%;
   background: var(--color-light);
@@ -344,7 +357,7 @@ input[type=search] {
   transition-property: width, border-radius;
   z-index: 1;
   position: relative;
-}
+} */
 
 /* button {
   display: none;
@@ -357,7 +370,7 @@ input[type=search] {
   border-radius: 0 var(--rad) var(--rad) 0;
 } */
 
-input:not(:-moz-placeholder-shown) {
+/* input:not(:-moz-placeholder-shown) {
   border-radius: var(--rad) 0 0 var(--rad);
   width: calc(100% - var(--btn-width));
 }
@@ -389,7 +402,7 @@ label {
   height: 1px;
   width: 1px;
   overflow: hidden;
-} */
+}  */
 /* .button{
   position: relative;
   width: 70rem;
@@ -397,13 +410,41 @@ label {
   border-radius: var(--rad);
 } */
 
-.searchContainer{
-  /* width: 80%; */
-  margin:0;
-  /* margin-left: 10%; */
+.mySearch{
+  margin-left: 5%;
+  margin-right: 5%;
+  /* background-color: #0d0d0d; */
+  border: none;
   text-align: center;
-  margin-top: 250px;
-  margin-bottom: 10px;
+  font-size: 20px;
+}
+.mySearch input{
+  padding: 20px;
+  width: 50%;
+  outline: none;
+  border: none;
+  
+}
+.mySearch button{
+  padding: 20px;
+  outline: none;
+  border: none;
+  margin-left: -5px;
+  background-color: #FBAB7E;
+  transition: all 0.2s ease-in-out
+}
+.mySearch button:hover{
+  background-color: #f8c2a3;
 }
 
+.sort select{
+  padding: 20px;
+  outline: none;
+  border: none;
+  color: gray;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+}
 

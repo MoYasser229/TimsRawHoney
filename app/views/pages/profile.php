@@ -27,7 +27,9 @@ class profile extends View{
                     <button id = "orders" class = "myButton margin-bottom"><i class="fas fa-receipt"></i><br>My Orders</button><br>
                     <button id = "address" class = "myButton margin-bottom"><i class="fas fa-address-card"></i><br>My Address Book</button><br>
                     <button id = "promo" class = "myButton margin-bottom"><i class="fa-solid fa-percent"></i><br>My Promo Codes</button><br>
+                    <?php if($this->model->checkSurvey($_SESSION['ID']) === true){?>
                     <button id = "survey" class = "myButton margin-bottom"><i class="fa-solid fa-file-pen"></i><br>Survey</button><br>
+                    <?php }?>
                    
                 </div>
                 <div class="mainChild">
@@ -400,6 +402,7 @@ class profile extends View{
                             data: {q1: questionOne, q2:questionTwo, q3:questionThree, q4:questionFour, q5:questionFive, description: description},
                             success: (result) => {
                                 $("#success").html(result)
+                                location.reload()
                             } 
                         })
                     }

@@ -28,27 +28,21 @@ class shop extends View{
         <!-- <button id = searchButton onclick = "submitSearch()"> Go </button> -->
 
         <br><br><br><br><br><br><br><br><br>
-        <div class="searchContainer">
-                <h1>SEARCH AND SORT</h1> 
-                <hr>
-                <!-- <div class="formSort"> -->
-                <div class="centerized">
-                    <input type="text" id = "shopSearch" placeholder="Search Here">
-                    <button id = searchButton onclick = "Search()"><i class="fas fa-search"></i></button>
-                    <!-- <br><br> -->
-                    <select name="type" id = 'type'>
-                        <option id="typeChosen" value = "productName" selected>PRODUCT NAME</option>
-                        <option id="typeChosen" value = "retailCost">RETAIL COST</option>
-                        <option id="typeChosen" value = "manifactureCost">MANIFACTURE COST</option>
-                        <option id="typeChosen" value = "stock">STOCK</option>
-                    </select>
-                    <select name="filter" id = 'filter'>
-                        <option value = "DESC" selected>DESCENDING</option>
-                        <option value = "ASC">ASCENDING</option>
-                    </select>
-                </div>
-                <!-- </div> -->
-            </div> 
+        <div class="mySearch">
+          <input type="text" id = "shopSearch" placeholder="Search Here">
+          <button id = searchButton onclick = "Search()"><i class="fas fa-search"></i></button>
+          <span class="sort">
+          <select id="type">
+              <option value="productName">Product Name</option>
+              <option value="retailCost">Price</option>
+            </select>
+            <select id="filter">
+              <option value="DESC">Descending</option>
+              <option value="ASC">Ascending</option>
+            </select>
+          </span>
+        </div>
+        
         
         <div class="row" id="productsContainer">
           <?php
@@ -56,21 +50,11 @@ class shop extends View{
           {
          ?>
          
-          <div class="col-md-3 col-sm-6">
+          <div class="col-sm-4">
             <div class="product-grid">
               <div class="product-image">
               <a class = "image" type="hidden" name="hidden_name" href="<?php echo URLROOT.'pages/product' ?>?id=<?php echo $row['ID']; ?>"><img src="<?php echo IMAGEROOT."product/".$row["productImage"]; ?>" class="model" width="300px" height = "300px"/></a><br/>
-                <?php if(isset($_SESSION['ID'])){
-                ?>
-                <a href="<?php echo URLROOT.'pages/Cart'?>?id=<?php echo $row['ID'];?>" class="add-to-cart"></a>
-                <?php
-                }
-                else{
-                ?>
-               <a href="<?php echo URLROOT.'pages/signup'?>"</a>
-                <?php
-                }
-                ?>
+                
               </div>
               <div class="product-content">
                 <!-- <h3 class="title"><a href="#">Sage Honey</a></h3> -->
@@ -107,7 +91,8 @@ class shop extends View{
                         url: 'Shop',
                         data: {type:type,filter:filter},
                         success: (result)=>{
-                            $("#productSearchShop").html(result)
+                          $("#productsContainer").html("") 
+                            $("#productsContainer").html(result)
                         }
                     })
                 });
@@ -119,7 +104,8 @@ class shop extends View{
                         url: 'Shop',
                         data: {type:type,filter:filter},
                         success: (result)=>{
-                            $("#productSearchShop").html(result)
+                          $("#productsContainer").html("") 
+                            $("#productsContainer").html(result)
                         }
                     })
                 });

@@ -15,7 +15,7 @@ class ShopModel extends model implements filter
           $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
           return $result -> fetch_assoc()['productCost']*90/100;
       }
-      public function getProductId(){
+      public function getProductId($ID){
           $result = $this->database->query("SELECT * FROM products WHERE ID= $ID");
           return $result -> fetch_assoc()['ID'];
       }
@@ -42,7 +42,7 @@ class ShopModel extends model implements filter
                 }
 
               echo<<<HTML
-                <div class="col-md-3 col-sm-6">
+                <div class="col-sm-4">
                     <div class="product-grid">
                         <div class="product-image">
                             <a class = "image" type="hidden" name="hidden_name" href="{$valueFour}?id={$product['ID']}"><img src="{$valueOne}" class="model" width="300px" height = "300px"/></a><br/>
@@ -62,9 +62,9 @@ class ShopModel extends model implements filter
         $result = $this->database->query("SELECT * FROM $table WHERE ($columns LIKE '%$search%')");
         return $result;
       }
-      public function sort($table,$type,$fitler){
+      public function sort($table,$type,$filter){
             $result = $this->database->query("SELECT * FROM $table ORDER BY $type $filter");
-            $this->products = $result;
+            return $result;
     }
 }
 
