@@ -126,7 +126,7 @@ class home extends View{
                                             <img src="{$prodImage}" width=200 height=200>
                                             <div class="bestContainerChild">
                                                 <h2>{$bestSeller['productName']}</h2>
-                                                <p>Quantity sold: <strong>{$bestSeller['quantity']}</strong></p>
+                                                <p>Quantity sold: <strong>{$bestSeller['productQuantity']}</strong></p>
                                                 <p>Product revenue: <strong>{$bestSeller['revenue']}EGP</strong></p>
                                                 <p>Current Stock: <strong>{$bestSeller['productStock']}</strong></p>
                                             </div>    

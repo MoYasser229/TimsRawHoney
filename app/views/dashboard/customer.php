@@ -190,7 +190,7 @@ class customer extends View{
                         model = "customer"
 
                         
-                        var url = "ajax"
+                        var url = "customer"
                         $.ajax({
                             type: "POST",
                             url: url,

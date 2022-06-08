@@ -730,7 +730,7 @@ $( this ).parent().parent().parent().hide( 400 );
   
     <?php
                 $total = $total + ($quantity * $values["productPrice"]); 
-                $this->updateRevenue($total,$cartmodel->getDatabase());
+                $this->updateRevenue($_POST['newTotal'],$cartmodel->getDatabase());
                   $productname=$values["productName"];
 
                   $quantity=$values["quantity"];

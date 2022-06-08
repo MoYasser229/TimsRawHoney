@@ -2,14 +2,22 @@
 require_once "Customer.php";
 require_once "Product.php";
 require_once "Order.php";
+
 // require_once "";
-class orderModel extends Model{
+class orderModel extends Model implements filter{
     public $title = "Tim's Raw Honey";
     public $icon = IMAGEROOT . "icon/";
     public $css = URLROOT . "css/dashboard/orderStyles.css";
     public $headercss = URLROOT . "css/dashboard/headerStyles.css";
     private $orders;
-    
+    public function search($table,$columns,$search){
+        $result = $this->database->query("SELECT * FROM $table WHERE $columns");s
+        $this->orders = $result; 
+    }
+    public function sort($table,$type,$filter){
+        $result = $this->database->query("SELECT * FROM $table ORDER BY $type $filter");
+        return $result;
+    }
     public function getOrders(){
         return $this->orders;
     }
@@ -17,7 +25,7 @@ class orderModel extends Model{
         $this->orders = $orders;
     }
     public function topCustomer(){
-        $result = $this->database->query("SELECT *,orders.ID as orderID FROM ORDERS,users WHERE users.ID = customerID GROUP BY orders.ID ORDER BY COUNT(customerID) DESC LIMIT 1;");
+        $result = $this->database->query("SELECT orders.ID as orderID,SUM(orderTotalPrice) as customerTotalPrice,customerID FROM ORDERS GROUP BY customerID ORDER BY customerTotalPrice DESC LIMIT 1;");
         if(mysqli_num_rows($result) != 0){
             $row = $result->fetch_assoc();
             return new Customer($row['customerID']);

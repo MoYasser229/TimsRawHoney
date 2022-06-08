@@ -40,26 +40,26 @@
                         <button class=max onclick="maximizeNavbar()"><i class="fa-solid fa-bars"></i></button>
                         <div class=magList style="width: 90%;">
                             <ul style="list-style: none;text-align: left;width: 100%;">
-                                <li><div id="home" onclick="location.replace('home')"><i class='fa-solid fa-house'></i>&nbsp;HOME</div></li>
+                                <li onclick="location.replace('home')"><div id="home" ><i class='fa-solid fa-house'></i>&nbsp;HOME</div></li>
                                 
                                 
-                                <li><div id="sales" onclick="location.replace('sales')"><i class="fa-solid fa-square-poll-vertical"></i>&nbsp;SALES</div></li>
+                                <li onclick="location.replace('sales')"><div id="sales" ><i class="fa-solid fa-square-poll-vertical"></i>&nbsp;SALES</div></li>
 
                                 
 
-                                <li><div id="products" onclick="location.replace('productDashboard')"><i class="fa-solid fa-box-archive"></i>&nbsp;PRODUCTS</div></li>
+                                <li onclick="location.replace('productDashboard')"><div id="products" ><i class="fa-solid fa-box-archive"></i>&nbsp;PRODUCTS</div></li>
                                 
-                                <li><div id="stocks" onclick="location.replace('stocks')"><i class="fa-solid fa-warehouse"></i>&nbsp;STOCKS</div></li>
+                                <li onclick="location.replace('stocks')"><div id="stocks" ><i class="fa-solid fa-warehouse"></i>&nbsp;STOCKS</div></li>
                                 
-                                <li><div id="orders" onclick="location.replace('order')"><i class="fa-solid fa-rectangle-list"></i>&nbsp;ORDERS</div></li>
+                                <li onclick="location.replace('order')"><div id="orders" ><i class="fa-solid fa-rectangle-list"></i>&nbsp;ORDERS</div></li>
                                 
-                                <li><div id="customers" onclick="location.replace('customer')"><i class="fa-solid fa-user-group"></i>&nbsp;CUSTOMERS</div></li>
+                                <li onclick="location.replace('customer')"><div id="customers" ><i class="fa-solid fa-user-group"></i>&nbsp;CUSTOMERS</div></li>
                                 
-                                <li><div id="delivery" onclick="location.replace('delivery')"><i class="fa-solid fa-truck"></i>&nbsp;DELIVERY</div></li>
+                                <li onclick="location.replace('delivery')"><div id="delivery" ><i class="fa-solid fa-truck"></i>&nbsp;DELIVERY</div></li>
                                 
-                                <li><div id="survey" onclick="location.replace('survey')"><i class="fa-solid fa-list-check"></i>&nbsp;SURVEY</div></li>
+                                <li onclick="location.replace('survey')"><div id="survey" ><i class="fa-solid fa-list-check"></i>&nbsp;SURVEY</div></li>
                                 
-                                <li><div id="logout" onclick="location.replace('<?php echo URLROOT . 'pages/logout'; ?>')"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;LOG OUT</div></li>
+                                <li onclick="location.replace('<?php echo URLROOT . 'pages/logout'; ?>')"><div id="logout" ><i class="fa-solid fa-right-from-bracket"></i>&nbsp;LOG OUT</div></li>
                             </ul>
                         </div>
                     </div>

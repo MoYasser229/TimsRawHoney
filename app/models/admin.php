@@ -15,20 +15,12 @@ class Admin extends User implements Filter{
         $this->deliveries = $this->database->query("SELECT * FROM deliveries WHERE deliveryStatus = 'PENDING'");
         $this->offers = $this->database->query("SELECT * FROM offers");
     }
-    public function update($table){
-        $result = $this->database->query("SELECT * FROM $table");
-        return $result;
-    }
-    public function delete($table){
-        $result = $this->database->query("DELETE FROM $table");
-        return $result;
-    }
     public function numCustomers(){
         return mysqli_num_rows($this->customers);
     }
     public function getAverageSurvey(){
         if(mysqli_num_rows($this->surveys) > 0)
-            return $this->surveys->fetch_assoc()['averageSurvey'];
+            return number_format($this->surveys->fetch_assoc()['averageSurvey'],2);
         return 0;
     }
     public function set($setter,$operation,$table){
@@ -117,7 +109,7 @@ class Admin extends User implements Filter{
         return $max;
     }
     public function bestSeller(){
-        $result = $this->database->query("SELECT productID,productImage,productName,SUM(orderitems.quantity) as quantity,(SUM(orderitems.quantity) * retailCost) as revenue,productStock FROM products,orderitems WHERE orderitems.productID = ID GROUP BY ID ORDER BY quantity DESC LIMIT 1");
+        $result = $this->database->query("SELECT *,SUM(quantity) as productQuantity,(SUM(orderitems.quantity) * retailCost) as revenue FROM orderitems,orders,products WHERE orders.ID = orderitems.orderID AND products.ID = orderitems.productID GROUP BY productID ORDER BY productQuantity DESC LIMIT 1;");
         return $result;
     }
     public function getFinance(){

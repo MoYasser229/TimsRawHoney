@@ -12,10 +12,10 @@ class dashboard extends Controller{
         $security->checkDb(new Database());
     }
     public function home(){
-        if($_SERVER['REQUEST_METHOD'] == "POST"){
+        // if($_SERVER['REQUEST_METHOD'] == "POST"){
 
-        }
-        else{
+        // }
+        // else{
             $this->secure();
             $this->setAdmin();
             $this->model->setAdmin($this->admin);
@@ -23,13 +23,10 @@ class dashboard extends Controller{
             require_once $dashboardPath;
             $dashboardView = new home($this->getModel(), $this);
             $dashboardView->output();
-        }
-    }
-    function filter_string_polyfill(string $string): string{
-        $str = preg_replace('/\x00|<[^>]*>?/', '', $string);
-        return str_replace(["'", '"'], ['&#39;', '&#34;'], $str);
+        // }
     }
     public function productDashboard(){
+        $this->secure();
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             if(isset($_POST['type'])){
                 $type = $_POST['type'];
@@ -89,16 +86,11 @@ class dashboard extends Controller{
                 mysqli_real_escape_string($this->model->getDatabase()->getConnection(),$description);
                 $description = filter_var($description, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $productName = filter_var($productName, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                // if(!is_int($retailCost) || !is_int($manifactureCost) || !is_int($productStock)){
-                //     echo "errorValidation";
-                // }
-                // else{
                     $this->model->insertProduct($productName,$retailCost,$manifactureCost,$productStock,$fullFile,$description);
                     $this->model->databaseProducts();
                     $this->model->getProducts();
                     $target_dir = "../public" . "/images/product/$fullFile";
                     move_uploaded_file($_FILES["productImage"]["tmp_name"],$target_dir);
-                // }
 
                 
                 
@@ -112,7 +104,9 @@ class dashboard extends Controller{
             $productView->output();
         }
     }
+    
     public function sales(){
+        $this->secure();
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             if(isset($_POST['search'])){
                 $this->model->search($_POST['search']);
@@ -129,6 +123,7 @@ class dashboard extends Controller{
         }
     }
     public function customer(){
+        $this->secure();
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             
             if(isset($_POST['promoCode'])){
@@ -168,6 +163,10 @@ class dashboard extends Controller{
                 $this->model->sortPromo($type,$filter);
                 $this->model->viewPromo();
             }
+            if(isset($_POST['modelData'])){
+                $this->model->setCustomers($_POST['searchData'],$_POST['typeData'],$_POST['filterData']);
+                $this->model->viewCustomers();
+            }
             // print_r( $_POST);
         }
         else{
@@ -179,6 +178,7 @@ class dashboard extends Controller{
         
     }
     public function delivery(){
+        $this->secure();
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             if(isset($_POST['search'])){
                 $this->model->search($_POST['search']);
@@ -200,6 +200,7 @@ class dashboard extends Controller{
 
     }
     public function order(){
+        $this->secure();
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             require_once APPROOT."\models\sort.php";
             $sort = new Sort('orders,users,orderItems',array('fullName','orders.ID'));
@@ -229,6 +230,7 @@ class dashboard extends Controller{
         }
     }
     public function stocks(){
+        $this->secure();
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             if(isset($_POST['recieptID'])){
                 $ID = $_POST['recieptID'];
@@ -256,6 +258,7 @@ class dashboard extends Controller{
         $stocksView->output();}
     }
     public function survey(){
+        $this->secure();
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             if(isset($_POST['search'])){
                 $search = $_POST['search'];
@@ -277,24 +280,25 @@ class dashboard extends Controller{
             $surveyView->output();  
         }
     }
-    public function ajax(){
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    // public function ajax(){
+    //     $this->secure();
+    //     if($_SERVER['REQUEST_METHOD'] == 'POST'){
             
-            $model = $_POST['modelData'];
-            $model = $model . "Model";
-            require_once APPROOT . "/models/$model.php";
-            $mod = new $model();
-            if(isset($_POST['searchData'])){
-                $type = $_POST['typeData'];
-                $filter = $_POST['filterData'];
-                $search = $_POST['searchData'];
-                $mod->setCustomers($search,$type,$filter);
+    //         $model = $_POST['modelData'];
+    //         $model = $model . "Model";
+    //         require_once APPROOT . "/models/$model.php";
+    //         $mod = new $model();
+    //         if(isset($_POST['searchData'])){
+    //             $type = $_POST['typeData'];
+    //             $filter = $_POST['filterData'];
+    //             $search = $_POST['searchData'];
+    //             $mod->setCustomers($search,$type,$filter);
                 
-            }
-            $mod->viewCustomers();
+    //         }
+    //         $mod->viewCustomers();
             
             
-        }
+    //     }
         
-    }
+    // }
 }
